@@ -2,7 +2,7 @@ import './DateAvatar.css';
 
 interface DateAvatarProps {
     number: number;
-  }
+}
 
 const DateAvatar: React.FC<DateAvatarProps> = ({number}) => {
     return (

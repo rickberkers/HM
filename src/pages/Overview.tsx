@@ -1,6 +1,6 @@
-import { IonAvatar, IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { addOutline, closeCircle, closeOutline, heart, heartSharp, personSharp, share, shareSharp } from 'ionicons/icons';
-import DateAvatar from '../components/DateAvatar';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { addOutline, closeOutline } from 'ionicons/icons';
+import DayList from '../components/DayList';
 import './Overview.css';
 
 const Tab1: React.FC = () => {
@@ -44,49 +44,7 @@ const Tab1: React.FC = () => {
             <IonButton expand="block" className="ion-margin-top">Details</IonButton>
           </IonCardContent>
         </IonCard>
-
-        <IonItemGroup>
-          <IonItemDivider>
-            <IonLabel>September</IonLabel>
-          </IonItemDivider>
-
-          <IonItem>
-            <IonAvatar slot="start">
-              <DateAvatar number={28} />
-            </IonAvatar>
-            <IonLabel>
-              <h3>Dinsdag</h3>
-              <p>Anne, Joost afwezig, Frits gast</p>
-            </IonLabel>
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> 5</IonBadge>
-          </IonItem>
-          <IonItem>
-            <IonAvatar slot="start">
-              <DateAvatar number={29} />
-            </IonAvatar>
-            <IonLabel>
-              <h3>Woensdag</h3>
-            </IonLabel>
-            
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> 3</IonBadge>
-          </IonItem>
-          <IonItem>
-            <IonAvatar slot="start">
-              <DateAvatar number={1 } />
-            </IonAvatar>
-            <IonLabel>
-              <h3>Donderdag</h3>
-            </IonLabel>
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> 3</IonBadge>
-          </IonItem>
-        </IonItemGroup>
-
-        <IonItemGroup>
-          <IonItemDivider>
-            <IonLabel>Oktober</IonLabel>
-          </IonItemDivider>
-
-        </IonItemGroup>
+        {/* <DayList/> */}
       </IonContent>
     </IonPage>
   );
