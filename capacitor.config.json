@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Who joins dinner?",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

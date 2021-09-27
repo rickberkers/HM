@@ -1,0 +1,9 @@
+.date-avatar-circle {
+    height: 35px;
+    width: 35px;
+    border-radius: 25px;
+    background-color: var(--ion-color-primary-shade, --ion-color-primary-tint, blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
