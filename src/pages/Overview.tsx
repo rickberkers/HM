@@ -6,19 +6,16 @@ import './Overview.css';
 const Tab1: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Overzicht</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent>
 
         <IonCard className="action-card">
-          <IonCardHeader>
-            <IonCardSubtitle>27 september</IonCardSubtitle>
-            <IonCardTitle>Maandag</IonCardTitle> 
-          </IonCardHeader>
           <IonCardContent>
+            <IonGrid className="ion-no-padding ion-padding-bottom">
+              <IonRow className="ion-align-items-center ion-justify-content-between">
+                <IonCol><IonCardTitle>Maandag</IonCardTitle></IonCol>
+                <IonCol><IonCardSubtitle className="ion-text-right">27 september</IonCardSubtitle></IonCol>
+              </IonRow>
+            </IonGrid>
             <p>Vandaag eten <strong>5 personen</strong> mee</p>
             <IonChip color="success">
               <IonIcon icon={addOutline} color="success" />
@@ -44,7 +41,7 @@ const Tab1: React.FC = () => {
             <IonButton expand="block" className="ion-margin-top">Details</IonButton>
           </IonCardContent>
         </IonCard>
-        {/* <DayList/> */}
+        <DayList days={3} />
       </IonContent>
     </IonPage>
   );
