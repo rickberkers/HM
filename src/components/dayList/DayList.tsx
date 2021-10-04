@@ -1,12 +1,12 @@
 import { IonAvatar, IonBadge, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
 import { personSharp } from 'ionicons/icons';
-import DateAvatar from '../components/DateAvatar';
+import DateAvatar from '../dateAvatar/DateAvatar';
 
 interface DayListProps {
     days: number;
 }
 
-const DayList: React.FC<DayListProps> = ({days}) => {
+const DayList = ({days}: DayListProps) => {
     return (<>
         <IonItemGroup>
             <IonItemDivider>
