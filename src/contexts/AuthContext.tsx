@@ -19,36 +19,15 @@ export const useAuth = () => {
 export function AuthProvider(props: {children: ReactNode}) {
 
     const [currentUser, setCurrentUser] = useState<User>();
+    const [authLoading, setAuthLoading] = useState<boolean>(true);
 
-    const login = () => {
-        const googleSignInProvider = new GoogleAuthProvider();
-        signInWithPopup(auth, googleSignInProvider)
-        .then((result) => {
-          const user = result.user;
-          setCurrentUser(result.user);
-          console.log(user);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+    const login = () => signInWithPopup(auth, new GoogleAuthProvider());
+    const logout = () => signOut(auth);
   
-    const logout = () => {
-      signOut(auth).then(() => {
-        console.log("noerror");
-        setCurrentUser(undefined);
-      })
-      .catch(() => {
-        console.log("error");
-      });
-    }
-  
-    /**
-     * Cleanup for auth subscription
-     */
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged(user => {
-        setCurrentUser(undefined);
+        setCurrentUser(user ?? undefined);
+        setAuthLoading(false);
       })
       return unsubscribe;
     }, [])
@@ -61,7 +40,7 @@ export function AuthProvider(props: {children: ReactNode}) {
 
     return (
       <AuthContext.Provider value={values}>
-        {props.children}
+        {!authLoading && props.children}
       </AuthContext.Provider>
     );
   }

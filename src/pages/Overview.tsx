@@ -1,13 +1,17 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/DayList';
+import { useAuth } from '../contexts/AuthContext';
 import './Overview.css';
 
-const Tab1: React.FC = () => {
+const Tab1 = () => {
+
+  const auth = useAuth();
+
   return (
     <IonPage>
       <IonContent>
-
+        <IonText>{auth.currentUser?.displayName ?? "No user"}</IonText>
         <IonCard className="action-card">
           <IonCardContent>
             <IonGrid className="ion-no-padding ion-padding-bottom">
@@ -38,7 +42,8 @@ const Tab1: React.FC = () => {
               <IonIcon icon={closeOutline} color="danger" />
               <IonLabel>Astrid</IonLabel>
             </IonChip>
-            <IonButton expand="block" className="ion-margin-top">Details</IonButton>
+            <IonButton routerLink="/sign-in" expand="block" className="ion-margin-top">sign</IonButton>
+            <IonButton routerLink="/day" expand="block" className="ion-margin-top">day</IonButton>
           </IonCardContent>
         </IonCard>
         <DayList days={3} />
@@ -47,4 +52,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Tab1;  

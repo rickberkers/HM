@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Today.css';
+import './DayView.css';
 
-const Tab2: React.FC = () => {
+const DayView = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -15,4 +15,4 @@ const Tab2: React.FC = () => {
   );
 };
 
-export default Tab2;
+export default DayView;

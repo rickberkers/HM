@@ -1,19 +1,20 @@
-import { IonButton, IonText } from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonText } from '@ionic/react';
 import { useAuth } from '../contexts/AuthContext';
 
 const SignIn = () => {
 
-    const auth = useAuth();
+    const {login, logout, currentUser} = useAuth();
+    const signInElement = (<IonButton onClick={login}>Sign-in with Google</IonButton>);
+    const signOutElement = (<IonButton onClick={logout}>Sign out</IonButton>);
 
     return (
-        <div>
-            <IonText>{auth.currentUser?.displayName ?? "No user"}</IonText>
-            {!auth.currentUser ? 
-                (<IonButton onClick={auth.login}>Sign-in with Google</IonButton>)
-                :
-                (<IonButton onClick={auth.logout}>Sign out</IonButton>)
-            }
-        </div>
+        <IonPage>
+            <IonContent>
+                <IonText>{currentUser?.displayName ?? "No user"}</IonText>
+                {!currentUser ? signInElement : signOutElement }
+                <IonButton routerLink="/overview">Overview</IonButton>
+            </IonContent>
+        </IonPage>
     );
 }
 
