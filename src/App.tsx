@@ -29,37 +29,31 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Today from './pages/Today';
 import Overview from './pages/Overview';
+import SignIn from './pages/SignIn';
+import { AuthProvider } from './contexts/AuthContext';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/today">
-            <Today />
-          </Route>
-          <Route exact path="/overview">
-            <Overview />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/today" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-        <IonTabButton tab="overview" href="/overview">
-            <IonIcon icon={list} />
-            <IonLabel>Overview</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="today" href="/today">
-            <IonIcon icon={today} />
-            <IonLabel>Today</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+const App = () => (
+  <AuthProvider>
+    <IonApp>
+      <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/sign-in">
+              <SignIn/>
+            </Route>
+            {/* <Route exact path="/today">
+              <Today />
+            </Route> */}
+            <Route exact path="/overview">
+              <Overview />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/overview" />
+            </Route>
+          </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  </AuthProvider>
 );
 
 export default App;
