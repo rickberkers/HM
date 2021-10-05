@@ -3,11 +3,29 @@ import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
 import { useAuth } from '../contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
+import { Commitment } from '../models/Commitment';
+import { Day } from '../models/Day';
 import './Overview.css';
 
 const Overview = () => {
 
   const {currentUser} = useAuth();
+
+  const dummyData: Day[] = [
+    {
+      date: new Date(2021, 10, 6),
+      members: [{}, {}, {}]
+    } as Day,
+    {
+      date: new Date(2021, 10, 7),
+      members: [{}, {}, {}, {}]
+    } as Day,
+    {
+      date: new Date(2021, 10, 8),
+      members: [{}, {}]
+    } as Day
+  ];
+  const days = dummyData;
 
   return (
     <IonPage>
@@ -55,7 +73,7 @@ const Overview = () => {
             <IonButton routerLink="/day" expand="block" className="ion-margin-top">day</IonButton>
           </IonCardContent>
         </IonCard>
-        <DayList days={3} />
+        <DayList days={days} />
       </IonContent>
     </IonPage>
   );
