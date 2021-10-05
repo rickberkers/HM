@@ -1,0 +1,1 @@
+export const nounShouldBePlural = (quantity: number) => quantity !== 1;

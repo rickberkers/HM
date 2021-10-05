@@ -2,16 +2,16 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, Ion
 import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
 import { useAuth } from '../contexts/AuthContext';
+import { nounShouldBePlural } from '../helpers/formattingHelpers';
 import './Overview.css';
 
-const Tab1 = () => {
+const Overview = () => {
 
-  const auth = useAuth();
+  const {currentUser} = useAuth();
 
   return (
     <IonPage>
       <IonContent>
-        <IonText>{auth.currentUser?.displayName ?? "No user"}</IonText>
         <IonCard className="action-card">
           <IonCardContent>
             <IonGrid className="ion-no-padding ion-padding-bottom">
@@ -20,7 +20,16 @@ const Tab1 = () => {
                 <IonCol><IonCardSubtitle className="ion-text-right">27 september</IonCardSubtitle></IonCol>
               </IonRow>
             </IonGrid>
-            <p>Vandaag eten <strong>5 personen</strong> mee</p>
+            <IonText>
+              <span>Hoi <strong>{currentUser?.displayName}! </strong></span>
+              { 
+                nounShouldBePlural(1) ?
+                <span>Vandaag eten er <strong>{0} personen</strong> mee</span>
+                :
+                <span>Vandaag eet er <strong>{0} persoon</strong> mee</span>
+              }
+            </IonText>
+            <IonRow className="ion-margin-bottom" />
             <IonChip color="success">
               <IonIcon icon={addOutline} color="success" />
               <IonLabel>Frits</IonLabel>
@@ -52,4 +61,4 @@ const Tab1 = () => {
   );
 };
 
-export default Tab1;  
+export default Overview;  
