@@ -1,7 +1,5 @@
-import { IonAvatar, IonBadge, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
-import { personSharp } from 'ionicons/icons';
+import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
 import { Day } from '../../models/Day';
-import DateAvatar from '../dateAvatar/DateAvatar';
 import DayItem from '../dayItem/DayItem';
 
 interface DayListProps {

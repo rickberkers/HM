@@ -10,7 +10,7 @@ const SignIn = () => {
     return (
         <IonPage>
             <IonContent>
-                <IonText>{currentUser?.displayName ?? "No user"}</IonText>
+                <IonText>{currentUser?.name ?? "No user"}</IonText>
                 {!currentUser ? signInElement : signOutElement }
                 <IonButton routerLink="/overview">Overview</IonButton>
             </IonContent>

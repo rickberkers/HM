@@ -1,6 +1,4 @@
 import { ReactNode, useContext, useState, useEffect, createContext } from "react"
-import { auth } from "../firebaseSetup";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { User } from "../models/User";
 
 /* --- AuthContext --- */
@@ -21,15 +19,17 @@ export function AuthProvider(props: {children: ReactNode}) {
     const [currentUser, setCurrentUser] = useState<User>();
     const [authLoading, setAuthLoading] = useState<boolean>(true);
 
-    const login = () => signInWithPopup(auth, new GoogleAuthProvider());
-    const logout = () => signOut(auth);
+    // TODO Auth stuff
+    const login = () => null;
+    const logout = () => null;
   
+    // TODO Auth stuff
     useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        setCurrentUser(user ?? undefined);
-        setAuthLoading(false);
-      })
-      return unsubscribe;
+      // const unsubscribe = auth.onAuthStateChanged(user => {
+      //   setCurrentUser(user ?? undefined);
+      //   setAuthLoading(false);
+      // })
+      // return unsubscribe;
     }, [])
 
     const values = {

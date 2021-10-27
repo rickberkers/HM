@@ -3,7 +3,6 @@ import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
 import { useAuth } from '../contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
-import { Commitment } from '../models/Commitment';
 import { Day } from '../models/Day';
 import './Overview.css';
 
@@ -39,7 +38,7 @@ const Overview = () => {
               </IonRow>
             </IonGrid>
             <IonText>
-              <span>Hoi <strong>{currentUser?.displayName}! </strong></span>
+              <span>Hoi <strong>{currentUser?.name}! </strong></span>
               { 
                 nounShouldBePlural(1) ?
                 <span>Vandaag eten er <strong>{0} personen</strong> mee</span>
