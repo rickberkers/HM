@@ -30,6 +30,8 @@ export function AuthProvider(props: {children: ReactNode}) {
       //   setAuthLoading(false);
       // })
       // return unsubscribe;
+      setAuthLoading(false);
+      setCurrentUser({name: "rick", uid: "1" });
     }, [])
 
     const values = {
