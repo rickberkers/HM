@@ -1,0 +1,6 @@
+{
+  "name": "was-common",
+  "dependencies": {
+    "@sinclair/typebox": "^0.20.5"
+  }
+}

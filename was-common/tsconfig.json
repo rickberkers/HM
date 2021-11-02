@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "es2015",
+      "declaration": true,
+      "declarationMap": true,
+      "outDir": "./dist",               
+      "rootDir": ".",
+      "composite": true,
+      "strict": true,
+      "moduleResolution": "node"
+    },
+    "references": []  // * Any project that is referenced must itself have a `references` array (which may be empty).
+  }

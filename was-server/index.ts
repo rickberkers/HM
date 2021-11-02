@@ -1,15 +1,36 @@
-import fastify from 'fastify'
+import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 
-const server = fastify()
+const server: FastifyInstance = Fastify({});
 
-server.get('/ping', async (request, reply) => {
-  return 'pong\n'
+const opts: RouteShorthandOptions = {
+  schema: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          pong: {
+            type: 'string'
+          }
+        }
+      }
+    }
+  }
+}
+
+server.get('/ping', opts, async (request, reply) => {
+  return { pong: 'it worked!' };
 })
 
-server.listen(8080, (err, address) => {
-  if (err) {
-    console.error(err)
+const start = async () => {
+  try {
+    await server.listen(3000)
+    const address = server.server.address();
+    console.log(`Server listening at ${address}`);
+
+  } catch (err) {
+    server.log.error(err)
     process.exit(1)
   }
-  console.log(`Server listening at ${address}`)
-})
+};
+
+start();
