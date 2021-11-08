@@ -15,19 +15,21 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^3.0.0",
-    "fastify-plugin": "^3.0.0",
     "fastify-autoload": "^3.3.1",
+    "fastify-cli": "^2.13.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-postgres": "^3.6.0",
     "fastify-sensible": "^3.1.0",
-    "fastify-cli": "^2.13.0"
+    "fastify-typeorm-plugin": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^15.0.0",
     "@types/tap": "^15.0.0",
-    "ts-node": "^10.0.0",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.3",
     "fastify-tsconfig": "^1.0.1",
-    "tap": "^15.0.9",
+    "tap": "^15.0.10",
+    "ts-node": "^10.0.0",
     "typescript": "^4.2.4"
   }
 }
