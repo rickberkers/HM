@@ -1,4 +1,4 @@
-import { FastifyPluginAsync } from "fastify"
+import { FastifyPluginAsync } from "fastify";
 
 const me: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get('/', async function (request, reply) {

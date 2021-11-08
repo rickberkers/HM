@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "strict": true,
         "lib": [
             "esnext"
         ],
@@ -12,7 +13,6 @@
         "outDir": "./dist",
         "baseUrl": "./",
         "removeComments": true,
-        "strict": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "incremental": true,
@@ -22,7 +22,10 @@
         "useDefineForClassFields": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
+        "emitDecoratorMetadata": true, // Added for TypeORM
+        "experimentalDecorators": true, // Added for TypeORM
+        "strictPropertyInitialization": false // Avoid initializing Model properties
     },
-    "exclude": ["dist"],
+    // "exclude": ["dist"],
     "include": ["src/**/*.ts"],
 }
