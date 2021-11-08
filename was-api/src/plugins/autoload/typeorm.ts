@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin'
-import * as FastifyTypeOrm from "fastify-typeorm-plugin";
+import FastifyTypeOrm from "fastify-typeorm-plugin";
 import { join } from 'path';
 
 /**
@@ -8,7 +8,7 @@ import { join } from 'path';
  *
  * @see https://github.com/inthepocket/fastify-typeorm-plugin
  */
-export default fp<FastifyTypeOrm.FastifyTypeormOptions>(async (fastify, opts) => {
+export default fp(async (fastify, opts) => {
   const cf = fastify.config;
   fastify.register(FastifyTypeOrm, {
     name: 'default',

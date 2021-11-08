@@ -14,7 +14,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   
   // Explicitly loaded plugins
 
-  // Env needs to be loaded before everything else
+  // Env needs to be loaded before everything
   fastify.register(envPlugin);
 
   // This loads all plugins defined in plugins/autoload
@@ -24,10 +24,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
   });
 
   // This loads all services defined in services
-  fastify.register(AutoLoad, {
-    dir: join(__dirname, 'services'),
-    options: opts
-  });
+  // fastify.register(AutoLoad, {
+  //   dir: join(__dirname, 'services'),
+  //   options: opts
+  // });
 
   // This loads all plugins defined in routes
   // define your routes in one of these

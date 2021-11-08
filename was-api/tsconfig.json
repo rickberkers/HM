@@ -1,7 +1,28 @@
 {
-    "extends": "fastify-tsconfig",
     "compilerOptions": {
-        "outDir": "dist"
+        "lib": [
+            "esnext"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "pretty": true,
+        "noEmitOnError": true,
+        "target": "es2020",
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "removeComments": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "incremental": true,
+        "newLine": "lf",
+        "noUnusedLocals": true,
+        "noFallthroughCasesInSwitch": true,
+        "useDefineForClassFields": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
     },
-    "include": ["src/**/*.ts"]
+    "exclude": ["dist"],
+    "include": ["src/**/*.ts"],
 }
