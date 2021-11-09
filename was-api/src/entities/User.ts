@@ -1,5 +1,6 @@
 import IUser from "src/models/IUser";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany, } from "typeorm";
+import { Household } from "./Household";
 
 @Entity()
 export class User implements IUser {
@@ -19,4 +20,6 @@ export class User implements IUser {
     @CreateDateColumn()
     createdAt: Date;
 
+    @ManyToMany(type => Household, Household => Household.members)
+    households: Household[];
 };

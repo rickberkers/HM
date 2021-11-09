@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany, JoinTable } from "typeorm";
 import IHousehold from "../models/IHousehold";
-import { HouseholdMember } from "./HouseholdMember";
+import { User } from "./User";
 
 @Entity()
 export class Household implements IHousehold {
@@ -14,6 +14,7 @@ export class Household implements IHousehold {
     @CreateDateColumn()
     createdAt: Date;
 
-    @OneToMany(type => HouseholdMember, HouseholdMember => HouseholdMember.household)
-    houseHoldMembers: HouseholdMember[];
+    @ManyToMany(type => User, user => user.households)
+    @JoinTable()
+    members: User[];
 };

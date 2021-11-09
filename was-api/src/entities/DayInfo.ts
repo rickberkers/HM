@@ -2,7 +2,7 @@ import IDayInfo from "src/models/IDayInfo";
 import { Entity, PrimaryColumn, ManyToOne, JoinColumn, OneToMany, Column } from "typeorm";
 import { Commitment } from "./Commitment";
 import { Household } from "./Household";
-import { HouseholdMember } from "./HouseholdMember";
+import { User } from "./User";
 
 @Entity()
 export class DayInfo implements IDayInfo {
@@ -14,7 +14,7 @@ export class DayInfo implements IDayInfo {
     householdId: string;
 
     @PrimaryColumn()
-    householdMemberId: string;
+    userId: string;
 
     @Column({nullable: true})
     note: string
@@ -25,11 +25,11 @@ export class DayInfo implements IDayInfo {
     })
     household: Household;
 
-    @ManyToOne(type => HouseholdMember)
+    @ManyToOne(type => User)
     @JoinColumn({
-        name: "householdMemberId",
+        name: "userId",
     })
-    householdMember: HouseholdMember;
+    user: User;
 
     @OneToMany(type => Commitment, committment => committment.dayInfo)
     commitments: Commitment[];

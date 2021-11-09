@@ -2,7 +2,7 @@ import ICommitment from "src/models/ICommitment";
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Household } from "./Household";
 import { DayInfo } from "./DayInfo";
-import { HouseholdMember } from "./HouseholdMember";
+import { User } from "./User";
 
 @Entity()
 export class Commitment implements ICommitment{
@@ -17,12 +17,12 @@ export class Commitment implements ICommitment{
     household: Household;
     householdId: string;
 
-    @ManyToOne(type => HouseholdMember, {primary: true})
+    @ManyToOne(type => User, {primary: true})
     @JoinColumn({
-        name: "householdMemberId",
+        name: "userId",
     })
-    householdMember: HouseholdMember;
-    householdMemberId: string;
+    user: User;
+    userId: string;
 
     @ManyToOne(type => DayInfo, dayInfo => dayInfo.commitments, {
         createForeignKeyConstraints: false
@@ -30,7 +30,7 @@ export class Commitment implements ICommitment{
     @JoinColumn([
         { name: "day", referencedColumnName:"day" },
         { name: "householdId", referencedColumnName: "householdId" },
-        { name: "householdMemberId", referencedColumnName: "householdMemberId" },
+        { name: "userId", referencedColumnName: "userId" },
     ])
     dayInfo: DayInfo;
 
