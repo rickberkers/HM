@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn} from "typeorm";
-import IHousehold from "./IHousehold";
+import IHousehold from "../models/IHousehold";
 
 @Entity()
 export class Household implements IHousehold {

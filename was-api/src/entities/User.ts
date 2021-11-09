@@ -1,5 +1,5 @@
+import IUser from "src/models/IUser";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn} from "typeorm";
-import IUser from "./IUser";
 
 @Entity()
 export class User implements IUser {

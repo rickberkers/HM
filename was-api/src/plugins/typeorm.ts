@@ -18,7 +18,8 @@ export default fp(async (fastify, opts) => {
     username: cf.DB_PASSWORD,
     password: cf.DB_PASSWORD,
     database: cf.DB_NAME,
-    entities: [join(__dirname, '**', `entities/*.{ts,js}`)],
+    entities: [join(__dirname, '..', `entities/*.{ts,js}`)],
     synchronize: true
   });
+  // console.log([join(__dirname, '..', '**', `entities/*.{ts,js}`)]);
 });
