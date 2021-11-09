@@ -29,12 +29,11 @@ export class Commitment implements ICommitment{
     })
     @JoinColumn([
         { name: "day", referencedColumnName:"day" },
-        { name: "householdId", referencedColumnName: "householdId" },
-        { name: "userId", referencedColumnName: "userId" },
+        { name: "householdId", referencedColumnName: "householdId" }
     ])
     dayInfo: DayInfo;
 
-    @Column("text", { array: true })
+    @Column("text", { array: true, nullable: true })
     guests: string[];
 
     @Column()
