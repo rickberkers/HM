@@ -17,12 +17,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
     options: opts
   });
 
-  // This loads all services defined in services
-  // fastify.register(AutoLoad, {
-  //   dir: join(__dirname, 'services'),
-  //   options: opts
-  // });
-
   // This loads all plugins defined in routes
   // define your routes in one of these
   fastify.register(AutoLoad, {
