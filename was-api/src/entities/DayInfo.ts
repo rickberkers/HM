@@ -1,6 +1,5 @@
-import IDayInfo from "src/models/IDayInfo";
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn, OneToMany, Column } from "typeorm";
-import { Commitment } from "./Commitment";
+import IDayInfo from "../models/IDayInfo";
+import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 import { Household } from "./Household";
 
 @Entity()
@@ -20,7 +19,4 @@ export class DayInfo implements IDayInfo {
         name: "householdId",
     })
     household: Household;
-
-    @OneToMany(type => Commitment, committment => committment.dayInfo)
-    commitments: Commitment[];
 }

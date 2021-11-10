@@ -28,7 +28,7 @@ const schema = {
 };
 
 /**
- * This plugins adds some utilities to handle http errors
+ * This plugins adds env config
  *
  * @see https://github.com/fastify/fastify-env
  */

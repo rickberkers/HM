@@ -1,5 +1,5 @@
-import IUser from "src/models/IUser";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany, } from "typeorm";
+import IUser from "../models/IUser";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany } from "typeorm";
 import { Household } from "./Household";
 
 @Entity()
