@@ -31,3 +31,15 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
 export default app;
 export { app }
+
+
+// TODO create .d.ts for all module decleration plugins
+// TODO done figure out which indices are required or suited
+// TODO Create migrations and disable synchronize
+// TODO use in app.ts AppOptions
+// TODO good error handling
+// TODO use sensible
+// TODO setup tests complex pieces of code
+// TODO figure out logging
+// TODO add tslint or similar
+// TODO Put utils and models in was-common
