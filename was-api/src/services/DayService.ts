@@ -17,13 +17,6 @@ export default class DayService implements IDayService {
        this.commitmentRepo = this.connection.getRepository(Commitment);
     }
 
-    /**
-     * 
-     * @param minDate 
-     * @param householdId 
-     * @param limit 
-     * @returns 
-     */
     public async getDaysByDateAndHouseholdId(
         minDate: Date, 
         householdId: string, 

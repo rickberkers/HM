@@ -9,7 +9,7 @@
 
     while (currentDate <= endDate) {
         dateArray.push(new Date(currentDate));
-        currentDate = addDayToDate(currentDate, 1);
+        currentDate = addDaysToDate(currentDate, 1);
     }
 
     return dateArray;
