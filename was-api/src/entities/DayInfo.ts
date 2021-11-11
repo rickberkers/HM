@@ -6,7 +6,7 @@ import { Household } from "./Household";
 export class DayInfo implements IDayInfo {
 
     @PrimaryColumn({type: "date"})
-    day: Date;
+    day: string;
 
     @PrimaryColumn()
     householdId: string;

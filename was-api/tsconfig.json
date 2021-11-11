@@ -16,7 +16,7 @@
         "esModuleInterop": true,
         "incremental": true,
         "newLine": "lf",
-        "noUnusedLocals": true,
+        // "noUnusedLocals": true,
         "noFallthroughCasesInSwitch": true,
         "useDefineForClassFields": true,
         "forceConsistentCasingInFileNames": true,

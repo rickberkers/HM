@@ -1,3 +1,4 @@
 export default interface IDayInfo {
-    day: Date,
+    day: string,
+    note: string
 }

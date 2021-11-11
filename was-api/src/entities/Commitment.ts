@@ -7,7 +7,7 @@ import { User } from "./User";
 export class Commitment implements ICommitment{
 
     @PrimaryColumn({type: "date"})
-    day: Date;
+    day: string;
 
     @PrimaryColumn()
     householdId: string;
