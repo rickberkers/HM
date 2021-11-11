@@ -22,7 +22,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify.register(sensible);
 
   // This loads all plugins defined in routes
-  // define your routes in one of these
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'routes'),
     options: opts
@@ -32,7 +31,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 export default app;
 export { app }
 
-
+// TODO NPM run scripts: fix the tsc && ... ones that dont work
 // TODO create .d.ts for all module decleration plugins
 // TODO done figure out which indices are required or suited
 // TODO Create migrations and disable synchronize
