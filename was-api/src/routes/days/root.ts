@@ -1,4 +1,4 @@
-import { format, isValid, parse, parseISO } from "date-fns";
+import { isValid, parseISO } from "date-fns";
 import { FastifyPluginAsync } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
 
@@ -35,6 +35,7 @@ const querystring = {
     },
     startDate: {
       type: 'string',
+      pattern: "^\\d{4}\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$",
     },
     limit: {
       type: 'number',
@@ -45,7 +46,6 @@ const querystring = {
     }
   },
 } as const;
-
 type QueryStringType = FromSchema<typeof querystring>;
 
 export default households;

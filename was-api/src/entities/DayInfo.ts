@@ -1,4 +1,4 @@
-import IDayInfo from "../models/IDayInfo";
+import IDayInfo from "../interfaces/IDayInfo";
 import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 import { Household } from "./Household";
 

@@ -1,4 +1,4 @@
-import IUser from "../models/IUser";
+import IUser from "../interfaces/IUser";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany } from "typeorm";
 import { Household } from "./Household";
 

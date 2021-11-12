@@ -1,11 +1,11 @@
-import IDay from "../models/IDay";
+import IDay from "../interfaces/IDay";
 import { Connection } from "typeorm";
 import { IDayService } from "./IDayService";
 import { addDaysToDate } from "../utils";
 import { Between } from "typeorm";
 import { Commitment } from "../entities/Commitment";
 import { DayInfo } from "../entities/DayInfo";
-import { ICommitmentMap } from "../models/ICommitment";
+import { ICommitmentMap } from "../interfaces/ICommitment";
 
 export default class DayService implements IDayService {
 

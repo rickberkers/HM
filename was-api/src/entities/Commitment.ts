@@ -1,4 +1,4 @@
-import ICommitment from "../models/ICommitment";
+import ICommitment from "../interfaces/ICommitment";
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Household } from "./Household";
 import { User } from "./User";

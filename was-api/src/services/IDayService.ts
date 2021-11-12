@@ -1,4 +1,4 @@
-import IDay from "../models/IDay";
+import IDay from "../interfaces/IDay";
 
 export interface IDayService {
     /**
