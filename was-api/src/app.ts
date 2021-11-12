@@ -16,21 +16,23 @@ const app: FastifyPluginAsync<AppOptions> = async (
 ): Promise<void> => {
   
   // This loads all plugins
+  fastify.register(sensible);
   fastify.register(env);
   fastify.register(typeorm);
   fastify.register(services);
-  fastify.register(sensible);
 
   // This loads all plugins defined in routes
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'routes'),
-    options: opts
+    options: opts,
   });
 };
 
 export default app;
 export { app }
 
+// TODO Look into dates & utc
+// TODO add helmet and rate-limiter, possibly implement more security measures
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
 // TODO create .d.ts for all module decleration plugins
 // TODO done figure out which indices are required or suited
