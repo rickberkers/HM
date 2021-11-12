@@ -6,15 +6,7 @@ import typeorm from './plugins/typeorm';
 import services from './plugins/services';
 import sensible from './plugins/sensible';
 
-export type AppOptions = {
-  // Place your custom options for app below here.
-} & Partial<AutoloadPluginOptions>;
-
-const app: FastifyPluginAsync<AppOptions> = async (
-    fastify,
-    opts
-): Promise<void> => {
-  
+const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
@@ -23,8 +15,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   // This loads all plugins defined in routes
   fastify.register(AutoLoad, {
-    dir: join(__dirname, 'routes'),
-    options: opts,
+    dir: join(__dirname, 'routes')
   });
 };
 
@@ -39,8 +30,5 @@ export { app }
 // TODO Create migrations and disable synchronize
 // TODO use in app.ts AppOptions
 // TODO good error handling
-// TODO use sensible
 // TODO setup tests complex pieces of code
-// TODO figure out logging
-// TODO add tslint or similar
 // TODO Put utils and models in was-common
