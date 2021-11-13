@@ -8,7 +8,7 @@ export class User implements IUser {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
+    @Column({ unique: true })
     name: string;
 
     @Column()
