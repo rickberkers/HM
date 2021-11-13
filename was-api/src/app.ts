@@ -23,9 +23,8 @@ export default app;
 export { app }
 
 // TODO Look into dates & utc
-// TODO add helmet and rate-limiter, possibly implement more security measures
+// TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
-// TODO create .d.ts for all module decleration plugins
 // TODO done figure out which indices are required or suited
 // TODO Create migrations and disable synchronize
 // TODO use in app.ts AppOptions

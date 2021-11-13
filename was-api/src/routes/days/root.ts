@@ -2,8 +2,7 @@ import { isValid, parseISO } from "date-fns";
 import { FastifyPluginAsync } from "fastify"
 import { FromSchema } from "json-schema-to-ts"
 
-//TODO Add response schema, and others?
-const households: FastifyPluginAsync = async (fastify): Promise<void> => {
+const days: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get<{ Querystring: QueryStringType }>('/', {
     schema: {
       querystring,
@@ -48,4 +47,4 @@ const querystring = {
 } as const;
 type QueryStringType = FromSchema<typeof querystring>;
 
-export default households;
+export default days;
