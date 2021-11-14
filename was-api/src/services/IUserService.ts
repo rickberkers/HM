@@ -1,8 +1,8 @@
-import IUser from "../interfaces/IUser";
+import { CreateUserData, PublicUser } from "../types/User";
 
 export interface IUserService {
-    create(userData: IUser): Promise<IUser>
+    create(userData: CreateUserData): Promise<PublicUser>
     validatePassword(username: string, password: string): Promise<boolean>
-    getByName(name: string): Promise<IUser | undefined>
+    getByName(name: string): Promise<PublicUser | undefined>
     userExists(name: string): Promise<boolean>
 }

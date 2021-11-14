@@ -1,9 +1,9 @@
-import IUser from "../interfaces/IUser";
+import { User as UserType} from "../types/User";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany } from "typeorm";
 import { Household } from "./Household";
 
 @Entity()
-export class User implements IUser {
+export class User implements UserType {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
@@ -16,6 +16,10 @@ export class User implements IUser {
 
     @Column()
     lastName: string;
+
+    // password should never be selected by default
+    @Column({ select: false })
+    password: string;
 
     @CreateDateColumn()
     createdAt: Date;

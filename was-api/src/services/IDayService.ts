@@ -1,4 +1,4 @@
-import IDay from "../interfaces/IDay";
+import { Day } from "../types/Day";
 
 export interface IDayService {
     /**
@@ -7,5 +7,5 @@ export interface IDayService {
      * @param householdId 
      * @param limit 
      */
-    getDaysByDateAndHouseholdId(minDate: Date, householdId: string, limit: number): Promise<IDay[]>;
+    getDaysByDateAndHouseholdId(minDate: Date, householdId: string, limit: number): Promise<Day[]>;
 }

@@ -1,10 +1,10 @@
-import ICommitment from "../interfaces/ICommitment";
+import { Commitment as CommitmentType } from "../types/Commitment";
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Household } from "./Household";
 import { User } from "./User";
 
 @Entity()
-export class Commitment implements ICommitment{
+export class Commitment implements CommitmentType{
 
     @PrimaryColumn({type: "date"})
     day: string;

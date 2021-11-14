@@ -1,6 +1,6 @@
 import { User } from "../entities/User";
 import { Connection } from "typeorm";
-import IUser from "../interfaces/IUser";
+import { CreateUserData, PublicUser } from "../types/User";
 import { IUserService } from "./IUserService";
 
 export default class UserService implements IUserService {
@@ -11,18 +11,20 @@ export default class UserService implements IUserService {
        this.userRepo = this.connection.getRepository(User);
     }
 
-    public async getByName(name: string) {
+    public async getByName(name: string): Promise<PublicUser | undefined> {
         return this.userRepo.findOne({ name });
     }
 
-    public async userExists(name: string) {
+    public async userExists(name: string): Promise<boolean> {
         return this.getByName(name) != null;
     }
 
-    public async create(userData: IUser): Promise<IUser> {
+    public async create(userData: CreateUserData): Promise<PublicUser> {
+        //TODO figure out secure way to handle password, logging etc.
         return this.userRepo.create({
             name: userData.name,
             firstName: userData.firstName,
+            password: userData.password,
             lastName: userData.lastName,
         });
     }

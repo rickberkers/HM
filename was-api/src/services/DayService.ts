@@ -1,11 +1,11 @@
-import IDay from "../interfaces/IDay";
+import { Day } from "../types/Day";
 import { Connection } from "typeorm";
 import { IDayService } from "./IDayService";
 import { addDaysToDate } from "../utils";
 import { Between } from "typeorm";
 import { Commitment } from "../entities/Commitment";
 import { DayInfo } from "../entities/DayInfo";
-import { ICommitmentMap } from "../interfaces/ICommitment";
+import { CommitmentMap } from "../types/Commitment";
 
 export default class DayService implements IDayService {
 
@@ -21,7 +21,7 @@ export default class DayService implements IDayService {
         minDate: Date, 
         householdId: string, 
         limit: number = 20, 
-    ): Promise<IDay[]> {
+    ): Promise<Day[]> {
 
         const maxDate = addDaysToDate(new Date(minDate), limit);
 
@@ -49,7 +49,7 @@ export default class DayService implements IDayService {
     private combineCommitmentsAndDayInfos(commitments: Commitment[], dayInfos: DayInfo[]) {
         
         // Group commitments by day for easier access with combining
-        const commitmentMap = commitments.reduce((storage: ICommitmentMap, item) => {
+        const commitmentMap = commitments.reduce((storage: CommitmentMap, item) => {
             const group = item.day;
             storage[group] = storage[group] || [];
             storage[group].push(item);
@@ -57,7 +57,7 @@ export default class DayService implements IDayService {
         }, {});
 
         // Combine datasources to IDay object
-        const days = Object.keys(commitmentMap).reduce((storage: IDay[], date) => {
+        const days = Object.keys(commitmentMap).reduce((storage: Day[], date) => {
             storage.push({
                 date,
                 commitments: commitmentMap[date],

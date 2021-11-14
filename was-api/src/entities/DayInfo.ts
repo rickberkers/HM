@@ -1,9 +1,9 @@
-import IDayInfo from "../interfaces/IDayInfo";
+import { DayInfo as DayInfoType } from "../types/DayInfo";
 import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 import { Household } from "./Household";
 
 @Entity()
-export class DayInfo implements IDayInfo {
+export class DayInfo implements DayInfoType {
 
     @PrimaryColumn({type: "date"})
     day: string;
