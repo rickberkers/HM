@@ -20,7 +20,6 @@ export default class UserService implements IUserService {
     }
 
     public async create(userData: IUser): Promise<IUser> {
-
         return this.userRepo.create({
             name: userData.name,
             firstName: userData.firstName,

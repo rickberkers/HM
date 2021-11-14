@@ -7,6 +7,7 @@ import services from './plugins/services';
 import sensible from './plugins/sensible';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
+  
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
@@ -15,7 +16,9 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   // This loads all plugins defined in routes
   fastify.register(AutoLoad, {
-    dir: join(__dirname, 'routes')
+    dir: join(__dirname, 'routes'),
+    ignorePattern: /.*schemas(\.ts|\.js|\.cjs|\.mjs)$/
+    // Above line ignores schema files
   });
 };
 
@@ -27,7 +30,5 @@ export { app }
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
 // TODO done figure out which indices are required or suited
 // TODO Create migrations and disable synchronize
-// TODO use in app.ts AppOptions
-// TODO good error handling
 // TODO setup tests complex pieces of code
 // TODO Put utils and models in was-common
