@@ -7,7 +7,7 @@ const days: FastifyPluginAsync = async (fastify): Promise<void> => {
     schema: getDaysSchema
   }, async (request, reply) => {
 
-    // Validate & parse date
+    // Validates & parses date
     const parsedDate = parseISO(request.query.startDate);
     if (!isValid(parsedDate)) {
       throw fastify.httpErrors.badRequest("querystring.startDate is not formatted as a valid ISO-8601 date")
