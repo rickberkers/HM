@@ -10,13 +10,14 @@ declare module 'fastify' {
             DB_USERNAME: string,
             DB_PASSWORD: string,
             DB_NAME: string,
+            JWT_SECRET: string
         };
     }
 }
 
 const schema = {
     type: 'object',
-    required: [ 'DB_TYPE', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME' ],
+    required: [ 'DB_TYPE', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 'JWT_SECRET' ],
     properties: {
         DB_TYPE: { type: 'string' },
         DB_HOST: { type: 'string' },
@@ -24,6 +25,7 @@ const schema = {
         DB_USERNAME: { type: 'string' },
         DB_PASSWORD: { type: 'string' },
         DB_NAME: { type: 'string' },
+        JWT_SECRET: { type: 'string' }
     }
 };
 

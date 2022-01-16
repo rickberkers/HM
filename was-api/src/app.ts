@@ -5,12 +5,14 @@ import env from './plugins/env';
 import typeorm from './plugins/typeorm';
 import services from './plugins/services';
 import sensible from './plugins/sensible';
+import jwt from './plugins/jwt';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
+  fastify.register(jwt);
   fastify.register(typeorm);
   fastify.register(services);
 
