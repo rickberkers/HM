@@ -31,3 +31,5 @@ export { app }
 // TODO Create migrations and disable synchronize
 // TODO setup tests complex pieces of code
 // TODO Put utils and models in was-common
+// TODO Refactor which packages is should use
+// TODO address vulnerabilities
