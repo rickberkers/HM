@@ -35,3 +35,4 @@ export { app }
 // TODO Put utils and models in was-common
 // TODO Refactor which packages is should use
 // TODO address vulnerabilities
+// TODO Logging sort out
