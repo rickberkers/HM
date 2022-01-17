@@ -20,13 +20,17 @@ export default class UserService implements IUserService {
     }
 
     public async create(userData: CreateUserData): Promise<PublicUser> {
-        //TODO figure out secure way to handle password, logging in etc.
-        return this.userRepo.create({
+        //TODO do hashing
+        const user = this.userRepo.create({
             name: userData.name,
             firstName: userData.firstName,
             password: userData.password,
             lastName: userData.lastName,
         });
+        
+        await this.userRepo.insert(user);
+        const createdUser = await this.userRepo.findOne(user.id);
+        return createdUser!;
     }
 
     public async validatePassword(name: string, password: string): Promise<boolean> {

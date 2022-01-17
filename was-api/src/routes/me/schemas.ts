@@ -19,16 +19,29 @@ export const getTokenSchema = {
 export const registerUserSchema = {
     body: {
         type: 'object',
-        required: ["id", "name", "password"],
+        required: ["name", "firstName", "password"],
         additionalProperties: false,
         properties: {
-            id: {
+            name: { 
                 type: 'string',
-                format: 'uuid',
+                minLength: 2,
+                maxLength: 32,
+                pattern: '^[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$'
+                /** 
+                 *  Username can only have "[a-zA-Z0-9] & underscore"
+                 *  Underscores cannot be placed at the start or end of the username
+                 */
             },
-            name: { type: 'string', },
-            firstName: { type: 'string', },
-            lastName: { type: 'string', },
+            firstName: { 
+                type: 'string',
+                minLength: 2,
+                maxLength: 32,
+            },
+            lastName: { 
+                type: 'string',
+                minLength: 2,
+                maxLength: 32,
+            },
             password: {
                 type: 'string',
                 minLength: 8,

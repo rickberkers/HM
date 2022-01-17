@@ -34,6 +34,7 @@ export { app }
 // TODO setup tests complex pieces of code
 // TODO Put utils and models in was-common
 // TODO Refactor which packages is should use
-// TODO address vulnerabilities
 // TODO Logging sort out
 // TODO shared schemas
+// TODO Look into AVJ errors for hiding specific validation failures
+// TODO address vulnerabilities
