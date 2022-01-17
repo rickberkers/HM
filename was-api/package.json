@@ -23,7 +23,8 @@
     "fastify-plugin": "^3.0.0",
     "fastify-postgres": "^3.6.0",
     "fastify-sensible": "^3.1.0",
-    "fastify-typeorm-plugin": "^2.2.0"
+    "fastify-typeorm-plugin": "^2.2.0",
+    "json-schema-to-ts": "^1.6.5"
   },
   "devDependencies": {
     "@types/node": "^15.0.0",
