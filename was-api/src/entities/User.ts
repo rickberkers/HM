@@ -14,7 +14,7 @@ export class User implements UserType {
     @Column()
     firstName: string;
 
-    @Column()
+    @Column({ nullable: true })
     lastName: string;
 
     // password should never be selected by default
