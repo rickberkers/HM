@@ -16,11 +16,11 @@ export default class UserService implements IUserService {
     }
 
     public async userExists(name: string): Promise<boolean> {
-        return this.getByName(name) != null;
+        return await this.getByName(name) != undefined;
     }
 
     public async create(userData: CreateUserData): Promise<PublicUser> {
-        //TODO figure out secure way to handle password, logging etc.
+        //TODO figure out secure way to handle password, logging in etc.
         return this.userRepo.create({
             name: userData.name,
             firstName: userData.firstName,
@@ -29,7 +29,7 @@ export default class UserService implements IUserService {
         });
     }
 
-    public async validatePassword(username: string, password: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    public async validatePassword(name: string, password: string): Promise<boolean> {
+        return await this.userRepo.findOne({name, password}) != undefined
     }
 }
