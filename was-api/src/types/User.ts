@@ -5,7 +5,8 @@ export type User = {
     lastName?: string,
     createdAt: Date,
     password: string,
+    salt: string,
 }
 
-export type PublicUser = Omit<User, "password">;
+export type PublicUser = Omit<User, "password" | "salt">;
 export type CreateUserData = Omit<User, "id" | "createdAt">;

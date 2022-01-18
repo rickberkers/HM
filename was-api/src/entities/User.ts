@@ -21,6 +21,10 @@ export class User implements UserType {
     @Column({ select: false })
     password: string;
 
+    // password should never be selected by default
+    @Column({ select: false })
+    salt: string;
+
     @CreateDateColumn()
     createdAt: Date;
 
