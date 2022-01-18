@@ -39,11 +39,9 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
       throw fastify.httpErrors.unauthorized("password is incorrect");
     }
 
-    const user = await fastify.services.userService.getByName(request.body.name);
-
     const token = fastify.jwt.sign({
-      id: user!.id, //TODO test to see what happens if it is null with bang operator
-      name: user!.name
+      id: attemptedAccount.id,
+      name: attemptedAccount.name
     });
 
     return { token };
