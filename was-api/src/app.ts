@@ -6,12 +6,14 @@ import typeorm from './plugins/typeorm';
 import services from './plugins/services';
 import sensible from './plugins/sensible';
 import jwt from './plugins/jwt';
+import hashing from './plugins/hashing';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
+  fastify.register(hashing);
   fastify.register(jwt);
   fastify.register(typeorm);
   fastify.register(services);
