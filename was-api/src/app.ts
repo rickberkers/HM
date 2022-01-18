@@ -7,12 +7,14 @@ import services from './plugins/services';
 import sensible from './plugins/sensible';
 import jwt from './plugins/jwt';
 import hashing from './plugins/hashing';
+import auth from './plugins/auth';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
+  fastify.register(auth);
   fastify.register(hashing);
   fastify.register(jwt);
   fastify.register(typeorm);

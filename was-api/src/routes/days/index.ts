@@ -4,7 +4,8 @@ import { getDaysSchema, getDaysQueryString } from "./schemas";
 
 const days: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get<{ Querystring: getDaysQueryString }>('/', {
-    schema: getDaysSchema
+    schema: getDaysSchema,
+    preValidation: fastify.auth([fastify.verifyToken]),
   }, async (request, reply) => {
 
     // Validates & parses date
