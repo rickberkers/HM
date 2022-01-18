@@ -1,11 +1,11 @@
 import { isValid, parseISO } from "date-fns";
-import { FastifyPluginAsync } from "fastify"
+import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify"
 import { getDaysSchema, getDaysQueryString } from "./schemas";
 
 const days: FastifyPluginAsync = async (fastify): Promise<void> => {
+  fastify.addHook('preValidation', fastify.auth([fastify.verifyToken]));
   fastify.get<{ Querystring: getDaysQueryString }>('/', {
     schema: getDaysSchema,
-    preValidation: fastify.auth([fastify.verifyToken]),
   }, async (request, reply) => {
 
     // Validates & parses date
