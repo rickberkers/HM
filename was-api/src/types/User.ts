@@ -4,9 +4,8 @@ export type User = {
     firstName: string,
     lastName?: string,
     createdAt: Date,
-    password: string,
-    salt: string,
+    hash: string,
 }
 
-export type PublicUser = Omit<User, "password" | "salt">;
+export type PublicUser = Omit<User, "hash">;
 export type CreateUserData = Omit<User, "id" | "createdAt">;

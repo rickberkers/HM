@@ -20,11 +20,10 @@ export default class UserService implements IUserService {
     }
 
     public async create(userData: CreateUserData): Promise<PublicUser> {
-        //TODO do hashing
         const user = this.userRepo.create({
             name: userData.name,
             firstName: userData.firstName,
-            password: userData.password,
+            hash: userData.hash,
             lastName: userData.lastName,
         });
         
@@ -33,7 +32,12 @@ export default class UserService implements IUserService {
         return createdUser!;
     }
 
-    public async validatePassword(name: string, password: string): Promise<boolean> {
-        return await this.userRepo.findOne({name, password}) != undefined
+    public async getHashByUserId(id: string): Promise<string> {
+        const user = await this.userRepo
+            .createQueryBuilder("user")
+            .select(["user.hash"])
+            .where("user.id = :id", { id })
+            .getOne();
+        return user!.hash;
     }
 }

@@ -17,13 +17,9 @@ export class User implements UserType {
     @Column({ nullable: true })
     lastName: string;
 
-    // password should never be selected by default
+    // hash should never be selected by default
     @Column({ select: false })
-    password: string;
-
-    // password should never be selected by default
-    @Column({ select: false })
-    salt: string;
+    hash: string;
 
     @CreateDateColumn()
     createdAt: Date;
