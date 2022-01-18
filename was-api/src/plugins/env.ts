@@ -11,9 +11,9 @@ declare module 'fastify' {
             DB_PASSWORD: string,
             DB_NAME: string,
             JWT_SECRET: string,
-            HASH_MEMCOST: string,
-            HASH_PARALELL: string,
-            HASH_TIMECOST: string,
+            HASH_MEMCOST: number,
+            HASH_PARALELL: number,
+            HASH_TIMECOST: number,
         };
     }
 }
@@ -32,9 +32,9 @@ const schema = {
         DB_PASSWORD: { type: 'string' },
         DB_NAME: { type: 'string' },
         JWT_SECRET: { type: 'string' },
-        HASH_MEMCOST: { type: 'string' },
-        HASH_PARALELL: { type: 'string' },
-        HASH_TIMECOST: { type: 'string' },
+        HASH_MEMCOST: { type: 'number' },
+        HASH_PARALELL: { type: 'number' },
+        HASH_TIMECOST: { type: 'number' },
     }
 };
 
