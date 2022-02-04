@@ -11,7 +11,9 @@ export default fp(async (fastify, opts) => {
     fastify.register(fastifyAuth);
     fastify.decorate("verifyToken", async function(request: FastifyRequest, reply: FastifyReply) {
         try {
-            await request.jwtVerify();
+            await request.jwtVerify({
+                maxAge: "31d",
+            });
         } catch (err) {
             reply.send(err);
         }
