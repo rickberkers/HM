@@ -21,6 +21,10 @@ export class User implements UserType {
     @Column({ select: false })
     hash: string;
 
+    // refreshToken should never be selected by default
+    @Column({ select: false, nullable: true })
+    refreshToken: string;
+
     @CreateDateColumn()
     createdAt: Date;
 

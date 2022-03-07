@@ -8,12 +8,14 @@ import sensible from './plugins/sensible';
 import jwt from './plugins/jwt';
 import hashing from './plugins/hashing';
 import auth from './plugins/auth';
+import cookie from './plugins/cookie';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
+  fastify.register(cookie);
   fastify.register(auth);
   fastify.register(hashing);
   fastify.register(jwt);
@@ -31,6 +33,8 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
 export default app;
 export { app }
 
+// TODO rotate signed cookies secrets
+// TODO rename .env.local to env.example
 // TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
 // TODO done figure out which indices are required or suited
@@ -41,5 +45,3 @@ export { app }
 // TODO Logging sort out
 // TODO shared schemas
 // TODO Look into AVJ errors for hiding specific validation failures
-// TODO address vulnerabilities
-// TODO find solution for invalidating tokens & expiry

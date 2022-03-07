@@ -15,6 +15,10 @@ export default class UserService implements IUserService {
         return this.userRepo.findOne({ name });
     }
 
+    public async getById(id: string): Promise<PublicUser | undefined> {
+        return this.userRepo.findOne({ id });
+    }
+
     public async userExists(name: string): Promise<boolean> {
         return await this.getByName(name) != undefined;
     }
@@ -39,5 +43,23 @@ export default class UserService implements IUserService {
             .where("user.id = :id", { id })
             .getOne();
         return user!.hash;
+    }
+
+    public async getRefreshTokenByUserId(id: string): Promise<string> {
+        const user = await this.userRepo
+            .createQueryBuilder("user")
+            .select(["user.refreshToken"])
+            .where("user.id = :id", { id })
+            .getOne();
+        return user!.refreshToken;
+    }
+
+    public async setRefreshToken(id: string, refreshToken: string): Promise<void> {
+        await this.userRepo
+            .createQueryBuilder("user")
+            .update(User)
+            .set({ refreshToken })
+            .where("id = :id", { id })
+            .execute();
     }
 }

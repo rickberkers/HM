@@ -11,9 +11,12 @@ declare module 'fastify' {
             DB_PASSWORD: string,
             DB_NAME: string,
             JWT_SECRET: string,
+            COOKIE_SECRET: string,
+            COOKIE_DOMAIN: string,
             HASH_MEMCOST: number,
             HASH_PARALELL: number,
             HASH_TIMECOST: number,
+            DEVELOPMENT: boolean,
         };
     }
 }
@@ -22,8 +25,9 @@ const schema = {
     type: 'object',
     required: [ 'DB_TYPE', 'DB_HOST', 'DB_PORT', 
                 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 
-                'JWT_SECRET', 'HASH_MEMCOST', 'HASH_PARALELL', 
-                'HASH_TIMECOST' ],
+                'JWT_SECRET', 'COOKIE_SECRET', 'COOKIE_DOMAIN',
+                'HASH_MEMCOST', 'HASH_PARALELL', 
+                'HASH_TIMECOST', 'DEVELOPMENT' ],
     properties: {
         DB_TYPE: { type: 'string' },
         DB_HOST: { type: 'string' },
@@ -32,9 +36,12 @@ const schema = {
         DB_PASSWORD: { type: 'string' },
         DB_NAME: { type: 'string' },
         JWT_SECRET: { type: 'string' },
+        COOKIE_SECRET: { type: 'string' },
+        COOKIE_DOMAIN: { type: 'string' },
         HASH_MEMCOST: { type: 'number' },
         HASH_PARALELL: { type: 'number' },
         HASH_TIMECOST: { type: 'number' },
+        DEVELOPMENT: { type: 'boolean' },
     }
 };
 
