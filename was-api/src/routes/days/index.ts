@@ -3,7 +3,7 @@ import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify"
 import { getDaysSchema, getDaysQueryString } from "./schemas";
 
 const days: FastifyPluginAsync = async (fastify): Promise<void> => {
-  fastify.addHook('preValidation', fastify.auth([fastify.verifyToken]));
+  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
   fastify.get<{ Querystring: getDaysQueryString }>('/', {
     schema: getDaysSchema,
   }, async (request, reply) => {
