@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from "fastify"
-import { getTokenBody, getTokenSchema, postRegisterBody, registerUserSchema } from "./schemas";
+import { getRefreshTokenBody, getRefreshTokenSchema, postRegisterBody, registerUserSchema } from "./schemas";
 import { CreateUserData } from "../../types/User";
 import { RefreshTokenPayload } from "../../types/Tokens";
 
@@ -29,8 +29,8 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(async (fastify) => {
     
     // Refresh token (a.k.a login)
-    fastify.post<{ Body: getTokenBody }>('/refresh', {
-      schema: getTokenSchema
+    fastify.post<{ Body: getRefreshTokenBody }>('/refresh', {
+      schema: getRefreshTokenSchema
     }, async (request, reply) => {
 
       const attemptedAccount = await fastify.services.userService.getByName(request.body.name);
@@ -54,10 +54,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
     });
 
     // Access token
-    fastify.post<{ Body: getTokenBody }>('/', {
-      schema: getTokenSchema
-    }, async (request, reply) => {
-
+    fastify.post('/', async (request, reply) => {
       // Get refresh token cookie
       const cookie = request.cookies[fastify.config.REFRESH_TOKEN_COOKIE_NAME];
       if (cookie == null) {
