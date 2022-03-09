@@ -29,11 +29,13 @@ export default fp(async (fastify, opts) => {
             accessToken: fastify.jwt.sign({ id: user.id, name: user.name } as RefreshTokenPayload)
         };
     });
+    fastify.decorate("refreshTokenCookieName", "was_refreshToken");
 });
 
 declare module 'fastify' {
     export interface FastifyInstance {
         verifyAccessToken(request: FastifyRequest, reply: FastifyReply): Promise<void>;
         generateTokenPair(user: PublicUser): TokenPair;
+        refreshTokenCookieName: string;
     }
 }

@@ -1,20 +1,19 @@
 import { Day } from "../types/Day";
-import { Connection } from "typeorm";
 import { IDayService } from "./IDayService";
 import { addDaysToDate } from "../utils";
-import { Between } from "typeorm";
+import { Between, Connection, Repository } from "typeorm";
 import { Commitment } from "../entities/Commitment";
 import { DayInfo } from "../entities/DayInfo";
 import { CommitmentMap } from "../types/Commitment";
 
 export default class DayService implements IDayService {
 
-    private commitmentRepo;
-    private dayInfoRepo;
+    private commitmentRepo: Repository<Commitment>;
+    private dayInfoRepo: Repository<DayInfo>;
 
     constructor(private connection: Connection) {
-       this.dayInfoRepo = this.connection.getRepository(DayInfo);
-       this.commitmentRepo = this.connection.getRepository(Commitment);
+       this.dayInfoRepo = this.connection.getRepository<DayInfo>(DayInfo);
+       this.commitmentRepo = this.connection.getRepository<Commitment>(Commitment);
     }
 
     public async getDaysByDateAndHouseholdId(

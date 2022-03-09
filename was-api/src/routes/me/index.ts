@@ -7,7 +7,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   /**
    * Register
    */
-  fastify.post<{ Body: postRegisterBody }>('/', {
+  fastify.post<{ Body: postRegisterBody }>('/register', {
     schema: registerUserSchema
   }, async (request, reply) => {
 
@@ -50,13 +50,13 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(attemptedAccount.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.cookie(fastify.config.REFRESH_TOKEN_COOKIE_NAME, tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.cookie(fastify.refreshTokenCookieName, tokenPair.refreshToken).send(tokenPair.accessToken);
     });
 
     // Access token
     fastify.post('/', async (request, reply) => {
       // Get refresh token cookie
-      const cookie = request.cookies[fastify.config.REFRESH_TOKEN_COOKIE_NAME];
+      const cookie = request.cookies[fastify.refreshTokenCookieName];
       if (cookie == null) {
         throw fastify.httpErrors.unauthorized("invalid token");
       }
@@ -84,7 +84,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
         throw fastify.httpErrors.unauthorized("invalid token");
       }
 
-      // Verify that the user exists and that the refresh token matches the one in the payload
+      // Verify that the user exists and that their refresh token matches the one in the payload
       if (user == undefined || await fastify.services.userService.getRefreshTokenByUserId(payload.id) != cookieRefreshToken) {
         throw fastify.httpErrors.unauthorized("invalid token");
       }
@@ -94,7 +94,49 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(user.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.cookie(fastify.config.REFRESH_TOKEN_COOKIE_NAME, tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.cookie(fastify.refreshTokenCookieName, tokenPair.refreshToken).send(tokenPair.accessToken);
+    });
+
+    // Logout
+    fastify.delete('/', async (request, reply) => {
+
+      // Get refresh token cookie
+      const cookie = request.cookies[fastify.refreshTokenCookieName];
+      if (cookie == null) {
+        throw fastify.httpErrors.unauthorized("invalid token");
+      }
+
+      // Checks if cookie was unsigned correctly
+      const unsignedRefreshToken = request.unsignCookie(cookie);
+      if (!unsignedRefreshToken.valid) {
+        throw fastify.httpErrors.unauthorized("invalid token");
+      }
+      const cookieRefreshToken = unsignedRefreshToken.value!;
+
+      // Verifies token and gets payload
+      let payload: RefreshTokenPayload;
+      try {
+        payload = fastify.jwt.verify<RefreshTokenPayload>(cookieRefreshToken, {
+          maxAge: "31d" // 31 days in ms
+        });
+      } catch (error) {
+        throw fastify.httpErrors.unauthorized("invalid token");
+      }
+
+      // Verify that the user id still matches with a user
+      const user = await fastify.services.userService.getById(payload.id);
+      if (user == undefined) {
+        throw fastify.httpErrors.unauthorized("invalid token");
+      }
+
+      console.log(payload);
+      // Verify that the user exists and that their refresh token matches the one in the payload
+      if (user == undefined || await fastify.services.userService.getRefreshTokenByUserId(payload.id) != cookieRefreshToken) {
+        throw fastify.httpErrors.unauthorized("invalid token");
+      }
+
+      await fastify.services.userService.setRefreshToken(user.id, null);
+      return reply.clearCookie(fastify.refreshTokenCookieName, { path:'/me/token' }).status(204).send();
     });
 
   }, { prefix: 'token' });

@@ -14,16 +14,16 @@ export class User implements UserType {
     @Column()
     firstName: string;
 
-    @Column({ nullable: true })
-    lastName: string;
+    @Column({ type: String, nullable: true })
+    lastName: string | null;
 
     // hash should never be selected by default
     @Column({ select: false })
     hash: string;
 
     // refreshToken should never be selected by default
-    @Column({ select: false, nullable: true })
-    refreshToken: string;
+    @Column({ type: String, select: false, nullable: true })
+    refreshToken: string | null;
 
     @CreateDateColumn()
     createdAt: Date;

@@ -1,14 +1,14 @@
 import { User } from "../entities/User";
-import { Connection } from "typeorm";
+import { Connection, Repository } from "typeorm";
 import { CreateUserData, PublicUser } from "../types/User";
 import { IUserService } from "./IUserService";
 
 export default class UserService implements IUserService {
 
-    private userRepo;
+    private userRepo: Repository<User>;
 
     constructor(private connection: Connection) {
-       this.userRepo = this.connection.getRepository(User);
+       this.userRepo = this.connection.getRepository<User>(User);
     }
 
     public async getByName(name: string): Promise<PublicUser | undefined> {
@@ -45,16 +45,16 @@ export default class UserService implements IUserService {
         return user!.hash;
     }
 
-    public async getRefreshTokenByUserId(id: string): Promise<string> {
+    public async getRefreshTokenByUserId(id: string): Promise<string | null> {
         const user = await this.userRepo
             .createQueryBuilder("user")
-            .select(["user.refreshToken"])
+            .select(["user.id", "user.refreshToken"])
             .where("user.id = :id", { id })
             .getOne();
         return user!.refreshToken;
     }
 
-    public async setRefreshToken(id: string, refreshToken: string): Promise<void> {
+    public async setRefreshToken(id: string, refreshToken: string | null): Promise<void> {
         await this.userRepo
             .createQueryBuilder("user")
             .update(User)
