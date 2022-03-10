@@ -129,7 +129,6 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
         throw fastify.httpErrors.unauthorized("invalid token");
       }
 
-      console.log(payload);
       // Verify that the user exists and that their refresh token matches the one in the payload
       if (user == undefined || await fastify.services.userService.getRefreshTokenByUserId(payload.id) != cookieRefreshToken) {
         throw fastify.httpErrors.unauthorized("invalid token");
