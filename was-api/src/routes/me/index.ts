@@ -50,9 +50,8 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(attemptedAccount.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.cookie(fastify.refreshTokenCookieName, tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.setRefreshTokenCookie(tokenPair.refreshToken).send(tokenPair.accessToken);
     });
-
 
     // Access token
     fastify.post('/', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
@@ -62,14 +61,14 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.cookie(fastify.refreshTokenCookieName, tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.setRefreshTokenCookie(tokenPair.refreshToken).send(tokenPair.accessToken);
     });
 
     // Logout
     fastify.delete('/', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
 
       await fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, null);
-      return reply.clearCookie(fastify.refreshTokenCookieName, { path:'/me/token' }).status(204).send();
+      return reply.clearRefreshTokenCookie().status(204).send();
     });
 
   }, { prefix: 'token' });

@@ -4,6 +4,8 @@ import fp from 'fastify-plugin'
 import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '../types/Tokens';
 import { PublicUser } from '../types/User';
 
+const REFRESH_TOKEN_COOKIE_NAME = "was_refreshToken";
+
 /**
  * This plugins adds auth strategy decorators
  *
@@ -12,7 +14,6 @@ import { PublicUser } from '../types/User';
 export default fp(async (fastify, opts) => {
     fastify.register(fastifyAuth);
 
-    fastify.decorate("refreshTokenCookieName", "was_refreshToken");
     fastify.decorateRequest("authenticatedUser", undefined);
 
     fastify.decorate("verifyAccessToken", async function(request: FastifyRequest, reply: FastifyReply) {
@@ -42,7 +43,7 @@ export default fp(async (fastify, opts) => {
     fastify.decorate("verifyRefreshToken", async function(request: FastifyRequest, reply: FastifyReply) {
 
         // Get refresh token cookie
-        const cookie = request.cookies[fastify.refreshTokenCookieName];
+        const cookie = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
         if (cookie == null) {
             throw fastify.httpErrors.unauthorized("no token");
         }
@@ -72,9 +73,14 @@ export default fp(async (fastify, opts) => {
         request.authenticatedUser = user;
     });
 
-    /**
-     * Generates refresh and access token
-     */
+    fastify.decorateReply("clearRefreshTokenCookie", function(): FastifyReply {
+        return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME, { path:'/me/token' });
+    });
+
+    fastify.decorateReply("setRefreshTokenCookie", function (value: string): FastifyReply {
+        return this.cookie(REFRESH_TOKEN_COOKIE_NAME, value);
+    });
+
     fastify.decorate("generateTokenPair", function(user: PublicUser): TokenPair {
         return {
             refreshToken: fastify.jwt.signJWT({ id: user.id } as AccessTokenPayload),
@@ -88,9 +94,12 @@ declare module 'fastify' {
         verifyAccessToken(request: FastifyRequest, reply: FastifyReply): Promise<void>;
         verifyRefreshToken(request: FastifyRequest, reply: FastifyReply): Promise<void>;
         generateTokenPair(user: PublicUser): TokenPair;
-        refreshTokenCookieName: string;
     }
     export interface FastifyRequest {
         authenticatedUser?: PublicUser;
+    }
+    export interface FastifyReply {
+        setRefreshTokenCookie(value: string): FastifyReply;
+        clearRefreshTokenCookie(): FastifyReply;
     }
 }
