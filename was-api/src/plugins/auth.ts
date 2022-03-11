@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyAuth from 'fastify-auth';
 import fp from 'fastify-plugin'
-import { Interface } from 'readline';
 import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '../types/Tokens';
 import { PublicUser } from '../types/User';
 
@@ -17,22 +16,35 @@ export default fp(async (fastify, opts) => {
     fastify.decorateRequest("authenticatedUser", undefined);
 
     fastify.decorate("verifyAccessToken", async function(request: FastifyRequest, reply: FastifyReply) {
+
+        // Get token from authorization header
+        let token = request.headers.authorization;
+        if (token == null) {
+            throw fastify.httpErrors.unauthorized("no token");
+        }
+        const tokenArray = token.split(" ");
+        if(!token.startsWith("Bearer") || tokenArray.length != 2) {
+            throw fastify.httpErrors.unauthorized("invalid token");
+        }
+        token = tokenArray[1];
+
+        // Verify token
         try {
-            const payload = await request.jwtVerify<AccessTokenPayload>({
-                maxAge: "900", // 15 min
+            const payload = fastify.jwt.verifyJWT<AccessTokenPayload>(token, { 
+                maxAge: 900000, // 15 min
             });
-            const user = await fastify.services.userService.getById(payload.id);
-            request.authenticatedUser = user;
-        } catch (err) {
+            request.authenticatedUser = await fastify.services.userService.getById(payload.id);;
+        } catch (error) {
             throw fastify.httpErrors.unauthorized("invalid token");
         }
     });
 
     fastify.decorate("verifyRefreshToken", async function(request: FastifyRequest, reply: FastifyReply) {
+
         // Get refresh token cookie
         const cookie = request.cookies[fastify.refreshTokenCookieName];
         if (cookie == null) {
-            throw fastify.httpErrors.unauthorized("invalid token");
+            throw fastify.httpErrors.unauthorized("no token");
         }
 
         // Checks if cookie was unsigned correctly
@@ -45,8 +57,8 @@ export default fp(async (fastify, opts) => {
         // Verifies token and gets payload
         let payload: RefreshTokenPayload;
         try {
-            payload = fastify.jwt.verify<RefreshTokenPayload>(cookieRefreshToken, {
-                maxAge: "31d" // 31 days in ms
+            payload = fastify.jwt.verifyJWT<RefreshTokenPayload>(cookieRefreshToken, {
+                maxAge: 2678400000 // 31 days in ms
             });
         } catch (error) {
             throw fastify.httpErrors.unauthorized("invalid token");
@@ -65,8 +77,8 @@ export default fp(async (fastify, opts) => {
      */
     fastify.decorate("generateTokenPair", function(user: PublicUser): TokenPair {
         return {
-            refreshToken: fastify.jwt.sign({ id: user.id } as AccessTokenPayload),
-            accessToken: fastify.jwt.sign({ id: user.id, name: user.name } as RefreshTokenPayload)
+            refreshToken: fastify.jwt.signJWT({ id: user.id } as AccessTokenPayload),
+            accessToken: fastify.jwt.signJWT({ id: user.id, name: user.name } as RefreshTokenPayload)
         };
     });
 });

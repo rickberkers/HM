@@ -1,6 +1,7 @@
-export type TokenPayload = { id: string }
-export type RefreshTokenPayload = TokenPayload
-export type AccessTokenPayload = TokenPayload & { name: string }
+export type BaseTokenPayload = { id: string }
+export type RefreshTokenPayload = BaseTokenPayload
+export type AccessTokenPayload = BaseTokenPayload & { name: string }
+export type TokenPayload = RefreshTokenPayload | AccessTokenPayload
 
 export type TokenPair = {
     refreshToken: string,
