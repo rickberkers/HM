@@ -17,6 +17,7 @@ declare module 'fastify' {
             HASH_PARALELL: number,
             HASH_TIMECOST: number,
             DEVELOPMENT: boolean,
+            ACCESS_TOKEN_MAX_AGE: number, // in ms
         };
     }
 }
@@ -26,7 +27,7 @@ const schema = {
     required: [ 'DB_TYPE', 'DB_HOST', 'DB_PORT', 
                 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 
                 'JWT_SECRET', 'COOKIE_SECRET', 'COOKIE_DOMAIN',
-                'HASH_MEMCOST', 'HASH_PARALELL', 
+                'HASH_MEMCOST', 'HASH_PARALELL', 'ACCESS_TOKEN_MAX_AGE',
                 'HASH_TIMECOST', 'DEVELOPMENT' ],
     properties: {
         DB_TYPE: { type: 'string' },
@@ -42,6 +43,7 @@ const schema = {
         HASH_PARALELL: { type: 'number' },
         HASH_TIMECOST: { type: 'number' },
         DEVELOPMENT: { type: 'boolean' },
+        ACCESS_TOKEN_MAX_AGE: { type: 'number' }
     }
 };
 

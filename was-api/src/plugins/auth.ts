@@ -32,7 +32,7 @@ export default fp(async (fastify, opts) => {
         // Verify token
         try {
             const payload = fastify.jwt.verifyJWT<AccessTokenPayload>(token, { 
-                maxAge: 900000, // 15 min
+                maxAge: fastify.config.ACCESS_TOKEN_MAX_AGE || 900000, // 15 min
             });
             request.authenticatedUser = await fastify.services.userService.getById(payload.id);;
         } catch (error) {
