@@ -1,6 +1,7 @@
 import {
   IonApp,
   IonRouterOutlet,
+  setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
@@ -24,6 +25,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { AuthProvider } from './contexts/AuthContext';
 import Routes from './components/Routes';
+
+setupIonicReact();
 
 const App = () => {
   return (
