@@ -29,7 +29,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(async (fastify) => {
     
     // Refresh token (a.k.a login)
-    fastify.post<{ Body: getRefreshTokenBody }>('/refresh', {
+    fastify.post<{ Body: getRefreshTokenBody }>('/login', {
       schema: getRefreshTokenSchema
     }, async (request, reply) => {
 
@@ -54,7 +54,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
     });
 
     // Access token
-    fastify.post('/', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
+    fastify.post('/refresh', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
 
       // generate new tokenpair and store new refreshtoken
       const tokenPair = fastify.generateTokenPair(request.authenticatedUser!);
