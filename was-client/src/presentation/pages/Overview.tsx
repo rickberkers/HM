@@ -3,7 +3,7 @@ import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
 import { useAuth } from '../contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
-import { Day } from '../models/Day';
+import { Day } from '../../domains/models/Day';
 import './Overview.css';
 
 const Overview = () => {

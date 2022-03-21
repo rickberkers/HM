@@ -22,9 +22,9 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
-import { AuthProvider } from './contexts/AuthContext';
-import Routes from './components/Routes';
+import './presentation/theme/variables.css';
+import { AuthProvider } from './presentation/contexts/AuthContext';
+import Routes from './presentation/components/Routes';
 
 setupIonicReact();
 

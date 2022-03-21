@@ -1,7 +1,7 @@
 import { IonItem, IonAvatar, IonLabel, IonBadge, IonIcon } from "@ionic/react";
 import { personSharp } from "ionicons/icons";
 import { getWeekDayName } from "../../helpers/formattingHelpers";
-import { Day } from "../../models/Day";
+import { Day } from "../../../domains/models/Day";
 import DateAvatar from "../dateAvatar/DateAvatar";
 
 interface DayItemProps {

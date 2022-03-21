@@ -1,5 +1,5 @@
 import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
-import { Day } from '../../models/Day';
+import { Day } from '../../../domains/models/Day';
 import DayItem from '../dayItem/DayItem';
 
 interface DayListProps {
