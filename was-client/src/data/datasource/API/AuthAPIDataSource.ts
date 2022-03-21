@@ -1,8 +1,8 @@
-import configData from "../../../../config.json";
 import IAuthDataSource from "../IAuthDataSource";
 import axios from 'axios';
+import { config } from "../../../core/config";
 
-const BASE_URL = `${configData.SERVER_URL}/me/token`;
+const BASE_URL = `${config.REACT_APP_BASE_URL}/me/token`;
 
 export default class AuthAPIDataSource implements IAuthDataSource {
   async refresh(): Promise<string> {
