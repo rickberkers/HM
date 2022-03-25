@@ -1,7 +1,6 @@
 import { FastifyPluginAsync } from "fastify"
-import { getRefreshTokenBody, getRefreshTokenSchema, postRegisterBody, registerUserSchema } from "./schemas";
+import { LoginBody, LoginSchema, postRegisterBody, registerUserSchema } from "./schemas";
 import { CreateUserData } from "../../types/User";
-import { RefreshTokenPayload } from "../../types/Tokens";
 
 const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   /**
@@ -29,8 +28,8 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(async (fastify) => {
     
     // Refresh token (a.k.a login)
-    fastify.post<{ Body: getRefreshTokenBody }>('/login', {
-      schema: getRefreshTokenSchema
+    fastify.post<{ Body: LoginBody }>('/login', {
+      schema: LoginSchema
     }, async (request, reply) => {
 
       const attemptedAccount = await fastify.services.userService.getByName(request.body.name);
