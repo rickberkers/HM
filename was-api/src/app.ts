@@ -33,6 +33,7 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
 export default app;
 export { app }
 
+// TODO Make import paths nicer
 // TODO rename .env.local to env.example
 // TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
