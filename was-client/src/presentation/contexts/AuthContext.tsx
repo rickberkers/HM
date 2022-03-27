@@ -1,9 +1,10 @@
 import { ReactNode, useContext, useState, useEffect, createContext } from "react"
 import { User } from "../../domains/models/User";
+import { useUseCases } from "./DependencyContext";
 
 /* --- AuthContext --- */
 interface AuthContextValues {
-  login: () => void
+  login: (username: string, password: string) => void
   logout: () => void
   currentUser: User | undefined
 }
@@ -18,21 +19,30 @@ export function AuthProvider(props: {children: ReactNode}) {
 
     const [currentUser, setCurrentUser] = useState<User>();
     const [authLoading, setAuthLoading] = useState<boolean>(true);
+    const { authRefreshUseCase, authLoginUseCase, authLogoutUseCase } = useUseCases().authUseCases;
 
-    // TODO Auth stuff
-    const login = () => null;
-    const logout = () => null;
+    const login = (username: string, password: string) => {
+      authLoginUseCase.invoke(username, password).then((user) => {
+        setCurrentUser(user); // TODO test fail //TODO use hook
+      }).catch((error) => {
+        // TODO error
+      });
+    };
+
+    const logout = () => {
+      authLogoutUseCase.invoke().finally(() => {
+        setCurrentUser(undefined); // TODO test fail
+      });
+    };
   
-    // TODO Auth stuff
     useEffect(() => {
-      // const unsubscribe = auth.onAuthStateChanged(user => {
-      //   setCurrentUser(user ?? undefined);
-      //   setAuthLoading(false);
-      // })
-      // return unsubscribe;
+      authRefreshUseCase.invoke().then((token) => {
+        setCurrentUser(token);
+      }).catch((error) => {
+        // TODO error
+      });
       setAuthLoading(false);
-      setCurrentUser({name: "rick", uid: "1" });
-    }, [])
+    }, [authRefreshUseCase])
 
     const values = {
       login,

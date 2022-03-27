@@ -4,7 +4,12 @@ import { useAuth } from '../contexts/AuthContext';
 const SignIn = () => {
 
     const {login, logout, currentUser} = useAuth();
-    const signInElement = (<IonButton onClick={login}>Sign-in with Google</IonButton>);
+
+    const loginClick = () => {
+        login("rick", "rick1234!DrfcRTd4");
+    };
+
+    const signInElement = (<IonButton onClick={loginClick}>Sign-in with Google</IonButton>);
     const signOutElement = (<IonButton onClick={logout}>Sign out</IonButton>);
 
     return (

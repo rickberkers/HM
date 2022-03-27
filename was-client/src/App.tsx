@@ -25,21 +25,27 @@ import '@ionic/react/css/display.css';
 import './presentation/theme/variables.css';
 import { AuthProvider } from './presentation/contexts/AuthContext';
 import Routes from './presentation/components/Routes';
+import { DependencyProvider } from './presentation/contexts/DependencyContext';
 
 setupIonicReact();
 
 const App = () => {
   return (
-    <AuthProvider>
-      <IonApp>
-        <IonReactRouter>
-            <IonRouterOutlet>
-              <Routes/>
-            </IonRouterOutlet>
-        </IonReactRouter>
-      </IonApp>
-    </AuthProvider>
+    <DependencyProvider>
+      <AuthProvider>
+        <IonApp>
+          <IonReactRouter>
+              <IonRouterOutlet>
+                <Routes/>
+              </IonRouterOutlet>
+          </IonReactRouter>
+        </IonApp>
+      </AuthProvider>
+    </DependencyProvider>
   );
 }
 
 export default App;
+
+
+//TODO move some essential things to core?

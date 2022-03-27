@@ -1,0 +1,1 @@
+export type UserToken = { id: string, name: string }

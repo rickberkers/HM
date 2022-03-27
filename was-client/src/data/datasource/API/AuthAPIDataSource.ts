@@ -1,8 +1,7 @@
 import IAuthDataSource from "../IAuthDataSource";
 import { Axios } from 'axios';
-import { config } from "../../../core/config";
 
-const BASE_URL = `${config.REACT_APP_BASE_URL}/me/token`;
+const BASE_URL = `/me/token`;
 
 export default class AuthAPIDataSource implements IAuthDataSource {
 
@@ -10,15 +9,22 @@ export default class AuthAPIDataSource implements IAuthDataSource {
     private axios: Axios
   ) {}
 
-  async refresh(): Promise<string> {
-    const response = await this.axios.post<string>(`${BASE_URL}/refresh`);
+  async refresh(): Promise<AuthTokenAPIResponse> {
+    const response = await this.axios.post<AuthTokenAPIResponse>(`${BASE_URL}/refresh`);
     return response.data;
   }
-  async login(username: string, password: string): Promise<string> {
-    const response = await this.axios.post<string>(`${BASE_URL}/login`);
+  async login(username: string, password: string): Promise<AuthTokenAPIResponse> {
+    const response = await this.axios.post<AuthTokenAPIResponse>(`${BASE_URL}/login`, {
+      username, password
+    });
     return response.data;
   }
   async logout(): Promise<void> {
     await this.axios.delete(`${BASE_URL}/logout`);
   }
+}
+
+export interface AuthTokenAPIResponse {
+  id: string,
+  name: string
 }
