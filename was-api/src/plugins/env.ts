@@ -17,7 +17,8 @@ declare module 'fastify' {
             HASH_PARALELL: number,
             HASH_TIMECOST: number,
             DEVELOPMENT: boolean,
-            ACCESS_TOKEN_MAX_AGE: number, // in ms
+            ACCESS_TOKEN_MAX_AGE: number, // in ms //TODO Check if an env var is the right solution for this
+            APP_URL: string
         };
     }
 }
@@ -28,7 +29,7 @@ const schema = {
                 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 
                 'JWT_SECRET', 'COOKIE_SECRET', 'COOKIE_DOMAIN',
                 'HASH_MEMCOST', 'HASH_PARALELL', 'ACCESS_TOKEN_MAX_AGE',
-                'HASH_TIMECOST', 'DEVELOPMENT' ],
+                'HASH_TIMECOST', 'DEVELOPMENT', 'APP_URL' ],
     properties: {
         DB_TYPE: { type: 'string' },
         DB_HOST: { type: 'string' },
@@ -43,7 +44,8 @@ const schema = {
         HASH_PARALELL: { type: 'number' },
         HASH_TIMECOST: { type: 'number' },
         DEVELOPMENT: { type: 'boolean' },
-        ACCESS_TOKEN_MAX_AGE: { type: 'number' }
+        ACCESS_TOKEN_MAX_AGE: { type: 'number' },
+        APP_URL: { type: 'string' },
     }
 };
 

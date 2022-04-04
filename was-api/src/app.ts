@@ -9,12 +9,14 @@ import jwt from './plugins/jwt';
 import hashing from './plugins/hashing';
 import auth from './plugins/auth';
 import cookie from './plugins/cookie';
+import cors from './plugins/cors';
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
+  fastify.register(cors);
   fastify.register(cookie);
   fastify.register(auth);
   fastify.register(hashing);
