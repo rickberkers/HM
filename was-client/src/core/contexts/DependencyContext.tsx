@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ReactNode, useContext, createContext } from "react"
-import config from "../../core/config";
+import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
 import AuthRepository from "../../data/repositories/AuthRepository";
 import AuthLoginUseCase from "../../domains/useCases/auth/Login";

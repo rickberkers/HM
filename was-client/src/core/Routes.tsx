@@ -1,8 +1,8 @@
 import { Route, Redirect } from 'react-router';
-import DayView from '../pages/DayView';
-import Overview from '../pages/Overview';
-import SignIn from '../pages/SignIn';
-import PrivateRoute from './customRoutes/PrivateRoute';
+import DayView from '../presentation/pages/DayView';
+import Overview from '../presentation/pages/Overview';
+import SignIn from '../presentation/pages/SignIn';
+import PrivateRoute from '../presentation/components/customRoutes/PrivateRoute';
 
 enum ROUTE_NAMES {
     DAY_VIEW = "/day",

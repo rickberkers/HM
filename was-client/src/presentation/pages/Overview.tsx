@@ -1,7 +1,7 @@
 import { IonButton, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonIcon, IonLabel, IonPage, IonRow, IonText } from '@ionic/react';
 import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../core/contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
 import { Day } from '../../domains/models/Day';
 import './Overview.css';
