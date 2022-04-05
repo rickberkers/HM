@@ -23,9 +23,9 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './presentation/theme/variables.css';
-import { AuthProvider } from './presentation/contexts/AuthContext';
-import Routes from './presentation/components/Routes';
-import { DependencyProvider } from './presentation/contexts/DependencyContext';
+import { AuthProvider } from '../presentation/contexts/AuthContext';
+import Routes from '../presentation/components/Routes';
+import { DependencyProvider } from '../presentation/contexts/DependencyContext';
 
 setupIonicReact();
 
