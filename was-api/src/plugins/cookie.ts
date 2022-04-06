@@ -16,7 +16,7 @@ export default fp<FastifyCookieOptions>(async (fastify, opts) => {
       secret: fastify.config.COOKIE_SECRET,
       parseOptions: {
           secure: !fastify.config.DEVELOPMENT,
-          sameSite: "strict",
+          sameSite: "lax",
           maxAge: 5184000, // 60 days
           signed: true,
           httpOnly: true,

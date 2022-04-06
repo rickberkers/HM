@@ -9,6 +9,8 @@ import fp from 'fastify-plugin'
  */
 export default fp<FastifyCorsOptions>(async (fastify, opts) => {
   fastify.register(fastifyCors, {
-    origin: fastify.config.APP_URL
+    origin: fastify.config.APP_URL,
+    credentials: true,
+    methods: ['PUT', 'POST', 'GET', 'DELETE']
   });
 });

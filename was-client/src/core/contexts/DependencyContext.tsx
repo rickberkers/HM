@@ -8,7 +8,11 @@ import AuthLogoutUseCase from "../../domains/useCases/auth/Logout";
 import AuthRefreshUseCase from "../../domains/useCases/auth/Refresh";
 
 /* --- Dependencies --- */
-const axiosInstance = axios.create({baseURL: config.REACT_APP_API_BASE_URL});
+const axiosInstance = axios.create({
+  baseURL: config.REACT_APP_API_BASE_URL,
+  withCredentials: true
+});
+
 const dataSources = {
   authDataSource: new AuthAPIDataSource(axiosInstance)
 }

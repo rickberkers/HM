@@ -74,7 +74,7 @@ export default fp(async (fastify, opts) => {
     });
 
     fastify.decorateReply("clearRefreshTokenCookie", function(): FastifyReply {
-        return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME, { path:'/me/token' });
+        return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
     });
 
     fastify.decorateReply("setRefreshTokenCookie", function (value: string): FastifyReply {

@@ -26,7 +26,7 @@ export default class AuthAPIDataSource implements IAuthDataSource {
   }
   
   async logout() {
-    await this.axios.delete(`${BASE_URL}/logout`);
+    await this.axios.delete(`${BASE_URL}`);
   }
 
   private authResponseFormatter(data: any) {
