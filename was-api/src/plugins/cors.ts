@@ -11,6 +11,7 @@ export default fp<FastifyCorsOptions>(async (fastify, opts) => {
   fastify.register(fastifyCors, {
     origin: fastify.config.APP_URL,
     credentials: true,
-    methods: ['PUT', 'POST', 'GET', 'DELETE']
+    methods: ['PUT', 'POST', 'GET', 'DELETE'],
+    maxAge: 3600,
   });
 });
