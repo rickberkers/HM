@@ -1,4 +1,4 @@
-import { UserToken } from "../../models/Token";
+import { AccessToken } from "../../models/Token";
 import { IAuthRepository } from "../../repositories/IAuthRepository";
 
 export default class AuthRefreshUseCase {
@@ -6,7 +6,7 @@ export default class AuthRefreshUseCase {
         private authRepository: IAuthRepository
     ) {}
 
-    async invoke(): Promise<UserToken> {
+    async invoke(): Promise<AccessToken> {
         return await this.authRepository.getAccesToken();
     }
 }

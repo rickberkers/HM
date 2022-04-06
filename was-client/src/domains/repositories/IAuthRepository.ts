@@ -1,7 +1,7 @@
-import { UserToken } from "../models/Token";
+import { AccessToken } from "../models/Token";
 
 export interface IAuthRepository {
-    getRefreshToken(username: string, password: string): Promise<UserToken>; //Logging in
-    getAccesToken(): Promise<UserToken>; //Refreshing token
+    getRefreshToken(username: string, password: string): Promise<AccessToken>; //Logging in
+    getAccesToken(): Promise<AccessToken>; //Refreshing token
     deleteRefreshToken(): Promise<void>;
 }

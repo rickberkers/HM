@@ -1,7 +1,7 @@
-import { UserToken } from "../../domains/models/Token";
+import { AccessToken } from "../../domains/models/Token";
 
 export default interface IAuthDataSource {
-  refresh(): Promise<UserToken>;
-  login(username: string, password: string): Promise<UserToken>;
+  refresh(): Promise<AccessToken>;
+  login(username: string, password: string): Promise<AccessToken>;
   logout(): Promise<void>;
 }

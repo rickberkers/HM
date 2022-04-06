@@ -1,12 +1,16 @@
-import { IonButton, IonContent, IonPage, IonText } from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonText, useIonToast } from '@ionic/react';
 import { useAuth } from '../../core/contexts/AuthContext';
 
 const SignIn = () => {
 
     const {login, logout, currentUser} = useAuth();
+    const [present] = useIonToast();
 
     const loginClick = () => {
-        login("rick", "rick1234!DrfcRTd4");
+        login("rick", "rick1234!DrfcRTd4").catch(() => {
+            console.log("bad login");
+            present({message: "Incorrect", color: "danger"}); // Move this away
+        });
     };
 
     const signInElement = (<IonButton onClick={loginClick}>Sign-in with Google</IonButton>);

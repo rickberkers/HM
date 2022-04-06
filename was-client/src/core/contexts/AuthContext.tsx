@@ -4,8 +4,8 @@ import { useUseCases } from "./DependencyContext";
 
 /* --- AuthContext --- */
 interface AuthContextValues {
-  login: (username: string, password: string) => void
-  logout: () => void
+  login: (username: string, password: string) => Promise<void>
+  logout: () => Promise<void>
   currentUser: User | undefined
 }
 const AuthContext = createContext<AuthContextValues>(undefined!);
@@ -21,23 +21,21 @@ export function AuthProvider(props: {children: ReactNode}) {
     const [authLoading, setAuthLoading] = useState<boolean>(true);
     const { authRefreshUseCase, authLoginUseCase, authLogoutUseCase } = useUseCases().authUseCases;
 
-    const login = (username: string, password: string) => {
-      authLoginUseCase.invoke(username, password).then((user) => {
-        setCurrentUser(user); // TODO test fail //TODO use hook
-      }).catch((error) => {
-        // TODO error
+    const login = async (username: string, password: string): Promise<void> => {
+      return authLoginUseCase.invoke(username, password).then((user) => {
+        setCurrentUser(user.payload); // TODO test fail //TODO use hook
       });
     };
 
-    const logout = () => {
-      authLogoutUseCase.invoke().finally(() => {
+    const logout = async (): Promise<void> => {
+      return authLogoutUseCase.invoke().finally(() => {
         setCurrentUser(undefined); // TODO test fail
       });
     };
   
     useEffect(() => {
       authRefreshUseCase.invoke().then((token) => {
-        setCurrentUser(token);
+        setCurrentUser(token.payload);
       }).catch((error) => {
         // TODO error
       });

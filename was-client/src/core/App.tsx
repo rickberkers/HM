@@ -47,5 +47,4 @@ const App = () => {
 
 export default App;
 
-
-//TODO move some essential things to core?
+//TODO differentiate requests server error VS no data or something

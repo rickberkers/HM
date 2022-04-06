@@ -1,1 +1,7 @@
-export type UserToken = { id: string, name: string }
+export type AccessToken = { 
+    token: string, 
+    payload: {
+        id: string, 
+        name: string
+    }
+}
