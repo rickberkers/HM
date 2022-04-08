@@ -8,7 +8,7 @@ import './Overview.css';
 
 const Overview = () => {
 
-  const {currentUser} = useAuth();
+  const { user } = useAuth();
 
   const dummyData: Day[] = [
     {
@@ -38,7 +38,7 @@ const Overview = () => {
               </IonRow>
             </IonGrid>
             <IonText>
-              <span>Hoi <strong>{currentUser?.name}! </strong></span>
+              <span>Hoi <strong>{user?.name}! </strong></span>
               { 
                 nounShouldBePlural(1) ?
                 <span>Vandaag eten er <strong>{0} personen</strong> mee</span>

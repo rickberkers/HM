@@ -8,12 +8,10 @@ export default class AuthRepository implements IAuthRepository {
         private dataSource: IAuthDataSource
     ) {}
 
-    //TODO better names for methods
-
-    async getRefreshToken(username: string, password: string): Promise<AccessToken> {
+    async getToken(username: string, password: string): Promise<AccessToken> {
         return await this.dataSource.login(username, password);
     }
-    async getAccesToken(): Promise<AccessToken> {
+    async refreshToken(): Promise<AccessToken> {
         return await this.dataSource.refresh();
     }
     async deleteRefreshToken(): Promise<void> {

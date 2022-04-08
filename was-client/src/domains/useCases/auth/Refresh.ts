@@ -7,6 +7,6 @@ export default class AuthRefreshUseCase {
     ) {}
 
     async invoke(): Promise<AccessToken> {
-        return await this.authRepository.getAccesToken();
+        return await this.authRepository.refreshToken();
     }
 }

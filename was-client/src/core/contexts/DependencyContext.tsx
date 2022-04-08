@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { ReactNode, useContext, createContext } from "react"
 import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";

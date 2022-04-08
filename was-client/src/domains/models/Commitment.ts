@@ -1,4 +1,4 @@
 export interface Commitment {
-    uid: string,
+    id: string,
     memberId: string,
 }

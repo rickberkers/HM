@@ -3,7 +3,7 @@ import { useAuth } from '../../core/contexts/AuthContext';
 
 const SignIn = () => {
 
-    const {login, logout, currentUser} = useAuth();
+    const {login, logout, user} = useAuth();
     const [present] = useIonToast();
 
     const loginClick = () => {
@@ -13,14 +13,14 @@ const SignIn = () => {
         });
     };
 
-    const signInElement = (<IonButton onClick={loginClick}>Sign-in with Google</IonButton>);
+    const signInElement = (<IonButton onClick={loginClick}>Sign in</IonButton>);
     const signOutElement = (<IonButton onClick={logout}>Sign out</IonButton>);
 
     return (
         <IonPage>
             <IonContent>
-                <IonText>{currentUser?.name ?? "No user"}</IonText>
-                {!currentUser ? signInElement : signOutElement }
+                <IonText>{user?.name ?? "No user"}</IonText>
+                {!user ? signInElement : signOutElement }
                 <IonButton routerLink="/overview">Overview</IonButton>
             </IonContent>
         </IonPage>
