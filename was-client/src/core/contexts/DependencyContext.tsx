@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ReactNode, useContext, createContext } from "react"
 import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
@@ -6,15 +5,16 @@ import AuthRepository from "../../data/repositories/AuthRepository";
 import AuthLoginUseCase from "../../domains/useCases/auth/Login";
 import AuthLogoutUseCase from "../../domains/useCases/auth/Logout";
 import AuthRefreshUseCase from "../../domains/useCases/auth/Refresh";
+import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
 
 /* --- Dependencies --- */
-const axiosInstance = axios.create({
+const axiosWrapper = new AxiosWrapper({
   baseURL: config.REACT_APP_API_BASE_URL,
   withCredentials: true
 });
 
 const dataSources = {
-  authDataSource: new AuthAPIDataSource(axiosInstance)
+  authDataSource: new AuthAPIDataSource(axiosWrapper.instance)
 }
 
 const repositories = {
@@ -28,7 +28,8 @@ const dependencies = {
       authRefreshUseCase: new AuthRefreshUseCase(repositories.authRepository),
       authLogoutUseCase: new AuthLogoutUseCase(repositories.authRepository)
     }
-  }
+  },
+  setNewToken: axiosWrapper.setAuthHeader
 }
 
 /* --- DependencyContext --- */

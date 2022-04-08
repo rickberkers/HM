@@ -1,8 +1,7 @@
-import { ReactNode, useContext, useState, useEffect, createContext, useRef } from "react"
-import { AccessToken } from "../../domains/models/Token";
+import { ReactNode, useContext, useState, useEffect, createContext } from "react"
 import { User } from "../../domains/models/User";
 import { useInterval } from "../hooks/useInterval";
-import { useUseCases } from "./DependencyContext";
+import { useDependencies, useUseCases } from "./DependencyContext";
 
 /* --- AuthContext --- */
 interface AuthContextValues {
@@ -22,24 +21,24 @@ export function AuthProvider(props: {children: ReactNode}) {
 
     const [user, setUser] = useState<User>();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const token = useRef<AccessToken>();
 
     const [authLoading, setAuthLoading] = useState<boolean>(true);
     const { authRefreshUseCase, authLoginUseCase, authLogoutUseCase } = useUseCases().authUseCases;
+    const tokenSetter = useDependencies().setNewToken;
 
     //#region auth methods
     const login = async (username: string, password: string): Promise<void> => {
       return authLoginUseCase.invoke(username, password).then((newToken) => {
         setUser(newToken.payload); // TODO test fail //TODO use hook
         setIsAuthenticated(true);
-        token.current = newToken;
+        tokenSetter(newToken.token);
       });
     };
     const logout = async (): Promise<void> => {
       return authLogoutUseCase.invoke().finally(() => {
         setUser(undefined); // TODO test fail
         setIsAuthenticated(false);
-        token.current = undefined;
+        tokenSetter("");
       });
     };
     //#endregion
@@ -52,19 +51,19 @@ export function AuthProvider(props: {children: ReactNode}) {
       authRefreshUseCase.invoke().then((newToken) => {
         setUser(newToken.payload);
         setIsAuthenticated(true);
-        token.current = newToken;
+        tokenSetter(newToken.token);
       })
       .catch(() => {/* protected routes will redirect to sign-in */})
       .finally(() => setAuthLoading(false));;
-    }, [authRefreshUseCase]);
+    }, [authRefreshUseCase, tokenSetter]);
 
     /**
      * Token refresh every 8 minutes
      */
     useInterval(() => {
-      if(token === undefined) return; 
+      if(isAuthenticated) return; 
       authRefreshUseCase.invoke().then((newToken) => {
-        token.current = newToken;
+        tokenSetter(newToken.token);
       });
     }, 480000);
 
