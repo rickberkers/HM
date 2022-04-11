@@ -29,9 +29,9 @@ export function AuthProvider(props: {children: ReactNode}) {
     //#region auth methods
     const login = async (username: string, password: string): Promise<void> => {
       return authLoginUseCase.invoke(username, password).then((newToken) => {
+        tokenSetter(newToken.token);
         setUser(newToken.payload); // TODO test fail //TODO use hook
         setIsAuthenticated(true);
-        tokenSetter(newToken.token);
       });
     };
     const logout = async (): Promise<void> => {
@@ -49,9 +49,9 @@ export function AuthProvider(props: {children: ReactNode}) {
      */
     useEffect(() => {
       authRefreshUseCase.invoke().then((newToken) => {
+        tokenSetter(newToken.token);
         setUser(newToken.payload);
         setIsAuthenticated(true);
-        tokenSetter(newToken.token);
       })
       .catch(() => {/* protected routes will redirect to sign-in */})
       .finally(() => setAuthLoading(false));;
@@ -61,7 +61,7 @@ export function AuthProvider(props: {children: ReactNode}) {
      * Token refresh every 8 minutes
      */
     useInterval(() => {
-      if(isAuthenticated) return; 
+      if(!isAuthenticated) return; 
       authRefreshUseCase.invoke().then((newToken) => {
         tokenSetter(newToken.token);
       });

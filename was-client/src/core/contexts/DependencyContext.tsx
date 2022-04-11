@@ -29,7 +29,7 @@ const dependencies = {
       authLogoutUseCase: new AuthLogoutUseCase(repositories.authRepository)
     }
   },
-  setNewToken: axiosWrapper.setAuthHeader
+  setNewToken: (token: string) => axiosWrapper.setAuthHeader(token)
 }
 
 /* --- DependencyContext --- */
