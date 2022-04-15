@@ -26,11 +26,14 @@ import '../presentation/theme/variables.css';
 import { AuthProvider } from './contexts/AuthContext';
 import Routes from './Routes';
 import { DependencyProvider } from './contexts/DependencyContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 setupIonicReact();
+const queryClient = new QueryClient()
 
 const App = () => {
   return (
+  <QueryClientProvider client={queryClient}>
     <DependencyProvider>
       <AuthProvider>
         <IonApp>
@@ -42,6 +45,7 @@ const App = () => {
         </IonApp>
       </AuthProvider>
     </DependencyProvider>
+  </QueryClientProvider>
   );
 }
 

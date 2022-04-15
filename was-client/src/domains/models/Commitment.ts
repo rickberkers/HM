@@ -1,4 +1,7 @@
 export interface Commitment {
-    id: string,
-    memberId: string,
+    day: Date,
+    guests: null | string[],
+    userId: string,
+    committed: boolean,
+    householdId: string
 }

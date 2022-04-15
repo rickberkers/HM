@@ -18,7 +18,7 @@ const DayItem = (props: DayItemProps) => {
                 <h3>{getWeekDayName(props.day.date)}</h3>
                 {/* <p>Anne, Joost afwezig, Frits gast</p> */}
             </IonLabel>
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {props.day.members.length}</IonBadge>
+            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {/*props.day.members.length*/0}</IonBadge>
         </IonItem>
     );
 }

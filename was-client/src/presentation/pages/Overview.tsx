@@ -3,28 +3,15 @@ import { addOutline, closeOutline } from 'ionicons/icons';
 import DayList from '../components/dayList/DayList';
 import { useAuth } from '../../core/contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
-import { Day } from '../../domains/models/Day';
 import './Overview.css';
+import { useUseCases } from '../../core/contexts/DependencyContext';
+import { useQuery } from 'react-query';
 
 const Overview = () => {
 
   const { user } = useAuth();
-
-  const dummyData: Day[] = [
-    {
-      date: new Date(2021, 10, 6),
-      members: [{}, {}, {}]
-    } as Day,
-    {
-      date: new Date(2021, 10, 7),
-      members: [{}, {}, {}, {}]
-    } as Day,
-    {
-      date: new Date(2021, 10, 8),
-      members: [{}, {}]
-    } as Day
-  ];
-  const days = dummyData;
+  const { getDaysUseCase } = useUseCases().dayUseCases;
+  const { data, isLoading } = useQuery('days', () => getDaysUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683", new Date(2021,10,5), 50));
 
   return (
     <IonPage>
@@ -72,7 +59,7 @@ const Overview = () => {
             <IonButton routerLink="/day" expand="block" className="ion-margin-top">day</IonButton>
           </IonCardContent>
         </IonCard>
-        <DayList days={days} />
+        { !isLoading ? <DayList days={data!} /> : <><p>Loading</p></>}
       </IonContent>
     </IonPage>
   );
