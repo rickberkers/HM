@@ -5,13 +5,18 @@ import { useAuth } from '../../core/contexts/AuthContext';
 import { nounShouldBePlural } from '../helpers/formattingHelpers';
 import './Overview.css';
 import { useUseCases } from '../../core/contexts/DependencyContext';
-import { useQuery } from 'react-query';
+import { useQueries } from 'react-query';
 
 const Overview = () => {
 
   const { user } = useAuth();
-  const { getDaysUseCase } = useUseCases().dayUseCases;
-  const { data, isLoading } = useQuery('days', () => getDaysUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683", new Date(2021,10,5), 50));
+  const { getDaysUseCase, getHouseholdUseCase } = useUseCases().dayUseCases;
+  const queryResults = useQueries([
+    { queryKey: 'days', queryFn: () => getDaysUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683", new Date(2021,10,5), 50)},
+    { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683")}
+  ]);
+  //TODO disable refetch on focus
+  const isLoading = queryResults.some(query => query.isLoading);
 
   return (
     <IonPage>
@@ -59,7 +64,7 @@ const Overview = () => {
             <IonButton routerLink="/day" expand="block" className="ion-margin-top">day</IonButton>
           </IonCardContent>
         </IonCard>
-        { !isLoading ? <DayList days={data!} /> : <><p>Loading</p></>}
+        { !isLoading ? <DayList days={queryResults[0].data!} household={queryResults[1].data!} /> : <><p>Loading</p></>}
       </IonContent>
     </IonPage>
   );

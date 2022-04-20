@@ -9,6 +9,9 @@ import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
 import GetDaysUseCase from "../../domains/useCases/day/GetDays";
 import DayRepository from "../../data/repositories/DayRepository";
 import DayAPIDataSource from "../../data/datasource/API/DayAPIDataSource";
+import GetHouseholdUseCase from "../../domains/useCases/household/GetHousehold";
+import HouseholdAPIDataSource from "../../data/datasource/API/HouseholdAPIDataSource";
+import HouseholdRepository from "../../data/repositories/HouseholdRepository";
 
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
@@ -18,12 +21,14 @@ const axiosWrapper = new AxiosWrapper({
 
 const dataSources = {
   authDataSource: new AuthAPIDataSource(axiosWrapper.instance),
-  dayDataSource: new DayAPIDataSource(axiosWrapper.instance)
+  dayDataSource: new DayAPIDataSource(axiosWrapper.instance),
+  memberDataSource: new HouseholdAPIDataSource(axiosWrapper.instance),
 }
 
 const repositories = {
   authRepository: new AuthRepository(dataSources.authDataSource),
-  dayRepository: new DayRepository(dataSources.dayDataSource)
+  dayRepository: new DayRepository(dataSources.dayDataSource),
+  memberRepository: new HouseholdRepository(dataSources.memberDataSource),
 }
 
 const dependencies = {
@@ -34,7 +39,8 @@ const dependencies = {
       authLogoutUseCase: new AuthLogoutUseCase(repositories.authRepository)
     },
     dayUseCases: {
-      getDaysUseCase: new GetDaysUseCase(repositories.dayRepository)
+      getDaysUseCase: new GetDaysUseCase(repositories.dayRepository),
+      getHouseholdUseCase: new GetHouseholdUseCase(repositories.memberRepository),
     }
   },
   setNewToken: (token: string) => axiosWrapper.setAuthHeader(token)
