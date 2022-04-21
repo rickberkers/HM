@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useState, useEffect, createContext } from "react"
-import { User } from "../../domains/models/User";
+import { AccessToken, AccessTokenPayload } from "../../domains/models/Token";
 import { useInterval } from "../hooks/useInterval";
 import { useDependencies, useUseCases } from "./DependencyContext";
 
@@ -7,7 +7,7 @@ import { useDependencies, useUseCases } from "./DependencyContext";
 interface AuthContextValues {
   login: (username: string, password: string) => Promise<void>
   logout: () => Promise<void>
-  user: User | undefined
+  user: AccessTokenPayload | undefined
   isAuthenticated: boolean
 }
 const AuthContext = createContext<AuthContextValues>(undefined!);
@@ -18,8 +18,8 @@ export const useAuth = () => {
 }
 
 export function AuthProvider(props: {children: ReactNode}) {
-
-    const [user, setUser] = useState<User>();
+  
+    const [user, setUser] = useState<AccessToken['payload']>();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     const [authLoading, setAuthLoading] = useState<boolean>(true);

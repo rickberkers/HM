@@ -45,13 +45,13 @@ export const TodayItem = ({day, household}: TodayItemProps) => {
                 ),
                 ...attendance.attendees.map((attendee) =>
                     <IonChip key={attendee.id} color="medium">
-                        <IonLabel>{attendee.name}</IonLabel>
+                        <IonLabel>{attendee.firstName}</IonLabel>
                     </IonChip>
                 ),
                 ...attendance.absentees.map((abstentee) =>
                     <IonChip key={abstentee.id} color="danger">
                         <IonIcon icon={closeOutline} color="danger" />
-                        <IonLabel>{abstentee.name}</IonLabel>
+                        <IonLabel>{abstentee.firstName}</IonLabel>
                     </IonChip>
                 )
               ]

@@ -1,10 +1,10 @@
-import { User } from "./User"
-
 export type AccessToken = { 
     token: string, 
-    payload: {
-        id: string,
-        name: string,
-        iat: number,
-    }
+    payload: AccessTokenPayload
+}
+
+export type AccessTokenPayload = {
+    id: string,
+    name: string,
+    iat: number,
 }
