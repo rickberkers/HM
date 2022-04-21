@@ -38,9 +38,9 @@ const App = () => {
       <AuthProvider>
         <IonApp>
           <IonReactRouter>
-              <IonRouterOutlet>
-                <Routes/>
-              </IonRouterOutlet>
+            <IonRouterOutlet>
+              <Routes/>
+            </IonRouterOutlet>
           </IonReactRouter>
         </IonApp>
       </AuthProvider>

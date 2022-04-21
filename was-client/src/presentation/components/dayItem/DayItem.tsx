@@ -24,7 +24,7 @@ const DayItem = ({day, household}: DayItemProps) => {
                 <h3>{getWeekDayName(day.date)}</h3>
                 { <p>+ Frits + Anne - Jos</p> }
             </IonLabel>
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {attendance.attendanceCount()}</IonBadge>
+            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {attendance.count()}</IonBadge>
         </IonItem>
     );
 }
