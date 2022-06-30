@@ -20,7 +20,7 @@ export default fp(async (fastify, opts) => {
 
         // Get token from authorization header
         let token = request.headers.authorization;
-        if (token == null) {
+        if (token == undefined) {
             throw fastify.httpErrors.unauthorized("no token");
         }
         const tokenArray = token.split(" ");
@@ -44,7 +44,7 @@ export default fp(async (fastify, opts) => {
 
         // Get refresh token cookie
         const cookie = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
-        if (cookie == null) {
+        if (cookie == undefined) {
             throw fastify.httpErrors.unauthorized("no token");
         }
 
