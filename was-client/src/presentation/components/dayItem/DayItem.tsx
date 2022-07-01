@@ -16,23 +16,29 @@ interface DayItemProps {
 const DayItem = ({day, household}: DayItemProps) => {
 
     const attendance = useAttendance(day, household.members);
-    
+
     return (
         <IonItem>
             <IonAvatar slot="start">
                 <DateAvatar number={day.date.getDate()} />
             </IonAvatar>
             <IonLabel>
-                <h3>{getWeekDayName(day.date)}</h3>
+                <h2>{getWeekDayName(day.date)}</h2>
                 {
-                    <p>
-                    {attendance.absentees.map((abstentee) => 
-                        <span className="ion-text-left"><IonIcon color="danger" icon={closeCircleOutline} /><IonText color="danger">{abstentee.firstName}</IonText></span>
-                    )}
-                    {attendance.attendees.map((guest) => 
-                        <span className="ion-text-center"><IonIcon color="success" icon={addCircleOutline}  /><IonText color="success">{guest.firstName}</IonText></span>
-                    )}
-                    </p>
+                    attendance.absentees.map((absentee) => 
+                        <span key={absentee.id} className="deviation icon-size">
+                            <IonIcon color="danger" icon={closeCircleOutline} className="icon"/>
+                            <IonText color="danger">{absentee.firstName}</IonText>
+                        </span>
+                    )
+                }
+                {
+                    attendance.guests.map((guest) =>
+                        <span key={guest} className="deviation icon-size">
+                            <IonIcon color="success" icon={addCircleOutline} className="icon" />
+                            <IonText color="success">{guest}</IonText>
+                        </span>
+                    )
                 }
             </IonLabel>
             <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {attendance.count()}</IonBadge>

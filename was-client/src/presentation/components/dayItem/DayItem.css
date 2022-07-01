@@ -1,0 +1,13 @@
+.deviation {
+    display:inline-flex;
+    align-items: center;
+    margin-right: 4px;
+}
+
+.icon-size {
+    font-size: 15px;
+}
+
+.icon {
+    margin-right: 1px;
+}
