@@ -1,10 +1,10 @@
 import { IonContent, IonPage } from '@ionic/react';
 import DayList from '../components/dayList/DayList';
-import { useAuth } from '../../core/contexts/AuthContext';
 import './Overview.css';
 import { useUseCases } from '../../core/contexts/DependencyContext';
 import { useQueries } from 'react-query';
-import { TodayItem } from '../components/TodayItem.tsx/TodayItem';
+import { TodayItem } from '../components/todayItem/TodayItem';
+import { useAuth } from '../../core/hooks/useAuth';
 
 const Overview = () => {
 
@@ -16,17 +16,17 @@ const Overview = () => {
   ]);
   //TODO disable refetch on focus
   const isLoading = queryResults.some(query => query.isLoading);
-  const days = queryResults[0].data!;
+  const allDays = queryResults[0].data!;
   const household = queryResults[1].data!;
 
   return (
     <IonPage>
       <IonContent>
         { !isLoading ?
-          <TodayItem household={household} day={days[0]} /> : <><p>Loading</p></>
+          <TodayItem household={household} day={allDays[0]} /> : <><p>Loading</p></>
         }
         { !isLoading ?
-          <DayList days={days} household={household} /> : <><p>Loading</p></>
+          <DayList days={allDays} household={household} /> : <><p>Loading</p></>
         }
       </IonContent>
     </IonPage>

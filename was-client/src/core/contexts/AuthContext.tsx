@@ -10,12 +10,7 @@ interface AuthContextValues {
   user: AccessTokenPayload | undefined
   isAuthenticated: boolean
 }
-const AuthContext = createContext<AuthContextValues>(undefined!);
-
-/* --- AuthHooks --- */
-export const useAuth = () => {
-  return useContext(AuthContext)
-}
+export const AuthContext = createContext<AuthContextValues>(undefined!);
 
 export function AuthProvider(props: {children: ReactNode}) {
   

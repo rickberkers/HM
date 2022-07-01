@@ -1,9 +1,11 @@
 import { IonButton, IonContent, IonPage, IonText, useIonToast } from '@ionic/react';
-import { useAuth } from '../../core/contexts/AuthContext';
+import { useAuth } from '../../core/hooks/useAuth';
+import { Redirect } from "react-router-dom";
+import { ROUTE_NAMES } from '../../core/Routes';
 
 const SignIn = () => {
 
-    const {login, logout, user} = useAuth();
+    const {login, logout, user, isAuthenticated} = useAuth();
     const [present] = useIonToast();
 
     const loginClick = () => {
@@ -17,13 +19,18 @@ const SignIn = () => {
     const signOutElement = (<IonButton onClick={logout}>Sign out</IonButton>);
 
     return (
-        <IonPage>
-            <IonContent>
-                <IonText>{user?.name ?? "No user"}</IonText>
-                {!user ? signInElement : signOutElement }
-                <IonButton routerLink="/overview">Overview</IonButton>
-            </IonContent>
-        </IonPage>
+        <>
+            {
+                isAuthenticated ? <Redirect to={ROUTE_NAMES.DAY} /> :
+                <IonPage>
+                    <IonContent>
+                        <IonText>{user?.name ?? "No user"}</IonText>
+                        {!user ? signInElement : signOutElement }
+                    </IonContent>
+                </IonPage>
+            }
+        </>
+
     );
 }
 

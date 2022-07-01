@@ -1,9 +1,9 @@
 import { IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonCardTitle, IonCardSubtitle, IonText, IonChip, IonIcon, IonLabel, IonButton } from "@ionic/react";
 import { addOutline, closeOutline } from "ionicons/icons";
-import { useAuth } from "../../../core/contexts/AuthContext";
+import { useAuth } from "../../../core/hooks/useAuth";
 import { Day } from "../../../domains/models/Day";
 import { Household } from "../../../domains/models/Household";
-import { nounShouldBePlural } from "../../helpers/formattingHelpers";
+import { getWeekDayName, getMonthName, nounShouldBePlural } from "../../helpers/formattingHelpers";
 import { useAttendance } from "../../hooks/useAttendance";
 
 interface TodayItemProps {
@@ -21,8 +21,15 @@ export const TodayItem = ({day, household}: TodayItemProps) => {
           <IonCardContent>
             <IonGrid className="ion-no-padding ion-padding-bottom">
               <IonRow className="ion-align-items-center ion-justify-content-between">
-                <IonCol><IonCardTitle>Maandag</IonCardTitle></IonCol>
-                <IonCol><IonCardSubtitle className="ion-text-right">27 september</IonCardSubtitle></IonCol>
+                <IonCol><IonCardTitle>{getWeekDayName(day.date)}</IonCardTitle></IonCol>
+                <IonCol>
+                  <IonCardSubtitle className="ion-text-right">
+                    {`
+                      ${day.date.getDate()} 
+                      ${getMonthName(day.date, true)}
+                    `}
+                  </IonCardSubtitle>
+                </IonCol>
               </IonRow>
             </IonGrid>
             <IonText>
@@ -57,7 +64,6 @@ export const TodayItem = ({day, household}: TodayItemProps) => {
               ]
             }
             <IonButton routerLink="/sign-in" expand="block" className="ion-margin-top">sign</IonButton>
-            <IonButton routerLink="/day" expand="block" className="ion-margin-top">day</IonButton>
           </IonCardContent>
         </IonCard>
     );

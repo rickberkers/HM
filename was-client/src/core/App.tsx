@@ -24,9 +24,9 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import '../presentation/theme/variables.css';
 import { AuthProvider } from './contexts/AuthContext';
-import Routes from './Routes';
 import { DependencyProvider } from './contexts/DependencyContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import TabView from '../presentation/components/tabView/TabView';
 
 setupIonicReact();
 const queryClient = new QueryClient()
@@ -38,9 +38,7 @@ const App = () => {
       <AuthProvider>
         <IonApp>
           <IonReactRouter>
-            <IonRouterOutlet>
-              <Routes/>
-            </IonRouterOutlet>
+            <TabView/>
           </IonReactRouter>
         </IonApp>
       </AuthProvider>
