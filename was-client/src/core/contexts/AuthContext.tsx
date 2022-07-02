@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState, useEffect, createContext } from "react"
+import { ReactNode, useState, useEffect, createContext } from "react"
 import { AccessToken, AccessTokenPayload } from "../../domains/models/Token";
 import { useInterval } from "../hooks/useInterval";
 import { useDependencies, useUseCases } from "./DependencyContext";
@@ -31,8 +31,8 @@ export function AuthProvider(props: {children: ReactNode}) {
     };
     const logout = async (): Promise<void> => {
       return authLogoutUseCase.invoke().finally(() => {
-        setUser(undefined); // TODO test fail
         setIsAuthenticated(false);
+        setUser(undefined); // TODO test fail
         tokenSetter("");
       });
     };

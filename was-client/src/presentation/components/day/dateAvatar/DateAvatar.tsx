@@ -1,10 +1,10 @@
 import './DateAvatar.css';
 
-interface DateAvatarProps {
+interface Props {
     number: number;
 }
 
-const DateAvatar = ({number}: DateAvatarProps) => {
+const DateAvatar = ({number}: Props) => {
     return (
         <div className="date-avatar-circle">
             <span className="date-avatar-circle-text">{number}</span>

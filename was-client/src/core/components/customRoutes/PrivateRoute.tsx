@@ -8,12 +8,12 @@ type PrivateRouteProps = {
 } & RouteProps;
 
 const PrivateRoute = ({authenticationPath, component: Component, ...rest}: PrivateRouteProps) => {
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
     return (
       <Route
         {...rest}
         render={(props) => {
-          return user ? (
+          return isAuthenticated ? (
             <Component {...props} />
           ) : (
             <Redirect to={authenticationPath} />

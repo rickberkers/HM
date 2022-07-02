@@ -1,9 +1,9 @@
 import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
 import React from 'react';
-import { Day } from '../../../domains/models/Day';
-import { Household } from '../../../domains/models/Household';
+import { Day } from '../../../../domains/models/Day';
+import { Household } from '../../../../domains/models/Household';
 import DayItem from '../dayItem/DayItem';
-import { getMonthName } from '../../helpers/formattingHelpers';
+import { getMonthName } from '../../../helpers/formattingHelpers';
 
 interface DayListProps {
     days: Day[];

@@ -1,6 +1,5 @@
 import {
   IonApp,
-  IonRouterOutlet,
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -26,7 +25,7 @@ import '../presentation/theme/variables.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { DependencyProvider } from './contexts/DependencyContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import TabView from '../presentation/components/tabView/TabView';
+import TabView from '../presentation/components/core/tabView/TabView';
 
 setupIonicReact();
 const queryClient = new QueryClient()

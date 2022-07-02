@@ -1,8 +1,8 @@
 import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
 import { calendar, list, logIn } from "ionicons/icons";
 import { ReactNode } from "react";
-import { useAuth } from "../../../core/hooks/useAuth";
-import Routes, { ROUTE_NAMES } from "../../../core/Routes";
+import { useAuth } from "../../../../core/hooks/useAuth";
+import Routes, { ROUTE_NAMES } from "../../../../core/Routes";
 
 const TabView = () => {
 

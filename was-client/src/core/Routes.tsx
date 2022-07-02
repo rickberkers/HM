@@ -1,8 +1,8 @@
 import { Route, Redirect } from 'react-router';
-import DayView from '../presentation/pages/DayView';
-import HouseholdView from '../presentation/pages/HouseholdView';
-import Overview from '../presentation/pages/Overview';
-import SignIn from '../presentation/pages/SignIn';
+import DayView from '../presentation/pages/dayView/DayView';
+import HouseholdView from '../presentation/pages/householdView/HouseholdView';
+import Overview from '../presentation/pages/overview/Overview';
+import SignIn from '../presentation/pages/signIn/SignIn';
 import PrivateRoute from './components/customRoutes/PrivateRoute';
 
 export enum ROUTE_NAMES {

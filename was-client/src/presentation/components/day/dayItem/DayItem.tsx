@@ -1,10 +1,10 @@
 import { IonItem, IonAvatar, IonLabel, IonBadge, IonIcon, IonText } from "@ionic/react";
 import { personSharp } from "ionicons/icons";
-import { getWeekDayName } from "../../helpers/formattingHelpers";
-import { Day } from "../../../domains/models/Day";
+import { getWeekDayName } from "../../../helpers/formattingHelpers";
+import { Day } from "../../../../domains/models/Day";
 import DateAvatar from "../dateAvatar/DateAvatar";
-import { Household } from "../../../domains/models/Household";
-import { useAttendance } from "../../hooks/useAttendance";
+import { Household } from "../../../../domains/models/Household";
+import { useAttendance } from "../../../hooks/useAttendance";
 import { closeCircleOutline, addCircleOutline } from 'ionicons/icons';
 import './DayItem.css';
 

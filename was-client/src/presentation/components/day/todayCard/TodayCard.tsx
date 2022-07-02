@@ -1,17 +1,17 @@
-import { IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonCardTitle, IonCardSubtitle, IonText, IonChip, IonIcon, IonLabel, IonButton } from "@ionic/react";
+import { IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonCardTitle, IonCardSubtitle, IonText, IonChip, IonIcon, IonLabel } from "@ionic/react";
 import { addOutline, closeOutline } from "ionicons/icons";
-import { useAuth } from "../../../core/hooks/useAuth";
-import { Day } from "../../../domains/models/Day";
-import { Household } from "../../../domains/models/Household";
-import { getWeekDayName, getMonthName, nounShouldBePlural } from "../../helpers/formattingHelpers";
-import { useAttendance } from "../../hooks/useAttendance";
+import { useAuth } from "../../../../core/hooks/useAuth";
+import { Day } from "../../../../domains/models/Day";
+import { Household } from "../../../../domains/models/Household";
+import { getWeekDayName, getMonthName, nounShouldBePlural } from "../../../helpers/formattingHelpers";
+import { useAttendance } from "../../../hooks/useAttendance";
 
-interface TodayItemProps {
+interface Props {
     day: Day,
     household: Household
 }
 
-export const TodayItem = ({day, household}: TodayItemProps) => {
+export const TodayCard = ({day, household}: Props) => {
 
     const { user } = useAuth();
     const attendance = useAttendance(day, household.members);
@@ -63,7 +63,6 @@ export const TodayItem = ({day, household}: TodayItemProps) => {
                 )
               ]
             }
-            <IonButton routerLink="/sign-in" expand="block" className="ion-margin-top">sign</IonButton>
           </IonCardContent>
         </IonCard>
     );
