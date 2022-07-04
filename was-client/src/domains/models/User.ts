@@ -4,3 +4,8 @@ export interface User {
     firstName: string,
     lastName: string
 }
+
+export type SignInUser = {
+    username: string,
+    password: string
+}
