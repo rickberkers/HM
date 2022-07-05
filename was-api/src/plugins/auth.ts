@@ -5,6 +5,7 @@ import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '../types/Tok
 import { PublicUser } from '../types/User';
 
 const REFRESH_TOKEN_COOKIE_NAME = "was_refreshToken";
+const REFRESH_TOKEN_COOKIE_PATH = "/me/token";
 
 /**
  * This plugins adds auth strategy decorators
@@ -74,11 +75,15 @@ export default fp(async (fastify, opts) => {
     });
 
     fastify.decorateReply("clearRefreshTokenCookie", function(): FastifyReply {
-        return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
+        return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME, {
+            path: REFRESH_TOKEN_COOKIE_PATH
+        });
     });
 
     fastify.decorateReply("setRefreshTokenCookie", function (value: string): FastifyReply {
-        return this.cookie(REFRESH_TOKEN_COOKIE_NAME, value);
+        return this.cookie(REFRESH_TOKEN_COOKIE_NAME, value, {
+            path: REFRESH_TOKEN_COOKIE_PATH
+        });
     });
 
     fastify.decorate("generateTokenPair", function(user: PublicUser): TokenPair {

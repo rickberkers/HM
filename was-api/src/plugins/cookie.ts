@@ -20,7 +20,6 @@ export default fp<FastifyCookieOptions>(async (fastify, opts) => {
           maxAge: 5184000, // 60 days
           signed: true,
           httpOnly: true,
-          path: "/me/token",
           domain: fastify.config.COOKIE_DOMAIN,
       }
   });
