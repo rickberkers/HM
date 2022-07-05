@@ -3,13 +3,15 @@ import { useAuth } from '../../../core/hooks/useAuth';
 import { Redirect } from "react-router-dom";
 import { ROUTE_NAMES } from '../../../core/Routes';
 import { SignInUser } from '../../../domains/models/User';
-import { useForm, } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
 
 const SignIn = () => {
 
-    const {formState: { errors }, register, handleSubmit, resetField} = useForm<SignInUser>();
+    const {formState: { errors }, control, handleSubmit, resetField, clearErrors } = useForm<SignInUser>({
+        mode: "onChange",
+    });
 
     const {login, isAuthenticated} = useAuth();
     const [present] = useIonToast();
@@ -18,9 +20,22 @@ const SignIn = () => {
         login(data.username, data.password).catch(() => {
             present({message: "Incorrect username and/or password", color: "danger", duration: 2000});
         }).finally(() => {
-            resetField("password")
+            resetField("password");
         });
     }
+    
+    const showError = (fieldName: keyof SignInUser) => {
+        return (
+            <ErrorMessage
+                errors={errors}
+                name={fieldName}
+                render={(({ message }) =>
+                    <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
+                )}
+            />
+        );
+    }
+
     const redirect = <Redirect to={ROUTE_NAMES.DAY} />;
 
     return (
@@ -33,31 +48,28 @@ const SignIn = () => {
                         <IonTitle>Sign in</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <form onSubmit={handleSubmit(handleLogin)}>
-                    <IonItem class="ion-invalid">
+                <h3 className='ion-text-center'>WAS</h3>
+                    <IonItem className={errors.username && "ion-invalid"}>
                         <IonLabel position="stacked">Username</IonLabel>
-                        <IonInput {...register('username', { required: 'Username is required'})} />
-                        <ErrorMessage
-                            errors={errors}
+                        <Controller
                             name="username"
-                            render={(({ message }) => 
-                                <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
-                            )}
+                            control={control}
+                            rules={{required: 'Username is required'}}
+                            render={({ field }) => <IonInput value={field.value} onIonChange={field.onChange} />}
                         />
+                        {showError('username')}
                     </IonItem>
-                    <IonItem class="ion-invalid">
+                    <IonItem className={errors.password && "ion-invalid"}>
                         <IonLabel position="stacked">Password</IonLabel>
-                        <IonInput type="password" {...register('password', { required: 'Password is required'})} />
-                        <ErrorMessage
-                            errors={errors}
+                        <Controller
                             name="password"
-                            render={(({ message }) => 
-                                <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
-                            )}
+                            control={control}
+                            rules={{required: 'Password is required'}}
+                            render={({ field }) => <IonInput type="password" value={field.value} onIonChange={field.onChange} />}
                         />
+                        {showError('password')}
                     </IonItem>
                     <IonButton class='ion-margin' expand='block' onClick={handleSubmit(handleLogin)}>Sign in</IonButton>
-                </form>
                 </IonContent>
             </IonPage>
         }</>
