@@ -3,7 +3,7 @@
  * @param startDate 
  * @param endDate 
  */
- export const createDateRange = (startDate: Date, endDate: Date) => {
+ export const createDateRangeArray = (startDate: Date, endDate: Date) => {
     const dateArray = [];
     let currentDate = startDate;
 

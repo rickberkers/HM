@@ -1,10 +1,11 @@
 import { Day } from "../types/Day";
 import { IDayService } from "./IDayService";
-import { addDaysToDate } from "../utils";
+import { addDaysToDate, createDateRangeArray } from "../utils";
 import { Between, Connection, Repository } from "typeorm";
 import { Commitment } from "../entities/Commitment";
 import { DayInfo } from "../entities/DayInfo";
 import { CommitmentMap } from "../types/Commitment";
+import { formatISO } from "date-fns";
 
 export default class DayService implements IDayService {
 
@@ -22,49 +23,69 @@ export default class DayService implements IDayService {
         limit: number = 20, 
     ): Promise<Day[]> {
 
+        // Max date based on limit and minDate
         const maxDate = addDaysToDate(new Date(minDate), limit);
 
-        const whereClause = { 
+        // Collect data
+        const [commitments, dayInfos] = await this.queryData(maxDate, minDate, householdId);
+
+        // Group commitments by date
+        const groupedCommitments = this.groupCommitmentsByDay(commitments);
+
+        // Sets commitments and dayInfos at right date in range
+        const daysMap = this.combineCommitmentsAndDayInfos(groupedCommitments, dayInfos, createDateRangeArray(minDate, maxDate));
+
+        return Array.from(daysMap.values());
+    }
+
+    private async queryData(maxDate: Date, minDate: Date, householdId: string): Promise<[Commitment[], DayInfo[]]> {
+
+        const sharedWhereClause = { 
             where: {
                 day: Between(minDate, maxDate),
                 householdId
             }
         };
 
-        const dayInfosFind = this.dayInfoRepo.find(whereClause);
-        const commitmentFind = this.commitmentRepo.find({
-            order: { day: 'ASC' }, ...whereClause, 
+        const dayInfosQuery = this.dayInfoRepo.find(sharedWhereClause);
+        const commitmentsQuery = this.commitmentRepo.find({
+            order: { day: 'ASC' }, ...sharedWhereClause, 
         });
 
-        const queryResult = await Promise.all([commitmentFind, dayInfosFind]);
-        return this.combineCommitmentsAndDayInfos(...queryResult);
+        return Promise.all([commitmentsQuery, dayInfosQuery]);
     }
     
-    /**
-     * Combines commitments and dayInfos to an array of Days
-     * @param commitments 
-     * @param dayInfos 
-     */
-    private combineCommitmentsAndDayInfos(commitments: Commitment[], dayInfos: DayInfo[]) {
+
+    private combineCommitmentsAndDayInfos(groupedCommitments: CommitmentMap, dayInfos: DayInfo[], dateRange: Date[]) {
         
-        // Group commitments by day for easier access with combining
-        const commitmentMap = commitments.reduce((storage: CommitmentMap, item) => {
+        let resultMap = new Map<string, Day>();
+
+        dateRange.forEach((date) => {
+            // String to ISO date
+            const dateString = formatISO(date, { representation: 'date' });
+            resultMap.set(dateString, {
+                commitments: groupedCommitments[dateString] ?? [],
+                date: dateString,
+            })
+        });
+
+        // Add dayInfos
+        dayInfos.forEach((dayInfo) => {
+            let day = resultMap.get(dayInfo.day);
+            if (day) {
+                day.dayInfo = dayInfo;
+            }
+        })
+
+        return resultMap;
+    }
+
+    private groupCommitmentsByDay(commitments: Commitment[]): CommitmentMap {
+        return commitments.reduce((storage: CommitmentMap, item) => {
             const group = item.day;
             storage[group] = storage[group] || [];
             storage[group].push(item);
             return storage;
         }, {});
-
-        // Combine datasources to IDay object
-        const days = Object.keys(commitmentMap).reduce((storage: Day[], date) => {
-            storage.push({
-                date,
-                commitments: commitmentMap[date],
-                dayInfo: dayInfos.find(dayInfo => date === dayInfo.day),
-            });
-            return storage;
-        }, []);
-
-        return days;
-    } 
+    }
 }
