@@ -1,7 +1,10 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './DayView.css';
+import DayContent from '../dayContent/DayContent';
+import './TodayView.css';
 
-const DayView = () => {
+const TodayView = () => {
+
+  const day = new Date();
 
   // const { getDaysUseCase, getHouseholdUseCase } = useUseCases().dayUseCases;
   // const queryResults = useQuery([
@@ -17,14 +20,15 @@ const DayView = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-    <IonTitle>Default Title</IonTitle>
-          <IonTitle size='small'>Vandaag</IonTitle>
+          <IonTitle>Vandaag</IonTitle>
+          {/* <IonTitle size='small'>hi</IonTitle> */}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <DayContent day={day} />
       </IonContent>
     </IonPage>
   );
 };
 
-export default DayView;
+export default TodayView;

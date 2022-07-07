@@ -13,7 +13,7 @@ const TabView = () => {
             <IonIcon icon={list} />
             <IonLabel>Days</IonLabel>
         </IonTabButton>,
-        <IonTabButton key={ROUTE_NAMES.DAY} tab={ROUTE_NAMES.DAY} href={ROUTE_NAMES.DAY}>
+        <IonTabButton key={ROUTE_NAMES.TODAY} tab={ROUTE_NAMES.TODAY} href={ROUTE_NAMES.TODAY}>
             <IonIcon icon={calendar} />
             <IonLabel>Today</IonLabel>
         </IonTabButton>,

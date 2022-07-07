@@ -1,12 +1,14 @@
 import { Route, Redirect } from 'react-router';
-import DayView from '../presentation/pages/dayView/DayView';
+import DayView from '../presentation/pages/day/dayView/DayView';
+import TodayView from '../presentation/pages/day/todayView/TodayView';
 import HouseholdView from '../presentation/pages/householdView/HouseholdView';
 import Overview from '../presentation/pages/overview/Overview';
 import SignIn from '../presentation/pages/signIn/SignIn';
 import PrivateRoute from './components/customRoutes/PrivateRoute';
 
 export enum ROUTE_NAMES {
-    DAY = "/day",
+    TODAY = "/today",
+    DAY= "/day",
     OVERVIEW = "/overview",
     SIGN_IN = "/sign-in",
     HOUSEHOLD = "/household"
@@ -20,7 +22,8 @@ const Routes = () => {
         <>
             <Route exact path={ROUTE_NAMES.SIGN_IN} component={SignIn} />
             <PrivateRoute exact path={ROUTE_NAMES.OVERVIEW} authenticationPath={authPath} component={Overview} />
-            <PrivateRoute exact path={ROUTE_NAMES.DAY} authenticationPath={authPath} component={DayView} />
+            <PrivateRoute exact path={ROUTE_NAMES.TODAY} authenticationPath={authPath} component={TodayView} />
+            <PrivateRoute exact path={`${ROUTE_NAMES.DAY}/:date`} authenticationPath={authPath} component={DayView} />
             <PrivateRoute exact path={ROUTE_NAMES.HOUSEHOLD} authenticationPath={authPath} component={HouseholdView} />
             <Route exact path="/">
                 <Redirect to={ROUTE_NAMES.OVERVIEW} />

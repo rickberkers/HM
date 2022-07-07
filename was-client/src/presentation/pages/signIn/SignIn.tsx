@@ -6,15 +6,13 @@ import { SignInUser } from '../../../domains/models/User';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
-
 const SignIn = () => {
-
-    const {formState: { errors }, control, handleSubmit, resetField, clearErrors } = useForm<SignInUser>({
-        mode: "onChange",
-    });
 
     const {login, isAuthenticated} = useAuth();
     const [present] = useIonToast();
+    const {formState: { errors }, control, handleSubmit, resetField } = useForm<SignInUser>({
+        mode: "onChange",
+    });
 
     const handleLogin = (data: SignInUser) => {
         login(data.username, data.password).catch(() => {

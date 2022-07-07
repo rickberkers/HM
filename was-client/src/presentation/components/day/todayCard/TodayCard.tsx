@@ -1,9 +1,10 @@
 import { IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonCardTitle, IonCardSubtitle, IonText, IonChip, IonIcon, IonLabel } from "@ionic/react";
 import { addOutline, closeOutline } from "ionicons/icons";
 import { useAuth } from "../../../../core/hooks/useAuth";
+import { ROUTE_NAMES } from "../../../../core/Routes";
 import { Day } from "../../../../domains/models/Day";
 import { Household } from "../../../../domains/models/Household";
-import { getWeekDayName, getMonthName, nounShouldBePlural } from "../../../helpers/formattingHelpers";
+import { getWeekDayName, getMonthName, nounShouldBePlural, capitalizeFirstLetter } from "../../../helpers/formattingHelpers";
 import { useAttendance } from "../../../hooks/useAttendance";
 
 interface Props {
@@ -17,16 +18,16 @@ export const TodayCard = ({day, household}: Props) => {
     const attendance = useAttendance(day, household.members);
 
     return (
-        <IonCard className="action-card">
+        <IonCard className="action-card" routerLink={ROUTE_NAMES.TODAY}>
           <IonCardContent>
             <IonGrid className="ion-no-padding ion-padding-bottom">
               <IonRow className="ion-align-items-center ion-justify-content-between">
-                <IonCol><IonCardTitle>{getWeekDayName(day.date)}</IonCardTitle></IonCol>
+                <IonCol><IonCardTitle>{capitalizeFirstLetter(getWeekDayName(day.date))}</IonCardTitle></IonCol>
                 <IonCol>
                   <IonCardSubtitle className="ion-text-right">
                     {`
                       ${day.date.getDate()} 
-                      ${getMonthName(day.date, true)}
+                      ${getMonthName(day.date)}
                     `}
                   </IonCardSubtitle>
                 </IonCol>

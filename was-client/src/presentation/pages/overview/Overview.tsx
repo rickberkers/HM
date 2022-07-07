@@ -7,7 +7,9 @@ import { TodayCard } from '../../components/day/todayCard/TodayCard';
 
 const Overview = () => {
 
-  const { getDaysUseCase, getHouseholdUseCase } = useUseCases().dayUseCases;
+  const { getDaysUseCase } = useUseCases().dayUseCases;
+  const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
+
   const queryResults = useQueries([
     { queryKey: 'days', queryFn: () => getDaysUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683", new Date(2021,10,5), 50)},
     { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683")}

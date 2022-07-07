@@ -30,4 +30,21 @@ export default class DayAPIDataSource implements IDayDataSource {
         });
         return response.data;
     }
+
+    async getDay(day: Date): Promise<Day> {
+
+        const ISODayDate = format(day, 'yyyy-MM-dd');
+        const response = await this.axios.get<Day>(`${BASE_URL}/${ISODayDate}`, {
+            transformResponse: (data: any) => {
+                let day = JSON.parse(data);
+                day.date = parseISO(day.date);
+                day.commitments.map((commitment: any) => {
+                    commitment.day = parseISO(commitment.day);
+                    return commitment;
+                });
+                return day;
+            },
+        });
+        return response.data;
+    }
 }

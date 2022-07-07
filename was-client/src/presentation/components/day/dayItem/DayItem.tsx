@@ -1,12 +1,14 @@
 import { IonItem, IonAvatar, IonLabel, IonBadge, IonIcon, IonText } from "@ionic/react";
 import { personSharp } from "ionicons/icons";
-import { getWeekDayName } from "../../../helpers/formattingHelpers";
+import { capitalizeFirstLetter, getWeekDayName } from "../../../helpers/formattingHelpers";
 import { Day } from "../../../../domains/models/Day";
 import DateAvatar from "../dateAvatar/DateAvatar";
 import { Household } from "../../../../domains/models/Household";
 import { useAttendance } from "../../../hooks/useAttendance";
 import { closeCircleOutline, addCircleOutline } from 'ionicons/icons';
 import './DayItem.css';
+import { ROUTE_NAMES } from "../../../../core/Routes";
+import { formatISO } from "date-fns";
 
 interface DayItemProps {
     day: Day,
@@ -18,12 +20,12 @@ const DayItem = ({day, household}: DayItemProps) => {
     const attendance = useAttendance(day, household.members);
 
     return (
-        <IonItem>
+        <IonItem routerLink={`${ROUTE_NAMES.DAY}/${formatISO(day.date, { representation: 'date' })}`}>
             <IonAvatar slot="start">
                 <DateAvatar number={day.date.getDate()} />
             </IonAvatar>
             <IonLabel>
-                <h2>{getWeekDayName(day.date)}</h2>
+                <h2>{capitalizeFirstLetter(getWeekDayName(day.date))}</h2>
                 {
                     attendance.absentees.map((absentee) => 
                         <span key={absentee.id} className="deviation icon-size">

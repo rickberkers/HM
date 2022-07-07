@@ -3,7 +3,7 @@ import React from 'react';
 import { Day } from '../../../../domains/models/Day';
 import { Household } from '../../../../domains/models/Household';
 import DayItem from '../dayItem/DayItem';
-import { getMonthName } from '../../../helpers/formattingHelpers';
+import { capitalizeFirstLetter, getMonthName } from '../../../helpers/formattingHelpers';
 
 interface DayListProps {
     days: Day[];
@@ -13,7 +13,7 @@ interface DayListProps {
 const DayList = ({days, household}: DayListProps) => {
 
     const groupedDays = days.reduce((acc : {[key: string]: Day[]}, day) => {
-        const month = getMonthName(day.date);
+        const month = capitalizeFirstLetter(getMonthName(day.date));
         acc[month] = acc[month] || [];
         acc[month].push(day);
         return acc;
@@ -21,7 +21,7 @@ const DayList = ({days, household}: DayListProps) => {
 
     const groupedComponents = Object.keys(groupedDays).map((month) => 
         <React.Fragment key={month}>
-            <IonItemDivider key={month}><IonLabel>{month}</IonLabel></IonItemDivider>
+            <IonItemDivider sticky key={month}><IonLabel>{month}</IonLabel></IonItemDivider>
             {groupedDays[month].map((day) => <DayItem day={day} household={household} key={day.date.getTime()}/>)}
         </React.Fragment>
     );

@@ -1,18 +1,12 @@
 export const nounShouldBePlural = (quantity: number) => quantity !== 1;
 
-export const getWeekDayName = (date: Date, capitalize: boolean = true) => {
+export const getWeekDayName = (date: Date) => {
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    if (capitalize) {
-        return capitalizeFirstLetter(days[date.getDay()]);
-    }
     return days[date.getDay()];
 };
 
-export const getMonthName = (date: Date, capitalize: boolean = true) => {
+export const getMonthName = (date: Date) => {
     const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-    if (capitalize) {
-        return capitalizeFirstLetter(months[date.getMonth()]);
-    }
     return months[date.getMonth()];
 };
 
