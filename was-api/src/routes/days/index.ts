@@ -1,9 +1,27 @@
 import { isValid, parseISO } from "date-fns";
-import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify"
-import { getDaysSchema, getDaysQueryString } from "./schemas";
+import { FastifyPluginAsync } from "fastify"
+import { getDaysSchema, getDaysQueryString, getDayQueryString, getDayParams, getDaySchema } from "./schemas";
 
 const days: FastifyPluginAsync = async (fastify): Promise<void> => {
+
   fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
+
+  fastify.get<{ Querystring: getDayQueryString, Params: getDayParams }>('/:date', {
+    schema: getDaySchema,
+  }, async (request, reply) => {
+
+    // Validates & parses date
+    const parsedDate = parseISO(request.params.date);
+    if (!isValid(parsedDate)) {
+      throw fastify.httpErrors.badRequest("date is not formatted as a valid ISO-8601 date")
+    }
+
+    return await fastify.services.dayService.getDayByDateAndHouseholdId(
+      parsedDate,
+      request.query.householdId, 
+    );
+  });
+
   fastify.get<{ Querystring: getDaysQueryString }>('/', {
     schema: getDaysSchema,
   }, async (request, reply) => {
@@ -11,7 +29,7 @@ const days: FastifyPluginAsync = async (fastify): Promise<void> => {
     // Validates & parses date
     const parsedDate = parseISO(request.query.startDate);
     if (!isValid(parsedDate)) {
-      throw fastify.httpErrors.badRequest("querystring.startDate is not formatted as a valid ISO-8601 date")
+      throw fastify.httpErrors.badRequest("startDate is not formatted as a valid ISO-8601 date")
     }
 
     return await fastify.services.dayService.getDaysByDateAndHouseholdId(

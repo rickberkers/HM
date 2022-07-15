@@ -17,6 +17,17 @@ export default class DayService implements IDayService {
        this.commitmentRepo = this.connection.getRepository<Commitment>(Commitment);
     }
 
+    public async getDayByDateAndHouseholdId(date: Date, householdId: string): Promise<Day> {
+
+        const [commitments, dayInfo] = await this.queryDayData(date, householdId);
+
+        return {
+            commitments,
+            dayInfo,
+            date: formatISO(date)
+        }
+    }
+
     public async getDaysByDateAndHouseholdId(
         minDate: Date, 
         householdId: string, 
@@ -27,7 +38,7 @@ export default class DayService implements IDayService {
         const maxDate = addDaysToDate(new Date(minDate), limit);
 
         // Collect data
-        const [commitments, dayInfos] = await this.queryData(maxDate, minDate, householdId);
+        const [commitments, dayInfos] = await this.queryDaysData(maxDate, minDate, householdId);
 
         // Group commitments by date
         const groupedCommitments = this.groupCommitmentsByDay(commitments);
@@ -38,7 +49,25 @@ export default class DayService implements IDayService {
         return Array.from(daysMap.values());
     }
 
-    private async queryData(maxDate: Date, minDate: Date, householdId: string): Promise<[Commitment[], DayInfo[]]> {
+    public async queryDayData(date: Date, householdId: string): Promise<[Commitment[], DayInfo?]> {
+
+        const sharedWhereClause = { 
+            where: {
+                day: date,
+                householdId
+            }
+        };
+
+        const dayInfoQuery = this.dayInfoRepo.findOne(sharedWhereClause);
+        const commitmentsQuery = this.commitmentRepo.find({
+            order: { day: 'ASC' }, ...sharedWhereClause, 
+        });
+
+        return Promise.all([commitmentsQuery, dayInfoQuery]);
+    }
+
+
+    private async queryDaysData(maxDate: Date, minDate: Date, householdId: string): Promise<[Commitment[], DayInfo[]]> {
 
         const sharedWhereClause = { 
             where: {
@@ -54,7 +83,6 @@ export default class DayService implements IDayService {
 
         return Promise.all([commitmentsQuery, dayInfosQuery]);
     }
-    
 
     private combineCommitmentsAndDayInfos(groupedCommitments: CommitmentMap, dayInfos: DayInfo[], dateRange: Date[]) {
         
