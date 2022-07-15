@@ -8,8 +8,8 @@ export default class DayRepository implements IDayRepository {
         private dataSource: DayAPIDataSource
     ) {}
 
-    async getDay(date: Date): Promise<Day> {
-        return this.dataSource.getDay(date);
+    async getDay(date: Date, householdId: string): Promise<Day> {
+        return this.dataSource.getDay(date, householdId);
     }
 
     async getDays(householdId: string, startDate: Date, limit: number): Promise<Day[]> {

@@ -25,7 +25,7 @@ const TodayView = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <DayContent day={day} />
+        <DayContent date={day} />
       </IonContent>
     </IonPage>
   );

@@ -31,10 +31,13 @@ export default class DayAPIDataSource implements IDayDataSource {
         return response.data;
     }
 
-    async getDay(day: Date): Promise<Day> {
+    async getDay(day: Date, householdId: string): Promise<Day> {
 
         const ISODayDate = format(day, 'yyyy-MM-dd');
         const response = await this.axios.get<Day>(`${BASE_URL}/${ISODayDate}`, {
+            params: {
+              householdId  
+            },
             transformResponse: (data: any) => {
                 let day = JSON.parse(data);
                 day.date = parseISO(day.date);

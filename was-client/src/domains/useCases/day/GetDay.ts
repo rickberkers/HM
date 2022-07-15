@@ -6,7 +6,7 @@ export default class GetDayUseCase {
         private dayRepository: IDayRepository
     ) {}
 
-    async invoke(date: Date): Promise<Day> {
-        return await this.dayRepository.getDay(date);
+    async invoke(date: Date, householdId: string): Promise<Day> {
+        return await this.dayRepository.getDay(date, householdId);
     }
 }

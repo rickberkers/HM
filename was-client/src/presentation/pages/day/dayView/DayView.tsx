@@ -1,9 +1,9 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItemDivider, IonLabel, IonPage, IonPopover, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonPopover, IonTitle, IonToolbar } from '@ionic/react';
 import './DayView.css';
 import DayContent from '../dayContent/DayContent';
 import { useParams } from "react-router-dom";
 import { parseISO } from 'date-fns';
-import { capitalizeFirstLetter, getMonthName, getWeekDayName } from '../../../helpers/formattingHelpers';
+import { capitalizeFirstLetter, getWeekDayName } from '../../../helpers/formattingHelpers';
 import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
 
 const DayView = () => {
@@ -32,7 +32,7 @@ const DayView = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <DayContent day={date} />
+        <DayContent date={date} />
       </IonContent>
     </IonPage>
   );
