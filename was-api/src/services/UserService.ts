@@ -1,6 +1,6 @@
-import { User } from "../entities/User";
+import { User } from "@entities/User";
 import { Connection, Repository } from "typeorm";
-import { CreateUserData, PublicUser } from "../types/User";
+import { CreateUserData, PublicUser } from "@models/User";
 import { IUserService } from "./IUserService";
 
 export default class UserService implements IUserService {

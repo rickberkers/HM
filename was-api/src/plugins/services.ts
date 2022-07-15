@@ -1,12 +1,12 @@
 import fp from 'fastify-plugin'
 
-import DayService from '../services/DayService';
-import UserService from '../services/UserService';
+import DayService from '@services/DayService';
+import UserService from '@services/UserService';
 
-import { IDayService } from '../services/IDayService';
-import { IUserService } from '../services/IUserService';
-import { IHouseholdService } from '../services/IHouseholdService';
-import HouseholdService from '../services/HouseholdService';
+import { IDayService } from '@services/IDayService';
+import { IUserService } from '@services/IUserService';
+import { IHouseholdService } from '@services/IHouseholdService';
+import HouseholdService from '@services/HouseholdService';
 
 declare module 'fastify' {
     export interface FastifyInstance {

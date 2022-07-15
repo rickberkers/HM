@@ -1,4 +1,4 @@
-import { Day } from "../types/Day";
+import { Day } from "@models/Day";
 
 export interface IDayService {
     /**

@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyAuth from 'fastify-auth';
 import fp from 'fastify-plugin'
-import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '../types/Tokens';
-import { PublicUser } from '../types/User';
+import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '@models/Tokens';
+import { PublicUser } from '@models/User';
 
 const REFRESH_TOKEN_COOKIE_NAME = "was_refreshToken";
 const REFRESH_TOKEN_COOKIE_PATH = "/me/token";

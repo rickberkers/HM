@@ -1,4 +1,4 @@
-import { CreateUserData, PublicUser } from "../types/User";
+import { CreateUserData, PublicUser } from "@models/User";
 
 export interface IUserService {
     create(userData: CreateUserData): Promise<PublicUser>

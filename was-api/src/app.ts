@@ -1,5 +1,5 @@
 import { join } from 'path';
-import AutoLoad, {AutoloadPluginOptions} from 'fastify-autoload';
+import AutoLoad from 'fastify-autoload';
 import { FastifyPluginAsync } from 'fastify';
 import env from './plugins/env';
 import typeorm from './plugins/typeorm';
@@ -35,6 +35,7 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
 export default app;
 export { app }
 
+//TODO revise hashing options
 // TODO Make import paths nicer
 // TODO rename .env.local to env.example
 // TODO add helmet and rate-limiter, possibly implement more security measures on production

@@ -1,6 +1,6 @@
+import { CreateUserData } from "@models/User";
 import { FastifyPluginAsync } from "fastify"
 import { LoginBody, LoginSchema, postRegisterBody, registerUserSchema } from "./schemas";
-import { CreateUserData } from "../../types/User";
 
 const me: FastifyPluginAsync = async (fastify): Promise<void> => {
   /**

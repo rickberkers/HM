@@ -1,7 +1,6 @@
 import { Connection, Repository } from "typeorm";
 import { IHouseholdService } from "./IHouseholdService";
-import { PublicUser } from "../types/User";
-import { Household } from "../entities/Household";
+import { Household } from "@entities/Household";
 
 export default class HouseholdService implements IHouseholdService {
 

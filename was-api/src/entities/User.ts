@@ -1,4 +1,4 @@
-import { User as UserType} from "../types/User";
+import { User as UserType} from "@models/User";
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany } from "typeorm";
 import { Household } from "./Household";
 

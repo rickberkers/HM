@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToMany, JoinTable } from "typeorm";
-import { Household as IHousehold } from "../types/Household";
+import { Household as IHousehold } from "@models/Household";
 import { User } from "./User";
 
 @Entity()

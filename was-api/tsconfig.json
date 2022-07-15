@@ -1,5 +1,14 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@routes/*": ["./src/routes/*","./dist/routes/*"],
+            "@utils/*": ["./src/utils/*","./dist/utils/*"],
+            "@models/*": ["./src/models/*","./dist/models/*"],
+            "@plugins/*": ["./src/plugins/*","./dist/plugins/*"],
+            "@services/*": ["./src/services/*","./dist/services/*"],
+            "@entities/*": ["./src/entities/*","./dist/entities/*"],
+        },
         "strict": true,
         "lib": [
             "esnext"

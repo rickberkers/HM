@@ -1,10 +1,10 @@
-import { Commitment as CommitmentType } from "../types/Commitment";
+import { Commitment as CommitmentType } from "@models/Commitment";
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Household } from "./Household";
 import { User } from "./User";
 
 @Entity()
-export class Commitment implements CommitmentType{
+export class Commitment implements CommitmentType {
 
     @PrimaryColumn({type: "date"})
     day: string;

@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin'
 import { createSigner, createVerifier, VerifierOptions } from 'fast-jwt';
-import { TokenPayload } from '../types/Tokens';
+import { TokenPayload } from '@models/Tokens';
 
 /**
  * This plugins adds JWT functions, using fast-jwt as an

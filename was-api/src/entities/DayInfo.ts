@@ -1,4 +1,4 @@
-import { DayInfo as DayInfoType } from "../types/DayInfo";
+import { DayInfo as DayInfoType } from "@models/DayInfo";
 import { Entity, PrimaryColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 import { Household } from "./Household";
 
