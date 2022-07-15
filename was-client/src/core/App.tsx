@@ -48,4 +48,3 @@ const App = () => {
 
 export default App;
 
-//TODO differentiate requests server error VS no data or something

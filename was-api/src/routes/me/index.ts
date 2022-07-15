@@ -54,20 +54,17 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
 
     // Access token
     fastify.post('/refresh', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
-
       // generate new tokenpair and store new refreshtoken
       const tokenPair = fastify.generateTokenPair(request.authenticatedUser!);
       await fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, tokenPair.refreshToken);
-
       // Set refreshtoken as cookie in response along with the accesstoken
       return reply.setRefreshTokenCookie(tokenPair.refreshToken).send(tokenPair.accessToken);
     });
 
     // Logout
     fastify.delete('/', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
-
-      await fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, null);
-      return reply.clearRefreshTokenCookie().status(204).send();
+        fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, null);
+        return reply.clearRefreshTokenCookie().status(204).send();
     });
 
   }, { prefix: 'token' });

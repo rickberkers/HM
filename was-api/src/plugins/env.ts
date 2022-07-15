@@ -17,7 +17,7 @@ declare module 'fastify' {
             HASH_PARALELL: number,
             HASH_TIMECOST: number,
             DEVELOPMENT: boolean,
-            ACCESS_TOKEN_MAX_AGE: number, // in ms //TODO Check if an env var is the right solution for this
+            ACCESS_TOKEN_MAX_AGE: number,
             APP_URL: string
         };
     }

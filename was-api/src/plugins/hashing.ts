@@ -26,7 +26,6 @@ export default fp(async (fastify, opts) => {
     hash: async (data: string) => {
       return await argon2.hash(data, hashingOptions);
     },
-    //TODO check if lack of options in compare functions gives bad comparison
     compare: async (originalHash: string, data: string) => {
       return argon2.verify(originalHash, data, hashingOptions);
     }

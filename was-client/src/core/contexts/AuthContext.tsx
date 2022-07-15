@@ -25,14 +25,14 @@ export function AuthProvider(props: {children: ReactNode}) {
     const login = async (username: string, password: string): Promise<void> => {
       return authLoginUseCase.invoke(username, password).then((newToken) => {
         tokenSetter(newToken.token);
-        setUser(newToken.payload); // TODO test fail //TODO use hook
+        setUser(newToken.payload);
         setIsAuthenticated(true);
       });
     };
     const logout = async (): Promise<void> => {
-      return authLogoutUseCase.invoke().finally(() => {
+      return authLogoutUseCase.invoke().then(() => {
         setIsAuthenticated(false);
-        setUser(undefined); // TODO test fail
+        setUser(undefined);
         tokenSetter("");
       });
     };

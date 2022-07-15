@@ -1,4 +1,4 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle } from '@ionic/react';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast } from '@ionic/react';
 import { useAuth } from '../../../core/hooks/useAuth';
 import SignOutButton from '../../components/auth/signOutButton/SignOutButton';
 import './HouseholdView.css';
@@ -6,9 +6,12 @@ import './HouseholdView.css';
 const HouseholdView = () => {
 
   const { logout } = useAuth();
+  const [present] = useIonToast();
 
   const logoutClick = async () => {
-    await logout();
+    await logout().catch(() => {
+      present({message: "Logout failed", color: "danger", duration: 2000});
+    });
   }
 
   return (
