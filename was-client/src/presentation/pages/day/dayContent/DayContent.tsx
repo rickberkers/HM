@@ -1,6 +1,6 @@
-import { IonText } from '@ionic/react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
+import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 
 type Props = {
@@ -19,13 +19,12 @@ const DayContent = ({date}: Props) => {
 
   //TODO disable refetch on focus
   const isLoading = queryResults.some(query => query.isLoading);
-  const day = queryResults[0].data!;
-  const household = queryResults[1].data!;
+  const day = queryResults[0].data ?? null;
+  const household = queryResults[1].data ?? null;
 
   return (
-    <div className='ion-padding'>
-        {day.dayInfo && <IonText>{day.dayInfo?.note}</IonText>}
-    </div>
+    <Spinner/>
+        // {/* {!isLoading && <IonText>{day?.dayInfo?.note}</IonText>} */}
   );
 };
 
