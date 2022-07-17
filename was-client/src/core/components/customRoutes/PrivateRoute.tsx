@@ -4,21 +4,19 @@ import { useAuth } from "../../hooks/useAuth";
 
 type PrivateRouteProps = {
     authenticationPath: string;
-    component: React.ComponentType<any>;
+    // component: React.ComponentType<any>;
 } & RouteProps;
 
-const PrivateRoute = ({authenticationPath, component: Component, ...rest}: PrivateRouteProps) => {
+const PrivateRoute = ({authenticationPath, ...rest}: PrivateRouteProps) => {
     const { isAuthenticated } = useAuth();
+
+    if(!isAuthenticated) {
+      return <Redirect to={authenticationPath} />
+    }
+
     return (
       <Route
         {...rest}
-        render={(props) => {
-          return isAuthenticated ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to={authenticationPath} />
-          );
-        }}
       ></Route>
     );
 }

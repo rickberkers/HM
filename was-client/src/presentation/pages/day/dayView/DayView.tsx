@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { parseISO } from 'date-fns';
 import { capitalizeFirstLetter, getWeekDayName } from '../../../helpers/formattingHelpers';
 import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
+import React from 'react';
 
 const DayView = () => {
 
@@ -38,4 +39,4 @@ const DayView = () => {
   );
 };
 
-export default DayView;
+export default React.memo(DayView);

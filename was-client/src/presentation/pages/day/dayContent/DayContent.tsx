@@ -1,3 +1,5 @@
+import { IonText } from '@ionic/react';
+import { useMemo } from 'react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import Spinner from '../../../components/shared/spinner/Spinner';
@@ -8,6 +10,8 @@ type Props = {
 }
 
 const DayContent = ({date}: Props) => {
+
+    console.log('e')
 
     const { getDayUseCase } = useUseCases().dayUseCases;
     const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
@@ -23,8 +27,7 @@ const DayContent = ({date}: Props) => {
   const household = queryResults[1].data ?? null;
 
   return (
-    <Spinner/>
-        // {/* {!isLoading && <IonText>{day?.dayInfo?.note}</IonText>} */}
+    isLoading ? <Spinner/> : <IonText>{day?.dayInfo?.note}</IonText>
   );
 };
 

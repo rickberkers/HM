@@ -4,8 +4,11 @@ import { useQueries } from 'react-query';
 import { useUseCases } from '../../../core/contexts/DependencyContext';
 import DayList from '../../components/day/dayList/DayList';
 import { TodayCard } from '../../components/day/todayCard/TodayCard';
+import React from 'react';
 
 const Overview = () => {
+
+  console.log("overview");
 
   const { getDaysUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
@@ -33,4 +36,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;  
+export default React.memo(Overview);  

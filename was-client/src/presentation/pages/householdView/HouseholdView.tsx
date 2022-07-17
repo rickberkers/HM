@@ -1,4 +1,5 @@
 import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast } from '@ionic/react';
+import React from 'react';
 import { useAuth } from '../../../core/hooks/useAuth';
 import SignOutButton from '../../components/auth/signOutButton/SignOutButton';
 import './HouseholdView.css';
@@ -34,4 +35,4 @@ const HouseholdView = () => {
   );
 };
 
-export default HouseholdView;
+export default React.memo(HouseholdView);
