@@ -1,5 +1,5 @@
 import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
-import { calendar, list, logIn } from "ionicons/icons";
+import { calendar, home, list, logIn } from "ionicons/icons";
 import { ReactNode } from "react";
 import { useAuth } from "../../../../core/hooks/useAuth";
 import Routes, { ROUTE_NAMES } from "../../../../core/Routes";
@@ -18,7 +18,7 @@ const TabView = () => {
             <IonLabel>Today</IonLabel>
         </IonTabButton>,
         <IonTabButton key={ROUTE_NAMES.HOUSEHOLD} tab={ROUTE_NAMES.HOUSEHOLD} href={ROUTE_NAMES.HOUSEHOLD}>
-            <IonIcon icon={calendar} />
+            <IonIcon icon={home} />
             <IonLabel>Household</IonLabel>
         </IonTabButton>
     ];

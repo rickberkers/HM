@@ -1,4 +1,4 @@
-import { IonCol, IonGrid, IonRow, IonSpinner } from "@ionic/react";
+import { IonSpinner } from "@ionic/react";
 import './Spinner.css';
 
 const Spinner = () => {

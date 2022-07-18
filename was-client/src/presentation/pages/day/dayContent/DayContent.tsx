@@ -1,7 +1,8 @@
-import { IonText } from '@ionic/react';
-import { useMemo } from 'react';
+import { IonItem, IonLabel, IonList, IonText, IonToggle } from '@ionic/react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
+import { truncateString } from '../../../../core/helpers/truncate';
+import { useAuth } from '../../../../core/hooks/useAuth';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 
@@ -11,7 +12,7 @@ type Props = {
 
 const DayContent = ({date}: Props) => {
 
-    console.log('e')
+    const { user } = useAuth();
 
     const { getDayUseCase } = useUseCases().dayUseCases;
     const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
@@ -27,7 +28,31 @@ const DayContent = ({date}: Props) => {
   const household = queryResults[1].data ?? null;
 
   return (
-    isLoading ? <Spinner/> : <IonText>{day?.dayInfo?.note}</IonText>
+    isLoading ? <Spinner/> : 
+    
+    <>
+        {day?.dayInfo?.note && 
+          <div className="ion-margin">
+            <IonText>{truncateString(day.dayInfo.note, 350)}</IonText>
+          </div>
+        }
+        
+        <IonList>
+          {household?.members.map((member) => {
+
+            return (
+              <IonItem key={member.id}>
+                <IonLabel>{member.firstName}</IonLabel>
+                {member.id == user?.id && <IonToggle></IonToggle>}
+              </IonItem>
+            )
+          })}
+
+          
+
+        </IonList>
+    </>
+
   );
 };
 

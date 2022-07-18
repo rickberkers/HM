@@ -8,8 +8,6 @@ import React from 'react';
 
 const Overview = () => {
 
-  console.log("overview");
-
   const { getDaysUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
 
