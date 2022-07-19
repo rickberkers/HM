@@ -1,5 +1,5 @@
 import { join } from 'path';
-import AutoLoad from 'fastify-autoload-deprecated';
+import AutoLoad from '@fastify/autoload';
 import { FastifyPluginAsync } from 'fastify';
 import env from './plugins/env';
 import typeorm from './plugins/typeorm';

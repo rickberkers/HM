@@ -1,4 +1,4 @@
-import fastifyEnv from 'fastify-env-deprecated';
+import fastifyEnv from '@fastify/env';
 import fp from 'fastify-plugin'
 
 declare module 'fastify' {
