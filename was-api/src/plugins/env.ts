@@ -4,7 +4,6 @@ import fp from 'fastify-plugin'
 declare module 'fastify' {
     export interface FastifyInstance {
         config: {
-            DB_TYPE: string,
             DB_HOST: string,
             DB_PORT: number,
             DB_USERNAME: string,
@@ -25,13 +24,12 @@ declare module 'fastify' {
 
 const schema = {
     type: 'object',
-    required: [ 'DB_TYPE', 'DB_HOST', 'DB_PORT', 
+    required: [ 'DB_HOST', 'DB_PORT', 
                 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 
                 'JWT_SECRET', 'COOKIE_SECRET', 'COOKIE_DOMAIN',
                 'HASH_MEMCOST', 'HASH_PARALELL', 'ACCESS_TOKEN_MAX_AGE',
                 'HASH_TIMECOST', 'DEVELOPMENT', 'APP_URL' ],
     properties: {
-        DB_TYPE: { type: 'string' },
         DB_HOST: { type: 'string' },
         DB_PORT: { type: 'number' },
         DB_USERNAME: { type: 'string' },

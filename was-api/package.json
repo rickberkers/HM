@@ -8,7 +8,8 @@
     "test": "npm run build:ts && tsc -p test/tsconfig.test.json && cross-env TS_NODE_FILES=true tap --ts test/**/*.test.ts",
     "start": "npm run build:ts -w && fastify start -r tsconfig-paths/register -l info dist/app.js",
     "build:ts": "tsc",
-    "dev": "tsc && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"fastify start --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js\""
+    "dev": "tsc && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"fastify start --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js\"",
+    "typeorm": "typeorm-ts-node-esm"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +37,7 @@
     "@types/tap": "^15.0.0",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.3",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.0.0",
     "typescript": "^4.2.4"
   }
