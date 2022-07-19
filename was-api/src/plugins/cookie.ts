@@ -1,4 +1,4 @@
-import fastifyCookie, { FastifyCookieOptions } from 'fastify-cookie';
+import fastifyCookie, { FastifyCookieOptions } from 'fastify-cookie-deprecated';
 import fp from 'fastify-plugin'
 
 /**

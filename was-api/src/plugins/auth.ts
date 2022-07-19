@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import fastifyAuth from 'fastify-auth';
+import fastifyAuth from 'fastify-auth-deprecated';
 import fp from 'fastify-plugin'
 import { AccessTokenPayload, RefreshTokenPayload, TokenPair } from '@models/Tokens';
 import { PublicUser } from '@models/User';

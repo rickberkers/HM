@@ -1,4 +1,4 @@
-import fastifyCors, { FastifyCorsOptions } from 'fastify-cors';
+import fastifyCors, { FastifyCorsOptions } from 'fastify-cors-deprecated';
 import fp from 'fastify-plugin'
 
 /**
