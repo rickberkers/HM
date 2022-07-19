@@ -8,6 +8,7 @@
             "@plugins/*": ["./src/plugins/*","./dist/plugins/*"],
             "@services/*": ["./src/services/*","./dist/services/*"],
             "@entities/*": ["./src/entities/*","./dist/entities/*"],
+            "@config/*": ["./src/config/*","./dist/config/*"],
         },
         "strict": true,
         "lib": [
