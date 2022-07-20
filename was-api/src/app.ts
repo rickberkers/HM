@@ -36,13 +36,9 @@ export default app;
 export { app }
 
 //TODO revise hashing options
-// TODO Make import paths nicer
-// TODO rename .env.local to env.example
 // TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO NPM run scripts: fix the tsc && ... ones that dont work
-// TODO Create migrations and disable synchronize
 // TODO setup tests complex pieces of code
-// TODO Put utils and models in was-common
 // TODO Logging sort out
 // TODO shared schemas
 // TODO Look into AVJ errors for hiding specific validation failures
