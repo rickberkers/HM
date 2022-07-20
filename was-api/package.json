@@ -7,13 +7,10 @@
   "scripts": {
     "test": "NOT WORKING npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
     "start": "npm run build:ts && fastify start -r tsconfig-paths/register -l info dist/app.js",
-
     "build:ts": "tsc",
     "watch:ts": "tsc -w",
-
     "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
     "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js",
-
     "typeorm": "typeorm-ts-node-esm -d ./src/config/typeORMDataSource.ts",
     "typeorm:migrate": "npm run typeorm migration:run",
     "typeorm:migrate:revert": "npm run migration:revert",
@@ -29,6 +26,7 @@
     "@fastify/cookie": "^7.2.0",
     "@fastify/cors": "^8.0.0",
     "@fastify/env": "^4.0.0",
+    "@fastify/helmet": "^9.1.0",
     "@fastify/sensible": "^5.1.0",
     "argon2": "^0.28.3",
     "date-fns": "^2.28.0",

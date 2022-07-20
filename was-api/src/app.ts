@@ -37,7 +37,6 @@ export { app }
 
 //TODO revise hashing options
 // TODO add helmet and rate-limiter, possibly implement more security measures on production
-// TODO NPM run scripts: fix the tsc && ... ones that dont work
 // TODO setup tests complex pieces of code
 // TODO Logging sort out
 // TODO shared schemas

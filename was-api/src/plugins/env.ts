@@ -13,7 +13,6 @@ export interface envConfig {
     HASH_MEMCOST: number,
     HASH_PARALELL: number,
     HASH_TIMECOST: number,
-    DEVELOPMENT: boolean,
     ACCESS_TOKEN_MAX_AGE: number,
     APP_URL: string
 }
@@ -30,7 +29,7 @@ const schema = {
                 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME', 
                 'JWT_SECRET', 'COOKIE_SECRET', 'COOKIE_DOMAIN',
                 'HASH_MEMCOST', 'HASH_PARALELL', 'ACCESS_TOKEN_MAX_AGE',
-                'HASH_TIMECOST', 'DEVELOPMENT', 'APP_URL' ],
+                'HASH_TIMECOST', 'APP_URL' ],
     properties: {
         DB_HOST: { type: 'string' },
         DB_PORT: { type: 'number' },
@@ -43,7 +42,6 @@ const schema = {
         HASH_MEMCOST: { type: 'number' },
         HASH_PARALELL: { type: 'number' },
         HASH_TIMECOST: { type: 'number' },
-        DEVELOPMENT: { type: 'boolean' },
         ACCESS_TOKEN_MAX_AGE: { type: 'number' },
         APP_URL: { type: 'string' },
     }
