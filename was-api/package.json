@@ -13,7 +13,6 @@
     "watch:ts": "tsc -w",
     "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
     "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js",
-    "typeorm": "typeorm-ts-node-esm",
     "migration:generate": "typeorm-ts-node-esm migration:generate -d ./src/config/typeOrmDatasource.ts"
   },
   "keywords": [],
@@ -35,7 +34,7 @@
     "json-schema-to-ts": "^1.6.5",
     "pg": "^8.7.3",
     "typeorm": "^0.3.7",
-    "typeorm-fastify-plugin": "^1.0.2"
+    "typeorm-fastify-plugin": "1.0.2"
   },
   "devDependencies": {
     "@types/node": "^15.14.9",
