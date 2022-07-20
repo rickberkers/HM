@@ -12,7 +12,7 @@ export const getDaysSchema = {
           },
           startDate: {
             type: 'string',
-            pattern: "^\\d{4}\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$",
+            pattern: `^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$`,
           },
           limit: {
             type: 'number',
@@ -44,7 +44,7 @@ export const getDaySchema = {
     properties: {
       date: {
         type: 'string',
-        pattern: "^\\d{4}\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$",
+        pattern: `^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$`,
       }
     },
   }

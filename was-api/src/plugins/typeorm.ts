@@ -12,7 +12,7 @@ import { DataSource } from 'typeorm';
 export default fp(async (fastify, opts) => {
   const envConfig = fastify.config;
   const typeORMConfig = typeORMDataSource(envConfig);
-  fastify.register(fastifyTypeormPlugin, typeORMConfig);  
+  fastify.register(fastifyTypeormPlugin, typeORMConfig.options);  
 });
 
 declare module 'fastify' {

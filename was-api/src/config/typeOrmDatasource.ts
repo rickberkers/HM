@@ -15,6 +15,7 @@ export const typeORMDataSource = (cf: FastifyInstance['config']) => {
       entities: [join(__dirname, '..', `entities/*.{ts,js}`)],
       migrationsTableName: "migrations_table",
       migrations: [join(__dirname, '..', `migrations/*.{ts,js}`)],
+      synchronize: true
     });
 }
 

@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 /**
  * Creates an array of dates within specified range
  * @param startDate 
@@ -25,3 +27,20 @@ export const addDaysToDate = (date: Date, amountDays: number) => {
     date.setUTCDate(date.getUTCDate() + amountDays);
     return date;
 };
+
+/**
+ * Formats date regardless of timezone
+ * @see https://stackoverflow.com/questions/48172772/time-zone-issue-involving-date-fns-format
+ */
+export const formatISODateNoTime = (date: Date) => {
+    return date.toISOString().substring(0, 10);
+}
+
+/**
+ * Formats date regardless of timezone
+ * @param dateString YYYY-MM-DD
+ * @returns 
+ */
+ export const parseISODateNoTime = (dateString: string) => {
+    return new Date(`${dateString}T00:00:00Z`);
+}

@@ -4,8 +4,7 @@ import { Between, DataSource, Repository } from "typeorm";
 import { Commitment } from "@entities/Commitment";
 import { DayInfo } from "@entities/DayInfo";
 import { CommitmentMap } from "@models/Commitment";
-import { formatISO } from "date-fns";
-import { addDaysToDate, createDateRangeArray } from "@utils/date";
+import { addDaysToDate, createDateRangeArray, formatISODateNoTime } from "@utils/date";
 
 export default class DayService implements IDayService {
 
@@ -24,7 +23,7 @@ export default class DayService implements IDayService {
         return {
             commitments,
             dayInfo,
-            date: formatISO(date)
+            date: formatISODateNoTime(date)
         }
     }
 
@@ -35,7 +34,7 @@ export default class DayService implements IDayService {
     ): Promise<Day[]> {
 
         // Max date based on limit and minDate
-        const maxDate = addDaysToDate(new Date(minDate), limit);
+        const maxDate = addDaysToDate(new Date(minDate), limit-1);
 
         // Collect data
         const [commitments, dayInfos] = await this.queryDaysData(maxDate, minDate, householdId);
@@ -53,11 +52,11 @@ export default class DayService implements IDayService {
 
         const sharedWhereClause = { 
             where: {
-                day: date.toString(),
+                day: formatISODateNoTime(date),
                 householdId
             }
         };
-
+        console.log(sharedWhereClause);
         const dayInfoQuery = this.dayInfoRepo.findOne(sharedWhereClause);
         const commitmentsQuery = this.commitmentRepo.find({
             order: { day: 'ASC' }, ...sharedWhereClause, 
@@ -71,7 +70,10 @@ export default class DayService implements IDayService {
 
         const sharedWhereClause = { 
             where: {
-                day: Between(minDate.toString(), maxDate.toString()),
+                day: Between(
+                    formatISODateNoTime(minDate), 
+                    formatISODateNoTime(maxDate)
+                ),
                 householdId
             }
         };
@@ -93,7 +95,7 @@ export default class DayService implements IDayService {
 
         dateRange.forEach((date) => {
             // String to ISO date
-            const dateString = formatISO(date, { representation: 'date' });
+            const dateString = formatISODateNoTime(date);
             resultMap.set(dateString, {
                 commitments: groupedCommitments[dateString] ?? [],
                 date: dateString,
