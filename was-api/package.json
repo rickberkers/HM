@@ -30,10 +30,10 @@
     "fastify-auth": "^1.2.0",
     "fastify-cli": "^2.13.0",
     "fastify-plugin": "^3.0.0",
-    "fastify-typeorm-plugin": "^2.2.0",
     "json-schema-to-ts": "^1.6.5",
     "pg": "^8.7.3",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.3.7",
+    "typeorm-fastify-plugin": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^15.14.9",

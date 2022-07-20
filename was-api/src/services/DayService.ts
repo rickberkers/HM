@@ -1,6 +1,6 @@
 import { Day } from "@models/Day";
 import { IDayService } from "./IDayService";
-import { Between, Connection, Repository } from "typeorm";
+import { Between, DataSource, Repository } from "typeorm";
 import { Commitment } from "@entities/Commitment";
 import { DayInfo } from "@entities/DayInfo";
 import { CommitmentMap } from "@models/Commitment";
@@ -12,7 +12,7 @@ export default class DayService implements IDayService {
     private commitmentRepo: Repository<Commitment>;
     private dayInfoRepo: Repository<DayInfo>;
 
-    constructor(private connection: Connection) {
+    constructor(private connection: DataSource) {
        this.dayInfoRepo = this.connection.getRepository<DayInfo>(DayInfo);
        this.commitmentRepo = this.connection.getRepository<Commitment>(Commitment);
     }
@@ -49,11 +49,11 @@ export default class DayService implements IDayService {
         return Array.from(daysMap.values());
     }
 
-    public async queryDayData(date: Date, householdId: string): Promise<[Commitment[], DayInfo?]> {
+    public async queryDayData(date: Date, householdId: string): Promise<[Commitment[], DayInfo | null]> {
 
         const sharedWhereClause = { 
             where: {
-                day: date,
+                day: date.toString(),
                 householdId
             }
         };
@@ -71,15 +71,18 @@ export default class DayService implements IDayService {
 
         const sharedWhereClause = { 
             where: {
-                day: Between(minDate, maxDate),
+                day: Between(minDate.toString(), maxDate.toString()),
                 householdId
             }
         };
 
         const dayInfosQuery = this.dayInfoRepo.find(sharedWhereClause);
-        const commitmentsQuery = this.commitmentRepo.find({
-            order: { day: 'ASC' }, ...sharedWhereClause, 
-        });
+        const commitmentsQuery = this.commitmentRepo.find(
+            {
+                order: { day: 'ASC' },
+                ...sharedWhereClause
+            }
+        );
 
         return Promise.all([commitmentsQuery, dayInfosQuery]);
     }
@@ -94,6 +97,7 @@ export default class DayService implements IDayService {
             resultMap.set(dateString, {
                 commitments: groupedCommitments[dateString] ?? [],
                 date: dateString,
+                dayInfo: null
             })
         });
 

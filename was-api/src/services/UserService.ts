@@ -1,5 +1,5 @@
 import { User } from "@entities/User";
-import { Connection, Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { CreateUserData, PublicUser } from "@models/User";
 import { IUserService } from "./IUserService";
 
@@ -7,16 +7,16 @@ export default class UserService implements IUserService {
 
     private userRepo: Repository<User>;
 
-    constructor(private connection: Connection) {
+    constructor(private connection: DataSource) {
        this.userRepo = this.connection.getRepository<User>(User);
     }
 
-    public async getByName(name: string): Promise<PublicUser | undefined> {
-        return this.userRepo.findOne({ name });
+    public async getByName(name: string): Promise<PublicUser | null> {
+        return this.userRepo.findOne({where: {name}});
     }
 
-    public async getById(id: string): Promise<PublicUser | undefined> {
-        return this.userRepo.findOne({ id });
+    public async getById(id: string): Promise<PublicUser | null> {
+        return this.userRepo.findOne({where: {id}});
     }
 
     public async userExists(name: string): Promise<boolean> {
@@ -32,7 +32,7 @@ export default class UserService implements IUserService {
         });
         
         await this.userRepo.insert(user);
-        const createdUser = await this.userRepo.findOne(user.id);
+        const createdUser = await this.userRepo.findOne({where: {id: user.id}});
         return createdUser!;
     }
 

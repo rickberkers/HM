@@ -101,7 +101,7 @@ declare module 'fastify' {
         generateTokenPair(user: PublicUser): TokenPair;
     }
     export interface FastifyRequest {
-        authenticatedUser?: PublicUser;
+        authenticatedUser: PublicUser | null;
     }
     export interface FastifyReply {
         setRefreshTokenCookie(value: string): FastifyReply;

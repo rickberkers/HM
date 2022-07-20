@@ -1,9 +1,10 @@
 import { FastifyInstance } from "fastify";
 import 'dotenv/config'
 import { join } from "path";
+import { DataSource } from "typeorm";
 
 export const typeORMDataSource = (cf: FastifyInstance['config']) => {
-    return {
+    return new DataSource({
       name: 'default',
       type: 'postgres',
       host: cf.DB_HOST ?? process.env.DB_HOST,
@@ -14,7 +15,7 @@ export const typeORMDataSource = (cf: FastifyInstance['config']) => {
       entities: [join(__dirname, '..', `entities/*.{ts,js}`)],
       migrationsTableName: "migrations_table",
       migrations: [join(__dirname, '..', `migrations/*.{ts,js}`)],
-    };
+    });
 }
 
 export default typeORMDataSource;
