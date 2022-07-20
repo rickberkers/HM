@@ -43,7 +43,7 @@ const DayContent = ({date}: Props) => {
             return (
               <IonItem key={member.id}>
                 <IonLabel>{member.firstName}</IonLabel>
-                {member.id == user?.id && <IonToggle></IonToggle>}
+                {member.id === user?.id && <IonToggle></IonToggle>}
               </IonItem>
             )
           })}

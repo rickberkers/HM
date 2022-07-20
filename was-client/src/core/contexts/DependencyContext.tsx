@@ -2,7 +2,6 @@ import { ReactNode, useContext, createContext } from "react"
 import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
 import AuthRepository from "../../data/repositories/AuthRepository";
-import AuthLoginUseCase from "../../domains/useCases/auth/Login";
 import AuthLogoutUseCase from "../../domains/useCases/auth/Logout";
 import AuthRefreshUseCase from "../../domains/useCases/auth/Refresh";
 import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
@@ -13,6 +12,7 @@ import GetHouseholdUseCase from "../../domains/useCases/household/GetHousehold";
 import HouseholdAPIDataSource from "../../data/datasource/API/HouseholdAPIDataSource";
 import HouseholdRepository from "../../data/repositories/HouseholdRepository";
 import GetDayUseCase from "../../domains/useCases/day/GetDay";
+import AuthLoginUseCase from "../../domains/useCases/auth/login";
 
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
