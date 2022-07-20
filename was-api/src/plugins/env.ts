@@ -1,24 +1,26 @@
 import fastifyEnv from '@fastify/env';
 import fp from 'fastify-plugin'
 
+export interface envConfig {
+    DB_HOST: string,
+    DB_PORT: number,
+    DB_USERNAME: string,
+    DB_PASSWORD: string,
+    DB_NAME: string,
+    JWT_SECRET: string,
+    COOKIE_SECRET: string,
+    COOKIE_DOMAIN: string,
+    HASH_MEMCOST: number,
+    HASH_PARALELL: number,
+    HASH_TIMECOST: number,
+    DEVELOPMENT: boolean,
+    ACCESS_TOKEN_MAX_AGE: number,
+    APP_URL: string
+}
+
 declare module 'fastify' {
     export interface FastifyInstance {
-        config: {
-            DB_HOST: string,
-            DB_PORT: number,
-            DB_USERNAME: string,
-            DB_PASSWORD: string,
-            DB_NAME: string,
-            JWT_SECRET: string,
-            COOKIE_SECRET: string,
-            COOKIE_DOMAIN: string,
-            HASH_MEMCOST: number,
-            HASH_PARALELL: number,
-            HASH_TIMECOST: number,
-            DEVELOPMENT: boolean,
-            ACCESS_TOKEN_MAX_AGE: number,
-            APP_URL: string
-        };
+        config: envConfig
     }
 }
 

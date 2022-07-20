@@ -1,7 +1,6 @@
 import fp from 'fastify-plugin'
 import fastifyTypeormPlugin from 'typeorm-fastify-plugin';
-import { typeORMDataSource } from '@config/typeOrmDatasource';
-import { DataSource } from 'typeorm';
+import { typeORMConfigDataSource } from '@config/typeORMDataSource';
 
 /**
  * Fastify plugin for TypeORM for sharing the same TypeORM 
@@ -11,17 +10,6 @@ import { DataSource } from 'typeorm';
  */
 export default fp(async (fastify, opts) => {
   const envConfig = fastify.config;
-  const typeORMConfig = typeORMDataSource(envConfig);
+  const typeORMConfig = typeORMConfigDataSource(envConfig);
   fastify.register(fastifyTypeormPlugin, typeORMConfig.options);  
 });
-
-declare module 'fastify' {
-  interface FastifyInstance {
-      orm: DataSource & FastifyTypeormInstance.FastifyTypeormNamespace;
-  }
-}
-declare namespace FastifyTypeormInstance {
-  interface FastifyTypeormNamespace {
-      [namespace: string]: DataSource;
-  }
-}

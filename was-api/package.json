@@ -9,11 +9,18 @@
     "start": "npm run build:ts -w && fastify start -r tsconfig-paths/register -l info dist/app.js",
     "test2": "npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
     "start2": "npm run build:ts && fastify start -l info dist/app.js",
+    
     "build:ts": "tsc",
     "watch:ts": "tsc -w",
+
     "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
     "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js",
-    "migration:generate": "typeorm-ts-node-esm migration:generate -d ./src/config/typeOrmDatasource.ts"
+
+    "typeorm": "typeorm-ts-node-esm -d ./src/config/typeORMDataSource.ts",
+    "typeorm:migrate": "npm run typeorm migration:run",
+    "typeorm:migrate:revert": "npm run migration:revert",
+    "typeorm:migrate:generate": "npm run typeorm migration:generate",
+    "typeorm:show": "npm run typeorm migration:show"
   },
   "keywords": [],
   "author": "",
