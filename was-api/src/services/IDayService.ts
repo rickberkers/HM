@@ -7,7 +7,7 @@ export interface IDayService {
      * @param householdId 
      * @param limit
      */
-    getDaysByDateAndHouseholdId(minDate: Date, householdId: string, limit: number): Promise<Day[]>;
+    getDaysByDateAndHouseholdId(minDate: Date, householdId: string, limit?: number): Promise<Day[]>;
     /**
      * Gets day with corresponding dayInfo and commitments
      * @param date

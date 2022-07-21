@@ -38,7 +38,7 @@ const days: FastifyPluginAsync = async (fastify): Promise<void> => {
     return await fastify.services.dayService.getDaysByDateAndHouseholdId(
       parsedDate, 
       request.query.householdId, 
-      request.query.limit
+      request.query.limit ?? undefined
     );
   });
 };
