@@ -1,13 +1,20 @@
 import { DataSource, Repository } from "typeorm";
 import { IHouseholdService } from "./IHouseholdService";
-import { Household } from "@entities/Household";
+import { Household as HouseholdEntity } from "@entities/Household";
+import { Household } from "@models/Household";
+import { PublicUser } from "@models/User";
+import { User as UserEntity } from "@entities/User";
 
 export default class HouseholdService implements IHouseholdService {
 
-    private householdRepo: Repository<Household>;
+    private householdRepo: Repository<HouseholdEntity>;
 
     constructor(private connection: DataSource) {
-       this.householdRepo = this.connection.getRepository<Household>(Household);
+       this.householdRepo = this.connection.getRepository<HouseholdEntity>(HouseholdEntity);
+    }
+    
+    public async getHouseholdsByMemberId(memberId: string): Promise<Household[]> {
+        return await this.connection.createQueryBuilder().relation(UserEntity, 'households').of(memberId).loadMany<Household>();
     }
 
     public async getHousehold(
