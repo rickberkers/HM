@@ -34,7 +34,7 @@ const SignIn = () => {
         );
     }
 
-    const redirect = <Redirect to={ROUTE_NAMES.DAY} />;
+    const redirect = <Redirect to={ROUTE_NAMES.OVERVIEW} />;
 
     return (
         <>{
