@@ -28,7 +28,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import TabView from '../presentation/components/core/tabView/TabView';
 
 setupIonicReact();
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2
+    }
+  }
+});
 
 const App = () => {
   return (

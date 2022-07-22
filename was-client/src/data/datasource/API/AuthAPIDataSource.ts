@@ -1,6 +1,6 @@
 import IAuthDataSource from "../IAuthDataSource";
 import { Axios } from 'axios';
-import { parseJWT } from "../../../core/helpers/JWTParser";
+import { parseJWT } from "../../../core/utils/JWTParser";
 import { AccessToken } from "../../../domains/models/Token";
 
 const BASE_URL = `/me/token`;

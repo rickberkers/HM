@@ -1,4 +1,4 @@
-import { AssociativeObjectArray } from '../../core/helpers/types';
+import { AssociativeObjectArray } from '../../core/utils/types';
 import { Day } from '../../domains/models/Day';
 import { User } from '../../domains/models/User';
 

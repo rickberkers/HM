@@ -18,7 +18,7 @@ export const TodayCard = ({day, household}: Props) => {
     const attendance = useAttendance(day, household.members);
 
     return (
-        <IonCard className="action-card" routerLink={ROUTE_NAMES.TODAY}>
+        <IonCard routerLink={ROUTE_NAMES.TODAY}>
           <IonCardContent>
             <IonGrid className="ion-no-padding ion-padding-bottom">
               <IonRow className="ion-align-items-center ion-justify-content-between">
