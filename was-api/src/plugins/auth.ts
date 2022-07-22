@@ -42,7 +42,7 @@ export default fp(async (fastify, opts) => {
     });
 
     fastify.decorate("verifyRefreshToken", async function(request: FastifyRequest, reply: FastifyReply) {
-
+        
         // Get refresh token cookie
         const cookie = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
         if (cookie == undefined) {

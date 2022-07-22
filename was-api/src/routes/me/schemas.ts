@@ -1,21 +1,5 @@
 import { FromSchema } from "json-schema-to-ts";
 
-export const LoginSchema = {
-    body: {
-        type: 'object',
-        required: ["name", "password"],
-        additionalProperties: false,
-        properties: {
-            name: {
-                type: 'string',
-            },
-            password: { 
-                type: 'string',
-            }
-        },
-    }
-} as const;
-
 export const registerUserSchema = {
     body: {
         type: 'object',
@@ -62,6 +46,3 @@ export const registerUserSchema = {
 
 // me
 export type postRegisterBody = FromSchema<typeof registerUserSchema.body>;
-
-// me/token
-export type LoginBody = FromSchema<typeof LoginSchema.body>;
