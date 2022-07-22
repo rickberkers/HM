@@ -13,11 +13,8 @@ const REFRESH_TOKEN_COOKIE_PATH = "/me/token";
  * @see https://github.com/fastify/fastify-auth
  */
 export default fp(async (fastify, opts) => {
-    fastify.register(fastifyAuth);
 
-    fastify.decorateRequest("authenticatedUser", undefined);
-
-    fastify.decorate("verifyAccessToken", async function(request: FastifyRequest, reply: FastifyReply) {
+    const verifyAccessToken = async (request: FastifyRequest) => {
 
         // Get token from authorization header
         let token = request.headers.authorization;
@@ -39,40 +36,84 @@ export default fp(async (fastify, opts) => {
         } catch (error) {
             throw fastify.httpErrors.unauthorized("invalid token");
         }
-    });
+    }
 
-    fastify.decorate("verifyRefreshToken", async function(request: FastifyRequest, reply: FastifyReply) {
+    /**
+     * Only verifies that the refreshToken cookie is valid when present
+     */
+    const verifyRefreshTokenOptional = async (request: FastifyRequest) => {
         
-        // Get refresh token cookie
-        const cookie = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
-        if (cookie == undefined) {
+        const token = getRefreshCookieValue(request);
+        if(!token) {
+            return;
+        }
+
+        request.authenticatedUser = await verifyRefreshTokenWithUser(token);
+    }
+
+    /**
+     * Verifies that the refreshToken cookie is valid and present
+     */
+    const verifyRefreshTokenRequired = async (request: FastifyRequest) => {
+
+        const token = getRefreshCookieValue(request);
+        if(!token) {
             throw fastify.httpErrors.unauthorized("no token");
         }
 
-        // Checks if cookie was unsigned correctly
-        const unsignedRefreshToken = request.unsignCookie(cookie);
-        if (!unsignedRefreshToken.valid) {
-            throw fastify.httpErrors.unauthorized("invalid token");
-        }
-        const cookieRefreshToken = unsignedRefreshToken.value!;
+        request.authenticatedUser = await verifyRefreshTokenWithUser(token);
+    }
 
-        // Verifies token and gets payload
-        let payload: RefreshTokenPayload;
+    /**
+     * Verifies validity of token
+     */
+    const verifyRefreshTokenWithUser = async (token: string): Promise<PublicUser> => {
+
+        let payload;
         try {
-            payload = fastify.jwt.verifyJWT<RefreshTokenPayload>(cookieRefreshToken, {
+            payload = fastify.jwt.verifyJWT<RefreshTokenPayload>(token, {
                 maxAge: 2678400000 // 31 days in ms
             });
         } catch (error) {
             throw fastify.httpErrors.unauthorized("invalid token");
         }
 
-        // Verify that the user exists and that their refresh token matches the one in the payload
+        // Verify with token with DB
         const user = await fastify.services.userService.getById(payload.id);
-        if (user == undefined || await fastify.services.userService.getRefreshTokenByUserId(payload.id) != cookieRefreshToken) {
+        if (user == undefined || await fastify.services.userService.getRefreshTokenByUserId(user.id) != token) {
             throw fastify.httpErrors.unauthorized("invalid token");
         }
-        request.authenticatedUser = user;
-    });
+
+        return user;
+    }
+
+    /**
+     * Obtains refreshToken cookie from request
+     */
+    const getRefreshCookieValue = (request: FastifyRequest): string | null => {
+
+        // Cookie presence
+        const rawCookie = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
+        if (!rawCookie) {
+            return null;
+        }
+
+        // Cookie validity
+        const unsignedRefreshToken = request.unsignCookie(rawCookie);
+        if (!unsignedRefreshToken.valid) {
+            return null;
+        }
+        return unsignedRefreshToken.value!;
+    }
+
+    fastify.decorate("verifyRefreshTokenOptional", verifyRefreshTokenOptional);
+    fastify.decorate("verifyRefreshTokenRequired", verifyRefreshTokenRequired);
+    
+    fastify.decorate("verifyAccessToken", verifyAccessToken);
+
+    fastify.register(fastifyAuth);
+
+    fastify.decorateRequest("authenticatedUser", undefined);
 
     fastify.decorateReply("clearRefreshTokenCookie", function(): FastifyReply {
         return this.clearCookie(REFRESH_TOKEN_COOKIE_NAME, {
@@ -96,8 +137,9 @@ export default fp(async (fastify, opts) => {
 
 declare module 'fastify' {
     export interface FastifyInstance {
-        verifyAccessToken(request: FastifyRequest, reply: FastifyReply): Promise<void>;
-        verifyRefreshToken(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+        verifyAccessToken(request: FastifyRequest): Promise<void>;
+        verifyRefreshTokenRequired(request: FastifyRequest): Promise<void>;
+        verifyRefreshTokenOptional(request: FastifyRequest): Promise<void>;
         generateTokenPair(user: PublicUser): TokenPair;
     }
     export interface FastifyRequest {

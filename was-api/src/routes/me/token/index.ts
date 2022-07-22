@@ -32,7 +32,7 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
     });
 
     // Refresh the access token with the refresh token
-    fastify.post('/refresh', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
+    fastify.post('/refresh', { preValidation: fastify.verifyRefreshTokenRequired }, async (request, reply) => {
 
       // generate new tokenpair and store new refreshtoken
       const tokenPair = fastify.generateTokenPair(request.authenticatedUser!);
@@ -43,9 +43,11 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
     });
 
     // Logout
-    fastify.delete('/', { preValidation: fastify.verifyRefreshToken }, async (request, reply) => {
-        fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, null);
-        return reply.clearRefreshTokenCookie().status(204).send();
+    fastify.delete('/', { preValidation: fastify.verifyRefreshTokenOptional }, async (request, reply) => {
+      if (request.authenticatedUser) {
+        await fastify.services.userService.setRefreshToken(request.authenticatedUser.id, null);
+      }
+      return reply.clearRefreshTokenCookie().status(204).send();
     });
 }
 
