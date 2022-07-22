@@ -24,7 +24,7 @@ import '@ionic/react/css/display.css';
 import '../presentation/theme/variables.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { DependencyProvider } from './contexts/DependencyContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 import TabView from '../presentation/components/core/tabView/TabView';
 
 setupIonicReact();
@@ -35,6 +35,14 @@ const queryClient = new QueryClient({
     }
   }
 });
+
+setLogger({
+  log: () => {},
+  warn: () => {},
+  error: () => {},
+});
+
+//TODO use error boundaries
 
 const App = () => {
   return (
