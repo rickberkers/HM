@@ -25,7 +25,7 @@ const SignIn = () => {
     const showError = (fieldName: keyof SignInUser) => {
         return (
             <ErrorMessage
-                // errors={errors}
+                errors={errors}
                 name={fieldName}
                 render={(({ message }) =>
                     <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>

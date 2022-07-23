@@ -5,7 +5,7 @@ import { useUseCases } from '../../../core/contexts/DependencyContext';
 import { useAuth } from '../../../core/hooks/useAuth';
 import { useSettings } from '../../../core/hooks/useSettings';
 import SignOutButton from '../../components/auth/signOutButton/SignOutButton';
-import { ErrorText } from '../../components/shared/errorText/ErrorText';
+import { ErrorText } from '../../components/shared/text/Text';
 import Spinner from '../../components/shared/spinner/Spinner';
 import './HouseholdView.css';
 

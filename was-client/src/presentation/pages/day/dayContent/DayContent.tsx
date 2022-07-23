@@ -5,7 +5,7 @@ import { truncateString } from '../../../../core/utils/string';
 import { useAuth } from '../../../../core/hooks/useAuth';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
-import { ErrorText } from '../../../components/shared/errorText/ErrorText';
+import { ErrorText } from '../../../components/shared/text/Text';
 
 type Props = {
   date: Date
