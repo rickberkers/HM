@@ -3,9 +3,10 @@ import './DayView.css';
 import DayContent from '../dayContent/DayContent';
 import { useParams } from "react-router-dom";
 import { parseISO } from 'date-fns';
-import { capitalizeFirstLetter, getWeekDayName } from '../../../helpers/formattingHelpers';
+import { capitalizeFirstLetter } from '../../../utils/formattingUtils';
 import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
 import React from 'react';
+import { getWeekDayName } from '../../../utils/dateUtils';
 
 const DayView = () => {
 

@@ -1,9 +1,8 @@
-import { IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
-import React from 'react';
 import { Day } from '../../../../domains/models/Day';
 import { Household } from '../../../../domains/models/Household';
-import DayItem from '../dayItem/DayItem';
-import { capitalizeFirstLetter, getMonthName } from '../../../helpers/formattingHelpers';
+import { getMonthName } from '../../../utils/dateUtils';
+import { capitalizeFirstLetter } from '../../../utils/formattingUtils';
+import MonthGroup from '../monthGroup/MonthGroup';
 
 interface DayListProps {
     days: Day[];
@@ -12,25 +11,23 @@ interface DayListProps {
 
 const DayList = ({days, household}: DayListProps) => {
 
-    const groupedDays = days.reduce((acc : {[key: string]: Day[]}, day) => {
+    const groupedDays = groupDaysByMonth(days);
+    const groupedComponents = Object.keys(groupedDays).map((monthName: string) =>
+        <MonthGroup key={monthName} monthName={monthName} household={household} days={groupedDays[monthName]}/>
+    );
+
+    return (
+        <>{ groupedComponents }</>
+    );
+};
+
+const groupDaysByMonth = (days: Day[]) => {
+    return days.reduce((acc : {[key: string]: Day[]}, day) => {
         const month = capitalizeFirstLetter(getMonthName(day.date));
         acc[month] = acc[month] || [];
         acc[month].push(day);
         return acc;
     }, {});
-
-    const groupedComponents = Object.keys(groupedDays).map((month) => 
-        <React.Fragment key={month}>
-            <IonItemDivider sticky key={month}><IonLabel>{month}</IonLabel></IonItemDivider>
-            {groupedDays[month].map((day) => <DayItem day={day} household={household} key={day.date.getTime()}/>)}
-        </React.Fragment>
-    );
-
-    return (<>
-        <IonItemGroup>
-            { groupedComponents }
-        </IonItemGroup>
-    </>);
-};
+}
 
 export default DayList;

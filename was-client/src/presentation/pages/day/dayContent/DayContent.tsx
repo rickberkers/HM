@@ -6,6 +6,7 @@ import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
 import { useSettings } from '../../../../core/hooks/useSettings';
+import { useAuth } from '../../../../core/hooks/useAuth';
 
 type Props = {
   date: Date
@@ -14,6 +15,7 @@ type Props = {
 const DayContent = ({date}: Props) => {
 
   const { currentHouseholdId } = useSettings();
+  const { user } = useAuth();
 
   const { getDayUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;

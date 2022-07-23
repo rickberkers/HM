@@ -4,8 +4,9 @@ import { useAuth } from "../../../../core/hooks/useAuth";
 import { ROUTE_NAMES } from "../../../../core/Routes";
 import { Day } from "../../../../domains/models/Day";
 import { Household } from "../../../../domains/models/Household";
-import { getWeekDayName, getMonthName, nounShouldBePlural, capitalizeFirstLetter } from "../../../helpers/formattingHelpers";
 import { useAttendance } from "../../../hooks/useAttendance";
+import { getWeekDayName, getMonthName } from "../../../utils/dateUtils";
+import { capitalizeFirstLetter, nounShouldBePlural } from "../../../utils/formattingUtils";
 
 interface Props {
     day: Day,

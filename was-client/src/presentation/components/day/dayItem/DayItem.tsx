@@ -1,6 +1,5 @@
 import { IonItem, IonAvatar, IonLabel, IonBadge, IonIcon, IonText } from "@ionic/react";
 import { personSharp } from "ionicons/icons";
-import { capitalizeFirstLetter, getWeekDayName } from "../../../helpers/formattingHelpers";
 import { Day } from "../../../../domains/models/Day";
 import DateAvatar from "../dateAvatar/DateAvatar";
 import { Household } from "../../../../domains/models/Household";
@@ -9,6 +8,8 @@ import { closeCircleOutline, addCircleOutline } from 'ionicons/icons';
 import './DayItem.css';
 import { ROUTE_NAMES } from "../../../../core/Routes";
 import { formatISO } from "date-fns";
+import { getWeekDayName } from "../../../utils/dateUtils";
+import { capitalizeFirstLetter } from "../../../utils/formattingUtils";
 
 interface DayItemProps {
     day: Day,
@@ -25,7 +26,7 @@ const DayItem = ({day, household}: DayItemProps) => {
                 <DateAvatar number={day.date.getDate()} />
             </IonAvatar>
             <IonLabel>
-                <h2>{capitalizeFirstLetter(getWeekDayName(day.date))}</h2>
+                <h2><IonText color="medium">{capitalizeFirstLetter(getWeekDayName(day.date))}</IonText></h2>
                 {
                     attendance.absentees.map((absentee) => 
                         <span key={absentee.id} className="deviation icon-size">
