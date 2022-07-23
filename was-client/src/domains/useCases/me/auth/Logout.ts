@@ -1,4 +1,4 @@
-import { IAuthRepository } from "../../repositories/IAuthRepository";
+import { IAuthRepository } from "../../../repositories/IAuthRepository";
 
 export default class AuthLogoutUseCase {
     constructor(

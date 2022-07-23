@@ -1,11 +1,11 @@
 import { Day } from "../../domains/models/Day";
 import { IDayRepository } from "../../domains/repositories/IDayRepository";
-import DayAPIDataSource from "../datasource/API/DayAPIDataSource";
+import IDayDataSource from "../datasource/IDayDataSource";
 
 export default class DayRepository implements IDayRepository {
 
     constructor(
-        private dataSource: DayAPIDataSource
+        private dataSource: IDayDataSource
     ) {}
 
     async getDay(date: Date, householdId: string): Promise<Day> {

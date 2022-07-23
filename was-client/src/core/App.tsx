@@ -26,6 +26,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { DependencyProvider } from './contexts/DependencyContext';
 import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 import TabView from '../presentation/components/core/tabView/TabView';
+import { SettingsProvider } from './contexts/SettingsContext';
 
 setupIonicReact();
 const queryClient = new QueryClient({
@@ -49,11 +50,13 @@ const App = () => {
   <QueryClientProvider client={queryClient}>
     <DependencyProvider>
       <AuthProvider>
-        <IonApp>
-          <IonReactRouter>
-            <TabView/>
-          </IonReactRouter>
-        </IonApp>
+        <SettingsProvider>
+          <IonApp>
+            <IonReactRouter>
+              <TabView/>
+            </IonReactRouter>
+          </IonApp>
+        </SettingsProvider>
       </AuthProvider>
     </DependencyProvider>
   </QueryClientProvider>

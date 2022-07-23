@@ -6,3 +6,5 @@ export type Household = {
     createdAt: Date,
     members: User[]
 }
+
+export type MemberHousehold = Omit<Household, 'members'>;

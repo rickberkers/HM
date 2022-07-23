@@ -2,7 +2,6 @@ import { DataSource, Repository } from "typeorm";
 import { IHouseholdService } from "./IHouseholdService";
 import { Household as HouseholdEntity } from "@entities/Household";
 import { Household } from "@models/Household";
-import { PublicUser } from "@models/User";
 import { User as UserEntity } from "@entities/User";
 
 export default class HouseholdService implements IHouseholdService {

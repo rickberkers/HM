@@ -8,7 +8,7 @@ type Props = {
 const DateAvatar = (props: Props) => {
     
     return (
-        <IonButton onClick={props.onClick} expand='block' color="danger">
+        <IonButton onClick={props.onClick} class='ion-margin' expand='block' color="danger">
             Sign Out
         </IonButton>
     );

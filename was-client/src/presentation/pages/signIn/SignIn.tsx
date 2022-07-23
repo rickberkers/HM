@@ -25,7 +25,7 @@ const SignIn = () => {
     const showError = (fieldName: keyof SignInUser) => {
         return (
             <ErrorMessage
-                errors={errors}
+                // errors={errors}
                 name={fieldName}
                 render={(({ message }) =>
                     <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
@@ -46,7 +46,7 @@ const SignIn = () => {
                         <IonTitle>Sign in</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <h3 className='ion-text-center'>WAS</h3>
+                    <h3 className='ion-text-center'>WAS</h3>
                     <IonItem className={errors.username && "ion-invalid"}>
                         <IonLabel position="stacked">Username</IonLabel>
                         <Controller

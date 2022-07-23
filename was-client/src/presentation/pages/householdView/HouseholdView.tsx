@@ -1,13 +1,23 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast } from '@ionic/react';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast, IonList, IonItem, IonLabel, IonText, IonFooter, IonRadioGroup, IonRadio, RadioGroupChangeEventDetail } from '@ionic/react';
 import React from 'react';
+import { useQuery } from 'react-query';
+import { useUseCases } from '../../../core/contexts/DependencyContext';
 import { useAuth } from '../../../core/hooks/useAuth';
+import { useSettings } from '../../../core/hooks/useSettings';
 import SignOutButton from '../../components/auth/signOutButton/SignOutButton';
+import { ErrorText } from '../../components/shared/errorText/ErrorText';
+import Spinner from '../../components/shared/spinner/Spinner';
 import './HouseholdView.css';
 
 const HouseholdView = () => {
 
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const { currentHouseholdId, setCurrentHouseholdId } = useSettings();
+
+  const { getMemberHouseholdsUseCase } = useUseCases().meUseCases;
   const [present] = useIonToast();
+
+  const {isError, data: households, isLoading} = useQuery('my-households', () => getMemberHouseholdsUseCase.invoke(user!.id))
 
   const logoutClick = async () => {
     await logout().catch(() => {
@@ -15,22 +25,54 @@ const HouseholdView = () => {
     });
   }
 
+  const onSelectCurrentHousehold = (event: CustomEvent<RadioGroupChangeEventDetail<string>>) => {
+      setCurrentHouseholdId(event.detail.value);
+  }
+
+  let content;
+
+  if (isError) content = <ErrorText/>;
+  else if (isLoading) content = <Spinner/>;
+  else {
+    content = (
+      <IonList lines='full'>
+        <IonRadioGroup value={currentHouseholdId} onIonChange={onSelectCurrentHousehold}>
+        {
+          households!.map((household) => {
+            return (
+              <IonItem key={household.id}>
+                <IonRadio value={household.id} slot="start" />
+                <IonLabel>{household.name}</IonLabel> 
+              </IonItem>
+            );
+          })
+        }
+        </IonRadioGroup>
+      </IonList>
+    );
+  }
+
   return (
     <IonPage>
-      <IonContent>
-        <IonHeader className="ion-no-border">
+      <IonHeader className="ion-no-border">
           <IonToolbar>
-            <IonTitle>PAREL</IonTitle>
-            <IonTitle size='small'>Rick</IonTitle>
+            <IonTitle>Household</IonTitle>
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
             <IonButtons slot="end">
             </IonButtons>
           </IonToolbar>
-        </IonHeader>
-        <SignOutButton onClick={logoutClick} />
+          <IonText className='ion-text-center' color="medium">
+          <p>Switch household</p>
+          </IonText>
+      </IonHeader>
+      <IonContent>
+        {content}
       </IonContent>
+      <IonFooter>
+        <SignOutButton onClick={logoutClick} />
+      </IonFooter>
   </IonPage>
   );
 };

@@ -1,5 +1,5 @@
-import { AccessToken } from "../../models/Token";
-import { IAuthRepository } from "../../repositories/IAuthRepository";
+import { AccessToken } from "../../../models/Token";
+import { IAuthRepository } from "../../../repositories/IAuthRepository";
 
 export default class AuthRefreshUseCase {
     constructor(

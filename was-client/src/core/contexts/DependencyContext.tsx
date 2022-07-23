@@ -2,8 +2,8 @@ import { ReactNode, useContext, createContext } from "react"
 import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
 import AuthRepository from "../../data/repositories/AuthRepository";
-import AuthLogoutUseCase from "../../domains/useCases/auth/Logout";
-import AuthRefreshUseCase from "../../domains/useCases/auth/Refresh";
+import AuthLogoutUseCase from "../../domains/useCases/me/auth/Logout";
+import AuthRefreshUseCase from "../../domains/useCases/me/auth/Refresh";
 import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
 import GetDaysUseCase from "../../domains/useCases/day/GetDays";
 import DayRepository from "../../data/repositories/DayRepository";
@@ -12,7 +12,10 @@ import GetHouseholdUseCase from "../../domains/useCases/household/GetHousehold";
 import HouseholdAPIDataSource from "../../data/datasource/API/HouseholdAPIDataSource";
 import HouseholdRepository from "../../data/repositories/HouseholdRepository";
 import GetDayUseCase from "../../domains/useCases/day/GetDay";
-import AuthLoginUseCase from "../../domains/useCases/auth/login";
+import AuthLoginUseCase from "../../domains/useCases/me/auth/Login";
+import MeRepository from "../../data/repositories/MeRepository";
+import MeAPIDataSource from "../../data/datasource/API/MeAPIDataSource";
+import GetMemberHouseholdsByIdUseCase from "../../domains/useCases/me/households/GetMemberHouseholds";
 
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
@@ -24,12 +27,14 @@ const dataSources = {
   authDataSource: new AuthAPIDataSource(axiosWrapper.instance),
   dayDataSource: new DayAPIDataSource(axiosWrapper.instance),
   memberDataSource: new HouseholdAPIDataSource(axiosWrapper.instance),
+  meDataSource: new MeAPIDataSource(axiosWrapper.instance)
 }
 
 const repositories = {
   authRepository: new AuthRepository(dataSources.authDataSource),
   dayRepository: new DayRepository(dataSources.dayDataSource),
   memberRepository: new HouseholdRepository(dataSources.memberDataSource),
+  meRepository: new MeRepository(dataSources.meDataSource)
 }
 
 const dependencies = {
@@ -45,6 +50,9 @@ const dependencies = {
     },
     houseHoldUseCases: {
       getHouseholdUseCase: new GetHouseholdUseCase(repositories.memberRepository),
+    },
+    meUseCases: {
+      getMemberHouseholdsUseCase: new GetMemberHouseholdsByIdUseCase(repositories.meRepository)
     }
   },
   setNewToken: (token: string) => axiosWrapper.setAuthHeader(token)
