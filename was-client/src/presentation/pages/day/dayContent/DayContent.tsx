@@ -2,7 +2,6 @@ import { IonItem, IonLabel, IonList, IonText, IonToggle } from '@ionic/react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import { truncateString } from '../../../../core/utils/string';
-import { useAuth } from '../../../../core/hooks/useAuth';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
@@ -14,17 +13,20 @@ type Props = {
 
 const DayContent = ({date}: Props) => {
 
-    const { user } = useAuth();
-    const { currentHouseholdId } = useSettings();
+  const { currentHouseholdId } = useSettings();
 
-    const { getDayUseCase } = useUseCases().dayUseCases;
-    const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
+  const { getDayUseCase } = useUseCases().dayUseCases;
+  const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
 
-    const queryOptions = {enabled: currentHouseholdId != null};
-    const queryResults = useQueries([
-        { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, currentHouseholdId!), ...queryOptions},
-        { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}
-    ]);
+  const queryOptions = {enabled: currentHouseholdId != null};
+  const queryResults = useQueries([
+      { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, currentHouseholdId!), ...queryOptions},
+      { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}
+  ]);
+
+  if (!currentHouseholdId) {
+    return <NoHouseholdText/>;
+  }
 
   const isLoading = queryResults.some(query => query.isLoading);
   const isError = queryResults.some(query => query.isError);
@@ -32,10 +34,8 @@ const DayContent = ({date}: Props) => {
   const day = queryResults[0].data ?? null;
   const household = queryResults[1].data ?? null;
 
-  if (!currentHouseholdId) {
-    return <NoHouseholdText/>;
-  }
-  else if (isError) {
+
+  if (isError) {
     return <ErrorText/>;
   }
 
