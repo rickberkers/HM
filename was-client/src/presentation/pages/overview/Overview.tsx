@@ -16,7 +16,10 @@ const Overview = () => {
 
   const { currentHouseholdId } = useSettings();
   
-  const queryOptions = {enabled: currentHouseholdId != null};
+  const queryOptions = {
+    enabled: currentHouseholdId != null
+  };
+
   const queryResults = useQueries([
     { queryKey: 'days', queryFn: () => getDaysUseCase.invoke(currentHouseholdId!, new Date(2021,10,5), 50), ...queryOptions},
     { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}

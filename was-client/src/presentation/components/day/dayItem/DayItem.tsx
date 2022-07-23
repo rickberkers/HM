@@ -21,7 +21,7 @@ const DayItem = ({day, household}: DayItemProps) => {
     const attendance = useAttendance(day, household.members);
 
     return (
-        <IonItem routerLink={`${ROUTE_NAMES.DAY}/${formatISO(day.date, { representation: 'date' })}`}>
+        <IonItem lines="full" routerLink={`${ROUTE_NAMES.DAY}/${formatISO(day.date, { representation: 'date' })}`}>
             <IonAvatar slot="start">
                 <DateAvatar number={day.date.getDate()} />
             </IonAvatar>
@@ -44,7 +44,7 @@ const DayItem = ({day, household}: DayItemProps) => {
                     )
                 }
             </IonLabel>
-            <IonBadge slot="end" color="light"><IonIcon icon={personSharp} /> {attendance.count()}</IonBadge>
+            <IonBadge slot="end" color="light"><IonIcon color="medium" icon={personSharp} /> {attendance.count()}</IonBadge>
         </IonItem>
     );
 }

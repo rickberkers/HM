@@ -12,22 +12,24 @@ interface DayListProps {
 const DayList = ({days, household}: DayListProps) => {
 
     const groupedDays = groupDaysByMonth(days);
-    const groupedComponents = Object.keys(groupedDays).map((monthName: string) =>
-        <MonthGroup key={monthName} monthName={monthName} household={household} days={groupedDays[monthName]}/>
-    );
+    let groupedComponents: JSX.Element[] = [];
+    
+    groupedDays.forEach((days, monthName) => {
+        groupedComponents.push(
+            <MonthGroup key={monthName} monthName={monthName} household={household} days={days}/>
+        )
+    });
 
-    return (
-        <>{ groupedComponents }</>
-    );
+    return (<>{groupedComponents}</>);
 };
 
 const groupDaysByMonth = (days: Day[]) => {
-    return days.reduce((acc : {[key: string]: Day[]}, day) => {
-        const month = capitalizeFirstLetter(getMonthName(day.date));
-        acc[month] = acc[month] || [];
-        acc[month].push(day);
+    return days.reduce((acc : Map<string, Day[]>, day) => {
+        const monthName = capitalizeFirstLetter(getMonthName(day.date));
+        acc.set(monthName, acc.get(monthName) || []);
+        acc.get(monthName)?.push(day);
         return acc;
-    }, {});
+    }, new Map());
 }
 
 export default DayList;

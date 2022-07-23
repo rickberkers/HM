@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2
-    }
+    },
   }
 });
 
@@ -43,7 +43,8 @@ setLogger({
   error: () => {},
 });
 
-//TODO use error boundaries
+// TODO use error boundaries
+// TODO use virtual scroll for better performance
 
 const App = () => {
   return (

@@ -1,7 +1,6 @@
-import { IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
+import { IonItemDivider, IonLabel } from "@ionic/react";
 import { Day } from "../../../../domains/models/Day";
 import { Household } from "../../../../domains/models/Household";
-import { getWeekNumber } from "../../../utils/dateUtils";
 import DayItem from "../dayItem/DayItem";
 import "./MonthGroup.css";
 
@@ -32,15 +31,5 @@ const MonthGroup = ({days, monthName, household}: MonthProps) => {
         </>
     );
 };
-
-
-// const groupDaysByWeek = (days: Day[]) => {
-//     return days.reduce((acc : Map<number, Day[]>, day) => {
-//         const week = getWeekNumber(day.date);
-//         acc.set(week, acc.get(week) || []);
-//         acc.get(week)!.push(day);
-//         return acc;
-//     }, new Map());
-// }
 
 export default MonthGroup;
