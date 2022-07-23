@@ -5,7 +5,8 @@ import { truncateString } from '../../../../core/utils/string';
 import { useAuth } from '../../../../core/hooks/useAuth';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
-import { ErrorText } from '../../../components/shared/text/Text';
+import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
+import { useSettings } from '../../../../core/hooks/useSettings';
 
 type Props = {
   date: Date
@@ -14,13 +15,15 @@ type Props = {
 const DayContent = ({date}: Props) => {
 
     const { user } = useAuth();
+    const { currentHouseholdId } = useSettings();
 
     const { getDayUseCase } = useUseCases().dayUseCases;
     const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
 
+    const queryOptions = {enabled: currentHouseholdId != null};
     const queryResults = useQueries([
-        { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, "d3b6d118-05af-4eaf-8631-0500fe54c683")},
-        { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke("d3b6d118-05af-4eaf-8631-0500fe54c683")}
+        { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, currentHouseholdId!), ...queryOptions},
+        { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}
     ]);
 
   const isLoading = queryResults.some(query => query.isLoading);
@@ -29,7 +32,10 @@ const DayContent = ({date}: Props) => {
   const day = queryResults[0].data ?? null;
   const household = queryResults[1].data ?? null;
 
-  if (isError) {
+  if (!currentHouseholdId) {
+    return <NoHouseholdText/>;
+  }
+  else if (isError) {
     return <ErrorText/>;
   }
 
