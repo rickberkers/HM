@@ -1,4 +1,4 @@
-import { IonText } from '@ionic/react';
+import { IonFab, IonFabButton, IonIcon, IonText } from '@ionic/react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import { truncateString } from '../../../../core/utils/stringUtils';
@@ -7,7 +7,7 @@ import './DayContent.css';
 import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
 import { useSettings } from '../../../../core/hooks/useSettings';
 import { AttendanceList } from '../../../components/day/attendanceList/AttendanceList';
-import { AddGuestFAB } from '../../../components/day/addGuestFAB/AddGuestFAB';
+import { add } from 'ionicons/icons';
 
 type Props = {
   date: Date
@@ -55,7 +55,11 @@ const DayContent = ({date}: Props) => {
         <AttendanceList day={day!} household={household!} ></AttendanceList>
 
         {/* Display FAB for adding guest  */}
-        <AddGuestFAB></AddGuestFAB>
+        <IonFab class={"fab-position"} vertical="bottom" horizontal="end" edge slot="fixed">
+          <IonFabButton color="success">
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
     </>
 
   );
