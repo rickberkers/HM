@@ -1,7 +1,7 @@
 import { Axios } from 'axios';
 import IDayDataSource from "../IDayDataSource";
 import { Day } from "../../../domains/models/Day";
-import { format, parseISO } from 'date-fns';
+import { parseISODateNoTime, formatISODateNoTime } from '../../../core/utils/dateUtils';
 
 const BASE_URL = `/days`;
 
@@ -13,17 +13,14 @@ export default class DayAPIDataSource implements IDayDataSource {
         const response = await this.axios.get<Day[]>(BASE_URL, {
             params: {
                 householdId,
-                startDate: format(startDate, 'yyyy-MM-dd'),
+                startDate: formatISODateNoTime(startDate),
                 limit
             },
             transformResponse: (data: any) => {
                 data = JSON.parse(data);
                 return data.map((day: any) => {
-                    day.date = parseISO(day.date);
-                    day.commitments.map((commitment: any) => {
-                        commitment.day = parseISO(commitment.day);
-                        return commitment;
-                    });
+                    day.date = parseISODateNoTime(day.date);
+                    day.commitments.map(this.transformCommitment);
                     return day;
                 });
             },
@@ -33,21 +30,23 @@ export default class DayAPIDataSource implements IDayDataSource {
 
     async getDay(day: Date, householdId: string): Promise<Day> {
 
-        const ISODayDate = format(day, 'yyyy-MM-dd');
+        const ISODayDate = formatISODateNoTime(day);
         const response = await this.axios.get<Day>(`${BASE_URL}/${ISODayDate}`, {
             params: {
               householdId  
             },
             transformResponse: (data: any) => {
                 let day = JSON.parse(data);
-                day.date = parseISO(day.date);
-                day.commitments.map((commitment: any) => {
-                    commitment.day = parseISO(commitment.day);
-                    return commitment;
-                });
+                day.date = parseISODateNoTime(day.date);
+                day.commitments.map(this.transformCommitment);
                 return day;
             },
         });
         return response.data;
+    }
+
+    private transformCommitment(commitment: any) {
+        commitment.day = parseISODateNoTime(commitment.day);
+        return commitment;
     }
 }

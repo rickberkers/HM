@@ -1,5 +1,6 @@
-import { AssociativeObjectArray } from '../../core/utils/types';
-import { Day } from '../../domains/models/Day';
+import { useEffect, useState } from 'react';
+import { AssociativeObjectArray } from '../../core/utils/typeUtils';
+import { Commitment } from '../../domains/models/Commitment';
 import { User } from '../../domains/models/User';
 
 class Attendance {
@@ -13,11 +14,29 @@ class Attendance {
 
 /**
  * Generates attendance object based on day and household members
- * @param day 
+ * @param commitments 
  * @param members 
  * @returns attendance of day
  */
-export function useAttendance(day: Day, members: User[]) {
+export function useAttendance(commitments: Commitment[], members: User[]) {
+
+    const [attendance, setAttendance ] = useState<Attendance>(new Attendance());
+
+    useEffect(() => {
+
+        if (!commitments || !members) {
+            return;
+        }
+
+        const newAttendance = calculateAttendance(commitments, members);
+        setAttendance(newAttendance);
+
+    }, [members, commitments]);
+
+    return attendance;
+}
+
+const calculateAttendance = (commitments: Commitment[], members: User[]): Attendance => {
 
     // Map of household members
     const memberMap = members.reduce((acc: AssociativeObjectArray<User>, member) => {
@@ -26,14 +45,14 @@ export function useAttendance(day: Day, members: User[]) {
     }, {});
 
     // Map of abstentees that are members in the household
-    const absenteesMap = day.commitments.reduce((acc: AssociativeObjectArray<User>, commitment) => {
+    const absenteesMap = commitments.reduce((acc: AssociativeObjectArray<User>, commitment) => {
         if (commitment.committed || !memberMap[commitment.userId]) return acc;
         acc[commitment.userId] = memberMap[commitment.userId];
         return acc;
     }, {});
 
     // Create attendance of attendants and abstentees
-    let attendance = members.reduce<Attendance>((acc, member) => {
+    let newAttendance = members.reduce<Attendance>((acc, member) => {
         if (absenteesMap[member.id]) {
             acc.absentees.push(memberMap[member.id]);
         } else {
@@ -43,11 +62,11 @@ export function useAttendance(day: Day, members: User[]) {
     }, new Attendance());
 
     // Add guests to attendance
-    attendance = day.commitments.reduce<Attendance>((acc, commitment) => {
+    newAttendance = commitments.reduce<Attendance>((acc, commitment) => {
         if(!memberMap[commitment.userId]) return acc;
         acc.guests.push(...commitment.guests || []);
         return acc;
-    }, attendance);
+    }, newAttendance);
 
-    return attendance;
+    return newAttendance;
 }

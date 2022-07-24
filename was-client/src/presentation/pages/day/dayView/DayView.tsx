@@ -1,12 +1,12 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonPopover, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './DayView.css';
 import DayContent from '../dayContent/DayContent';
 import { useParams } from "react-router-dom";
 import { parseISO } from 'date-fns';
-import { capitalizeFirstLetter } from '../../../utils/formattingUtils';
 import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
 import React from 'react';
-import { getWeekDayName } from '../../../utils/dateUtils';
+import { getWeekDayName } from '../../../../core/utils/dateUtils';
+import { capitalizeFirstLetter } from '../../../../core/utils/formattingUtils';
 
 const DayView = () => {
 
@@ -27,9 +27,9 @@ const DayView = () => {
             <IonButton id="popover-trigger">
               <IonIcon slot="icon-only" ios={ellipsisHorizontal} md={ellipsisVertical}/>
             </IonButton>
-            <IonPopover trigger="popover-trigger" triggerAction="click">
-              <IonContent class="ion-padding">Hello World!</IonContent>
-            </IonPopover>
+            {/* <IonPopover trigger="popover-trigger" triggerAction="click">
+
+            </IonPopover> */}
           </IonButtons>
         </IonToolbar>
       </IonHeader>

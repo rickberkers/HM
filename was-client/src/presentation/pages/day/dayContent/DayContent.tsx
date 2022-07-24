@@ -1,12 +1,13 @@
-import { IonItem, IonLabel, IonList, IonText, IonToggle } from '@ionic/react';
+import { IonText } from '@ionic/react';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
-import { truncateString } from '../../../../core/utils/string';
+import { truncateString } from '../../../../core/utils/stringUtils';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
 import { useSettings } from '../../../../core/hooks/useSettings';
-import { useAuth } from '../../../../core/hooks/useAuth';
+import { AttendanceList } from '../../../components/day/attendanceList/AttendanceList';
+import { AddGuestFAB } from '../../../components/day/addGuestFAB/AddGuestFAB';
 
 type Props = {
   date: Date
@@ -15,20 +16,16 @@ type Props = {
 const DayContent = ({date}: Props) => {
 
   const { currentHouseholdId } = useSettings();
-  const { user } = useAuth();
 
   const { getDayUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
 
-  const queryOptions = {enabled: currentHouseholdId != null};
+  const sharedQueryOptions = {enabled: currentHouseholdId != null};
   const queryResults = useQueries([
-      { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, currentHouseholdId!), ...queryOptions},
-      { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}
+      // Cachetime 0 because re-renders anyway due to dates being parsed in the transformation function at datasource implementation
+      { queryKey: 'day', queryFn: () => getDayUseCase.invoke(date, currentHouseholdId!), ...sharedQueryOptions, cacheTime: 0},
+      { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...sharedQueryOptions}
   ]);
-
-  if (!currentHouseholdId) {
-    return <NoHouseholdText/>;
-  }
 
   const isLoading = queryResults.some(query => query.isLoading);
   const isError = queryResults.some(query => query.isError);
@@ -36,6 +33,9 @@ const DayContent = ({date}: Props) => {
   const day = queryResults[0].data ?? null;
   const household = queryResults[1].data ?? null;
 
+  if (!currentHouseholdId) {
+    return <NoHouseholdText/>;
+  }
 
   if (isError) {
     return <ErrorText/>;
@@ -44,23 +44,18 @@ const DayContent = ({date}: Props) => {
   return (
     isLoading ? <Spinner/> : 
     <>
-        {day?.dayInfo?.note && 
+        {/* Display note of day  */}
+        {  day?.dayInfo?.note && 
           <div className="ion-margin">
             <IonText>{truncateString(day.dayInfo.note, 350)}</IonText>
           </div>
         }
         
-        <IonList>
-          {household?.members.map((member) => {
+        {/* Display attendance list  */}
+        <AttendanceList day={day!} household={household!} ></AttendanceList>
 
-            return (
-              <IonItem key={member.id}>
-                <IonLabel>{member.firstName}</IonLabel>
-                {member.id === user?.id && <IonToggle></IonToggle>}
-              </IonItem>
-            )
-          })}
-        </IonList>
+        {/* Display FAB for adding guest  */}
+        <AddGuestFAB></AddGuestFAB>
     </>
 
   );

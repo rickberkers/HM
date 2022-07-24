@@ -3,11 +3,12 @@ import './Overview.css';
 import { useQueries } from 'react-query';
 import { useUseCases } from '../../../core/contexts/DependencyContext';
 import DayList from '../../components/day/dayList/DayList';
-import { TodayCard } from '../../components/day/todayCard/TodayCard';
+import TodayCard from '../../components/day/todayCard/TodayCard';
 import React from 'react';
 import Spinner from '../../components/shared/spinner/Spinner';
 import { ErrorText, NoHouseholdText } from '../../components/shared/text/Text';
 import { useSettings } from '../../../core/hooks/useSettings';
+import { parseISODateNoTime } from '../../../core/utils/dateUtils';
 
 const Overview = () => {
 
@@ -16,13 +17,14 @@ const Overview = () => {
 
   const { currentHouseholdId } = useSettings();
   
-  const queryOptions = {
+  const sharedQueryOptions = {
     enabled: currentHouseholdId != null
   };
 
   const queryResults = useQueries([
-    { queryKey: 'days', queryFn: () => getDaysUseCase.invoke(currentHouseholdId!, new Date(2021,10,5), 50), ...queryOptions},
-    { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...queryOptions}
+    // Cachetime 0 because re-renders anyway due to dates being parsed in the transformation function at datasource implementation
+    { queryKey: 'days', queryFn: () => getDaysUseCase.invoke(currentHouseholdId!, parseISODateNoTime("2021-11-05"), 50), ...sharedQueryOptions, cacheTime: 0},   
+    { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...sharedQueryOptions},
   ]);
 
   const isLoading = queryResults.some(query => query.isLoading);

@@ -5,18 +5,18 @@ import { ROUTE_NAMES } from "../../../../core/Routes";
 import { Day } from "../../../../domains/models/Day";
 import { Household } from "../../../../domains/models/Household";
 import { useAttendance } from "../../../hooks/useAttendance";
-import { getWeekDayName, getMonthName } from "../../../utils/dateUtils";
-import { capitalizeFirstLetter, nounShouldBePlural } from "../../../utils/formattingUtils";
+import { getWeekDayName, getMonthName } from "../../../../core/utils/dateUtils";
+import { capitalizeFirstLetter, nounShouldBePlural } from "../../../../core/utils/formattingUtils";
 
 interface Props {
     day: Day,
     household: Household
 }
 
-export const TodayCard = ({day, household}: Props) => {
+const TodayCard = ({day, household}: Props) => {
 
     const { user } = useAuth();
-    const attendance = useAttendance(day, household.members);
+    const attendance = useAttendance(day.commitments, household.members);
 
     return (
         <IonCard routerLink={ROUTE_NAMES.TODAY}>
@@ -69,3 +69,5 @@ export const TodayCard = ({day, household}: Props) => {
         </IonCard>
     );
 }
+
+export default TodayCard;

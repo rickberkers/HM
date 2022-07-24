@@ -1,4 +1,4 @@
-import { IonSpinner, SpinnerTypes } from "@ionic/react";
+import { IonSpinner, IonText, SpinnerTypes } from "@ionic/react";
 import './Spinner.css';
 
 type SpinnerProps = {
@@ -12,12 +12,16 @@ type SpinnerProps = {
 
 const Spinner = ({fullHeight = true, text, spinner = {name: "circular", color: "primary"}}: SpinnerProps) => {
 
-    let spinnerText: JSX.Element | undefined = <p>{"Loading"}</p>;
-    if(text && text.length > 1) {
-        spinnerText = <p>{text}</p>;
-    } 
-    else if (text === "") {
+    let spinnerText: JSX.Element | undefined;
+
+    if (text && text.length > 1) {
+        spinnerText = <IonText color={"medium"}>{text}</IonText>;
+    }
+    else if (text === '') {
         spinnerText = undefined;
+    }
+    else {
+        spinnerText = <IonText color={"medium"}>{"Loading"}</IonText>;
     }
 
     return (

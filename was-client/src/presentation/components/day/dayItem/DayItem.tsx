@@ -8,8 +8,9 @@ import { closeCircleOutline, addCircleOutline } from 'ionicons/icons';
 import './DayItem.css';
 import { ROUTE_NAMES } from "../../../../core/Routes";
 import { formatISO } from "date-fns";
-import { getWeekDayName } from "../../../utils/dateUtils";
-import { capitalizeFirstLetter } from "../../../utils/formattingUtils";
+import { getWeekDayName } from "../../../../core/utils/dateUtils";
+import React from "react";
+import { capitalizeFirstLetter } from "../../../../core/utils/formattingUtils";
 
 interface DayItemProps {
     day: Day,
@@ -18,7 +19,7 @@ interface DayItemProps {
 
 const DayItem = ({day, household}: DayItemProps) => {
 
-    const attendance = useAttendance(day, household.members);
+    const attendance = useAttendance(day.commitments, household.members);
 
     return (
         <IonItem lines="full" routerLink={`${ROUTE_NAMES.DAY}/${formatISO(day.date, { representation: 'date' })}`}>
@@ -49,4 +50,4 @@ const DayItem = ({day, household}: DayItemProps) => {
     );
 }
 
-export default DayItem;
+export default React.memo(DayItem);

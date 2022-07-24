@@ -1,8 +1,9 @@
+import React from 'react';
 import { Day } from '../../../../domains/models/Day';
 import { Household } from '../../../../domains/models/Household';
-import { getMonthName } from '../../../utils/dateUtils';
-import { capitalizeFirstLetter } from '../../../utils/formattingUtils';
+import { getMonthName } from '../../../../core/utils/dateUtils';
 import MonthGroup from '../monthGroup/MonthGroup';
+import { capitalizeFirstLetter } from '../../../../core/utils/formattingUtils';
 
 interface DayListProps {
     days: Day[];
@@ -32,4 +33,4 @@ const groupDaysByMonth = (days: Day[]) => {
     }, new Map());
 }
 
-export default DayList;
+export default React.memo(DayList);
