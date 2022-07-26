@@ -1,10 +1,10 @@
 import { ReactNode, useContext, createContext } from "react"
+import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
 import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
 import AuthRepository from "../../data/repositories/AuthRepository";
 import AuthLogoutUseCase from "../../domains/useCases/me/auth/Logout";
 import AuthRefreshUseCase from "../../domains/useCases/me/auth/Refresh";
-import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
 import GetDaysUseCase from "../../domains/useCases/day/GetDays";
 import DayRepository from "../../data/repositories/DayRepository";
 import DayAPIDataSource from "../../data/datasource/API/DayAPIDataSource";
@@ -16,6 +16,11 @@ import AuthLoginUseCase from "../../domains/useCases/me/auth/Login";
 import MeRepository from "../../data/repositories/MeRepository";
 import MeAPIDataSource from "../../data/datasource/API/MeAPIDataSource";
 import GetMemberHouseholdsByIdUseCase from "../../domains/useCases/me/households/GetMemberHouseholds";
+import CommitmentAPIDataSource from "../../data/datasource/API/CommitmentAPIDataSource";
+import CommitmentRepository from "../../data/repositories/CommitmentRepository";
+import UpdateCommitmentUseCase from "../../domains/useCases/day/commitment/UpdateCommitment";
+import AddCommitmentGuestsUseCase from "../../domains/useCases/day/commitment/AddCommitmentGuests";
+import RemoveCommitmentGuestsUseCase from "../../domains/useCases/day/commitment/RemoveCommitmentGuests";
 
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
@@ -27,12 +32,14 @@ const dataSources = {
   authDataSource: new AuthAPIDataSource(axiosWrapper.instance),
   dayDataSource: new DayAPIDataSource(axiosWrapper.instance),
   memberDataSource: new HouseholdAPIDataSource(axiosWrapper.instance),
-  meDataSource: new MeAPIDataSource(axiosWrapper.instance)
+  meDataSource: new MeAPIDataSource(axiosWrapper.instance),
+  commitmentDataSource: new CommitmentAPIDataSource(axiosWrapper.instance)
 }
 
 const repositories = {
   authRepository: new AuthRepository(dataSources.authDataSource),
   dayRepository: new DayRepository(dataSources.dayDataSource),
+  commitmentRepository: new CommitmentRepository(dataSources.commitmentDataSource),
   memberRepository: new HouseholdRepository(dataSources.memberDataSource),
   meRepository: new MeRepository(dataSources.meDataSource)
 }
@@ -46,7 +53,12 @@ const dependencies = {
     },
     dayUseCases: {
       getDaysUseCase: new GetDaysUseCase(repositories.dayRepository),
-      getDayUseCase: new GetDayUseCase(repositories.dayRepository)
+      getDayUseCase: new GetDayUseCase(repositories.dayRepository),
+      commitmentUseCases: {
+        updateCommitmentUseCase: new UpdateCommitmentUseCase(repositories.commitmentRepository),
+        addCommitmentGuestsUseCase: new AddCommitmentGuestsUseCase(repositories.commitmentRepository),
+        removeCommitmentGuestsUseCase: new RemoveCommitmentGuestsUseCase(repositories.commitmentRepository),
+      }
     },
     houseHoldUseCases: {
       getHouseholdUseCase: new GetHouseholdUseCase(repositories.memberRepository),
