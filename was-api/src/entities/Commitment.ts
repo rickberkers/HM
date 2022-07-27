@@ -23,7 +23,7 @@ export class Commitment implements CommitmentType {
     @JoinColumn({name: "userId"})
     user: User;
 
-    @Column("text", { array: true, nullable: true })
+    @Column("text", { array: true, default: '{}' })
     guests: string[];
 
     @Column()
