@@ -1,15 +1,13 @@
 import { FastifySchema } from "fastify/types/schema";
 import { FromSchema } from "json-schema-to-ts";
+import { ISODate, uuid } from "@schemas/properties";
 
 const householdQueryString = {
   type: 'object',
   required: ["householdId"],
   additionalProperties: false,
   properties: {
-    householdId: {
-      type: 'string',
-      format: 'uuid',
-    },
+    householdId: uuid,
   }
 } as const;
 
@@ -18,10 +16,7 @@ const dateParam = {
   required: ["date"],
   additionalProperties: false,
   properties: {
-    date: {
-      type: 'string',
-      pattern: `^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$`,
-    },    
+    date: ISODate,
   },
 } as const;
 
@@ -32,8 +27,11 @@ const guestsBody = {
   properties: {
       guests: {
           type: 'array',
+          minItems: 1,
           items: {
-              type: 'string'
+              type: 'string',
+              minLength: 1,
+              maxLength: 32,
           }
       },
   },

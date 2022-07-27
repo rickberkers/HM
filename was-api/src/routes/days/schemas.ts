@@ -1,3 +1,4 @@
+import { ISODate, uuid } from "@schemas/properties";
 import { FromSchema } from "json-schema-to-ts";
 
 export const getDaysSchema = {
@@ -6,14 +7,8 @@ export const getDaysSchema = {
         required: ["householdId", "startDate", "limit"],
         additionalProperties: false,
         properties: {
-          householdId: {
-            type: 'string',
-            format: 'uuid',
-          },
-          startDate: {
-            type: 'string',
-            pattern: `^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$`,
-          },
+          householdId: uuid,
+          startDate: ISODate,
           limit: {
             type: 'number',
             minimum: 0,
@@ -31,10 +26,7 @@ export const getDaySchema = {
       required: ["householdId"],
       additionalProperties: false,
       properties: {
-        householdId: {
-          type: 'string',
-          format: 'uuid',
-        }
+        householdId: uuid
       },
   },
   params: {
@@ -42,10 +34,7 @@ export const getDaySchema = {
     required: ["date"],
     additionalProperties: false,
     properties: {
-      date: {
-        type: 'string',
-        pattern: `^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$`,
-      }
+      date: ISODate
     },
   }
 } as const;

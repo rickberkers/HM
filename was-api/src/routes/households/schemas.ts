@@ -1,3 +1,4 @@
+import { uuid } from "@schemas/properties";
 import { FromSchema } from "json-schema-to-ts";
 
 export const getHouseholdSchema = {
@@ -6,10 +7,7 @@ export const getHouseholdSchema = {
         required: ["id"],
         additionalProperties: false,
         properties: {
-          id: {
-            type: 'string',
-            format: 'uuid',
-          }
+          id: uuid
         },
     }
 } as const;

@@ -9,6 +9,7 @@
             "@services/*": ["./src/services/*","./dist/services/*"],
             "@entities/*": ["./src/entities/*","./dist/entities/*"],
             "@config/*": ["./src/config/*","./dist/config/*"],
+            "@schemas/*": ["./src/schemas/*","./dist/schemas/*"],
         },
         "strict": true,
         "lib": [

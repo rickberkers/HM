@@ -1,4 +1,4 @@
-import { format, formatISO } from "date-fns";
+import { format, formatISO, isValid } from "date-fns";
 
 /**
  * Creates an array of dates within specified range
@@ -42,5 +42,10 @@ export const addDaysToDate = (date: Date, amountDays: number) => {
  * @returns 
  */
  export const parseISODateNoTime = (dateString: string) => {
-    return new Date(`${dateString}T00:00:00Z`.slice(0, -1));
+    return new Date(`${dateString}T00:00:00Z`);
 }
+
+/**
+ * Uses date-fns to check validity of date
+ */
+export const dateIsValid = (date: Date) => isValid(date);
