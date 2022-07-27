@@ -2,6 +2,8 @@ import { FastifySchema } from "fastify/types/schema";
 import { FromSchema } from "json-schema-to-ts";
 import { ISODate, uuid } from "@schemas/properties";
 
+export const GUEST_LIMIT = 25;
+
 const householdQueryString = {
   type: 'object',
   required: ["householdId"],
@@ -28,7 +30,7 @@ const guestsBody = {
       guests: {
           type: 'array',
           minItems: 1,
-          maxItems: 20,
+          maxItems: GUEST_LIMIT,
           items: {
               type: 'string',
               minLength: 1,

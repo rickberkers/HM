@@ -1,5 +1,8 @@
+import { Commitment, CommitmentIds } from "@models/Commitment";
+
 export interface ICommitmentService {
-    updateCommitment(date: Date, householdId: string, committed: boolean) : Promise<void>;
-    removeCommitmentGuests(date: Date, householdId: string, guests: string[]) : Promise<void>;
-    addCommitmentGuests(date: Date, householdId: string, guests: string[]) : Promise<void>;
+    create(commitmentData: Commitment) : Promise<void>;
+    upsert(commitmentData: Commitment) : Promise<void>;
+    updateGuests(commitmentIds: CommitmentIds, guests: string[]): Promise<void>;
+    get(commitmentIds: CommitmentIds): Promise<Commitment | null>;
 }
