@@ -1,4 +1,4 @@
-import { format, formatISO, isValid } from "date-fns";
+import { formatISO, isValid } from "date-fns";
 
 /**
  * Creates an array of dates within specified range
