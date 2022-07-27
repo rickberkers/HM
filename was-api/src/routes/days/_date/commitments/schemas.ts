@@ -28,6 +28,7 @@ const guestsBody = {
       guests: {
           type: 'array',
           minItems: 1,
+          maxItems: 20,
           items: {
               type: 'string',
               minLength: 1,

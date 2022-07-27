@@ -2,7 +2,6 @@ import { parseISODateNoTime } from "@utils/date";
 import { FastifyPluginAsync } from "fastify"
 import { AddCommitmentGuestsBody, AddCommitmentGuestsParams, AddCommitmentGuestsQueryString, AddCommitmentGuestsSchema, RemoveCommitmentGuestsBody, RemoveCommitmentGuestsParams, RemoveCommitmentGuestsQueryString, RemoveCommitmentGuestsSchema, UpdateCommitmentBody, UpdateCommitmentParams, UpdateCommitmentQueryString, UpdateCommitmentSchema } from "./schemas";
 
-
 const commitments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
