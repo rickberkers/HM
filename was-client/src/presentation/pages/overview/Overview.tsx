@@ -23,7 +23,7 @@ const Overview = () => {
 
   const queryResults = useQueries([
     // Cachetime 0 because re-renders anyway due to dates being parsed in the transformation function at datasource implementation
-    { queryKey: 'days', queryFn: () => getDaysUseCase.invoke(currentHouseholdId!, new Date(), 50), ...sharedQueryOptions, cacheTime: 0},   
+    { queryKey: 'days', queryFn: () => getDaysUseCase.invoke(currentHouseholdId!, new Date(), 30), ...sharedQueryOptions, cacheTime: 0},   
     { queryKey: 'household', queryFn: () => getHouseholdUseCase.invoke(currentHouseholdId!), ...sharedQueryOptions},
   ]);
 
