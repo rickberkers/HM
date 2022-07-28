@@ -1,6 +1,5 @@
 import { IonIcon, IonItem, IonLabel, IonList, IonToggle } from '@ionic/react';
 import { closeCircleOutline, thumbsUpOutline } from 'ionicons/icons';
-import React from 'react';
 import { useAuth } from '../../../../core/hooks/useAuth';
 import { Attendance } from '../../../../domains/models/Attendance';
 import { User } from '../../../../domains/models/User';
@@ -36,14 +35,14 @@ export const MemberList = ({attendance, onCommitmentChanged}: Props) => {
         }
         <div className='spacer'></div>
         {
-          attendance.attendees
-            .filter(attendee => attendee.id !== currentMember?.id)
-            .map((member) => mapAttendanceMember(member, true))
-        }
-        {
           attendance.absentees
             .filter(absentee => absentee.id !== currentMember?.id)
             .map((member) => mapAttendanceMember(member, false))
+        }
+        {
+          attendance.attendees
+            .filter(attendee => attendee.id !== currentMember?.id)
+            .map((member) => mapAttendanceMember(member, true))
         }
       </IonList>
   );

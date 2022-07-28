@@ -8,7 +8,6 @@ import React from 'react';
 import Spinner from '../../components/shared/spinner/Spinner';
 import { ErrorText, NoHouseholdText } from '../../components/shared/text/Text';
 import { useSettings } from '../../../core/hooks/useSettings';
-import { parseISODateNoTime } from '../../../core/utils/dateUtils';
 
 const Overview = () => {
 
