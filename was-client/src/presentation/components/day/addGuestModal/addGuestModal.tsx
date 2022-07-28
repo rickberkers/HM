@@ -2,18 +2,21 @@ import { ErrorMessage } from "@hookform/error-message";
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonNote } from "@ionic/react";
 import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Guest } from "../../../../domains/models/Attendance";
 import { Commitment } from "../../../../domains/models/Commitment";
+import { User } from "../../../../domains/models/User";
 import { GuestList } from "../guestList/GuestList";
 
 const MAX_GUESTS = 25;
 export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
 
-type GuestModalProps = {
+export type GuestModalProps = {
   onDismiss: (data: string[] | null, action: GUEST_MODAL_ACTION) => void,
-  existingGuests: string[],
+  existingGuests: Guest[],
+  member: User
 }
 
-const AddGuestModal = ({onDismiss, existingGuests}: GuestModalProps) => {
+const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => {
 
   const [guests, setGuests] = useState<Exclude<Commitment['guests'], null>>([]);
   const guestLimitReached = (existingGuests.length + guests.length) >= MAX_GUESTS;
@@ -40,7 +43,7 @@ const AddGuestModal = ({onDismiss, existingGuests}: GuestModalProps) => {
   };
   
   const isUniqueValidator = useCallback((value: string): string | true => {
-    const disallowedNames = existingGuests.concat(guests ?? []);
+    const disallowedNames = existingGuests.map(guest => guest.name).concat(guests ?? []);
 
     for (let index = 0; index < disallowedNames.length; index++) {
       if (disallowedNames[index].trim().toLowerCase() === value.trim().toLowerCase())
@@ -100,7 +103,7 @@ const AddGuestModal = ({onDismiss, existingGuests}: GuestModalProps) => {
       </IonItem>
       <IonButton class='ion-margin' expand='block' onClick={handleSubmit(handleAddGuest)}>Add</IonButton>
       <IonContent>
-        <GuestList guests={guests} onRemove={handleRemoveGuest} />
+        <GuestList guests={guests.map(guest => ({addedBy: member, name: guest}))} onRemove={handleRemoveGuest} />
       </IonContent>
     </IonPage>
   );

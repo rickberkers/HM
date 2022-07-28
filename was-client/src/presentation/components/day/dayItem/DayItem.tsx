@@ -38,9 +38,9 @@ const DayItem = ({day, household}: DayItemProps) => {
                 }
                 {
                     attendance.guests.map((guest) =>
-                        <span key={guest} className="deviation icon-size">
+                        <span key={guest.name} className="deviation icon-size">
                             <IonIcon color="success" icon={addCircleOutline} className="icon" />
-                            <IonText color="success">{guest}</IonText>
+                            <IonText color="success">{guest.name}</IonText>
                         </span>
                     )
                 }

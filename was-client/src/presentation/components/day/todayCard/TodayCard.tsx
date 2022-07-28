@@ -47,9 +47,9 @@ const TodayCard = ({day, household}: Props) => {
             {
               [
                 ...attendance.guests.map((guest) =>
-                    <IonChip key={guest} color="success">
+                    <IonChip key={guest.name} color="success">
                         <IonIcon icon={addOutline} color="success" />
-                        <IonLabel>{guest}</IonLabel>
+                        <IonLabel>{guest.name}</IonLabel>
                     </IonChip>
                 ),
                 ...attendance.attendees.map((attendee) =>

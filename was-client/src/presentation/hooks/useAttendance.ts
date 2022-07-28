@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AssociativeObjectArray } from '../../core/utils/typeUtils';
-import { Attendance } from '../../domains/models/Attendance';
+import { Attendance, Guest } from '../../domains/models/Attendance';
 import { Commitment } from '../../domains/models/Commitment';
 import { User } from '../../domains/models/User';
 
@@ -55,8 +55,14 @@ const calculateAttendance = (commitments: Commitment[], members: User[]): Attend
 
     // Add guests to attendance
     newAttendance = commitments.reduce<Attendance>((acc, commitment) => {
-        if(!memberMap[commitment.userId]) return acc;
-        acc.guests.push(...commitment.guests || []);
+        const member = memberMap[commitment.userId];
+
+        // only add guests in household
+        if(!member) return acc;
+
+        const guests: Guest[] = commitment.guests.map(guest => ({addedBy: member, name: guest}));
+        acc.guests.push(...guests);
+        
         return acc;
     }, newAttendance);
 

@@ -11,7 +11,7 @@ const TodayView = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Vandaag</IonTitle>
+          <IonTitle>Today</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

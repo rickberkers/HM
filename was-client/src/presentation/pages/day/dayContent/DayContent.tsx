@@ -8,9 +8,8 @@ import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text
 import { useSettings } from '../../../../core/hooks/useSettings';
 import { MemberList } from '../../../components/day/attendanceList/AttendanceList';
 import { personAdd } from 'ionicons/icons';
-import AddGuestModal, { GUEST_MODAL_ACTION } from '../../../components/day/addGuestModal/addGuestModal';
+import AddGuestModal, { GuestModalProps, GUEST_MODAL_ACTION } from '../../../components/day/addGuestModal/addGuestModal';
 import { OverlayEventDetail } from '@ionic/core';
-import { Commitment } from '../../../../domains/models/Commitment';
 import { useAttendance } from '../../../hooks/useAttendance';
 import { GuestList } from '../../../components/day/guestList/GuestList';
 
@@ -88,14 +87,10 @@ const DayContent = ({date}: Props) => {
   }
 
   // Add guests modal
-  const allGuests = dayResult.data?.commitments.reduce((acc: string[], commitment: Commitment) => {
-    return acc.concat(commitment.guests ?? []);
-  }, []);
-
   const [presentAddModal, dismissAddModal] = useIonModal(AddGuestModal, {
     onDismiss: (data: string[], role: GUEST_MODAL_ACTION) => dismissAddModal(data, role),
-    existingGuests: allGuests ?? [],
-  });
+    existingGuests: attendance.guests ?? [],
+  } as GuestModalProps);
 
   const openModal = () => {
     presentAddModal({
