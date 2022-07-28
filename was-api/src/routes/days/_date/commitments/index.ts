@@ -12,8 +12,7 @@ const commitments: FastifyPluginAsync = async (fastify): Promise<void> => {
     schema: UpdateCommitmentSchema,
   }, async (request, reply) => {
 
-    const commitment: Commitment = {
-      guests: [],
+    const commitment = {
       committed: request.body.committed,
       day: request.params.date,
       householdId: request.query.householdId, 

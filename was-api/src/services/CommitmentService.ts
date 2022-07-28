@@ -1,5 +1,5 @@
 import { Commitment as CommitmentEntity } from "@entities/Commitment";
-import { Commitment, CommitmentIds} from "@models/Commitment";
+import { Commitment, CommitmentData, CommitmentIds} from "@models/Commitment";
 import { arrayDifference } from "@utils/array";
 import { DataSource } from "typeorm";
 import { Repository } from "typeorm/repository/Repository";
@@ -13,7 +13,7 @@ export default class CommitmentService implements ICommitmentService {
         this.commitmentRepo = this.connection.getRepository<CommitmentEntity>(CommitmentEntity);
     }
 
-    public async upsert(commitmentData: Commitment): Promise<void> {
+    public async upsert(commitmentData: CommitmentIds & Partial<CommitmentData>): Promise<void> {
         await this.commitmentRepo.upsert(commitmentData, {
             conflictPaths: ["userId", "householdId", "day"],
             skipUpdateIfNoValuesChanged: true,
