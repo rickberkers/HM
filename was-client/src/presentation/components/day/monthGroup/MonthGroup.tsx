@@ -20,7 +20,8 @@ const MonthGroup = ({days, monthName, household}: MonthProps) => {
 
     let weeksWithDays = days.map((day: Day) =>
         [
-            day.date.getDay() === 1 && <div key={`div${day.date.getTime()}`} className="spacer"></div>,
+            (day.date.getDay() === 1 && day.date.getDate() !== 1) &&
+                <div key={`div${day.date.getTime()}`} className="spacer"></div>,
             <DayItem day={day} household={household} key={day.date.getTime()}/>
         ]
     );
