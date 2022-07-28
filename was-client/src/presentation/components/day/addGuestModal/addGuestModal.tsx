@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Commitment } from "../../../../domains/models/Commitment";
 import { GuestList } from "../guestList/GuestList";
+import {Text} from "../../shared/text/Text";
 
 const MAX_GUESTS = 25;
 export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
@@ -17,6 +18,7 @@ type GuestModalProps = {
 const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => {
 
   const [guests, setGuests] = useState<Exclude<Commitment['guests'], null>>([]);
+  const guestLimitReached = (existingGuests.length + guests.length) >= MAX_GUESTS;
 
   const {formState, control, handleSubmit, resetField } = useForm<{name: string}>({
     reValidateMode: "onSubmit"
@@ -49,12 +51,7 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
     return true;
   }, [existingGuests, guests]);
 
-  const isBelowLimitValidator = useCallback((value: string): string | true => {
-    if (existingGuests.length + guests.length >= MAX_GUESTS) {
-      return "Your guest limit has been reached";
-    }
-    return true;
-  }, [existingGuests, guests]);
+  const isBelowLimitValidator = () => guestLimitReached ? "Guest limit was reached" : true;
 
   return (
     <IonPage>
@@ -80,7 +77,7 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
             rules={{
               required: 'Name is required',
               maxLength: {
-                value: 25, 
+                value: MAX_GUESTS, 
                 message: 'Name exceeds maximum length of 25'
               },
               validate: {
