@@ -1,0 +1,8 @@
+.spacer {
+    height: 15px;
+    background-color: var(--ion-background-color);
+}
+
+.ios .spacer {
+    background-color: var(--ion-color-light);
+}

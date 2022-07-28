@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Commitment } from "../../../../domains/models/Commitment";
 import { GuestList } from "../guestList/GuestList";
-import {Text} from "../../shared/text/Text";
 
 const MAX_GUESTS = 25;
 export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
@@ -12,10 +11,9 @@ export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
 type GuestModalProps = {
   onDismiss: (data: string[] | null, action: GUEST_MODAL_ACTION) => void,
   existingGuests: string[],
-  member: string
 }
 
-const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => {
+const AddGuestModal = ({onDismiss, existingGuests}: GuestModalProps) => {
 
   const [guests, setGuests] = useState<Exclude<Commitment['guests'], null>>([]);
   const guestLimitReached = (existingGuests.length + guests.length) >= MAX_GUESTS;
@@ -68,41 +66,41 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
           </IonButtons>
         </IonToolbar>
       </IonHeader>
+      <IonItem className={formState.errors.name && "ion-invalid"}>
+        <IonLabel position="stacked">Enter your guest's name</IonLabel>
+        <Controller
+          name="name"
+          control={control}
+          rules={{
+            required: 'Name is required',
+            maxLength: {
+              value: MAX_GUESTS, 
+              message: 'Name exceeds maximum length of 25'
+            },
+            validate: {
+              isUnique: isUniqueValidator,
+              isBelowLimit: isBelowLimitValidator
+            },
+          }}
+          render={({ field }) => 
+            <IonInput ref={e => e ? e.focus() : null} onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit(handleAddGuest)();
+              }
+            }} value={field.value} placeholder="Guest's name" onIonChange={field.onChange} />
+          }
+        />
+        <ErrorMessage
+          errors={formState.errors}
+          name={"name"}
+          render={(({ message }) =>
+              <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
+          )}
+        />
+      </IonItem>
+      <IonButton class='ion-margin' expand='block' onClick={handleSubmit(handleAddGuest)}>Add</IonButton>
       <IonContent>
-        <IonItem className={formState.errors.name && "ion-invalid"}>
-          <IonLabel position="stacked">Enter your guest's name</IonLabel>
-          <Controller
-            name="name"
-            control={control}
-            rules={{
-              required: 'Name is required',
-              maxLength: {
-                value: MAX_GUESTS, 
-                message: 'Name exceeds maximum length of 25'
-              },
-              validate: {
-                isUnique: isUniqueValidator,
-                isBelowLimit: isBelowLimitValidator
-              },
-            }}
-            render={({ field }) => 
-              <IonInput ref={e => e ? e.focus() : null} onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSubmit(handleAddGuest)();
-                }
-              }} value={field.value} placeholder="Guest's name" onIonChange={field.onChange} />
-            }
-          />
-          <ErrorMessage
-            errors={formState.errors}
-            name={"name"}
-            render={(({ message }) =>
-                <IonNote className='ion-margin-bottom' slot="error">{message}</IonNote>
-            )}
-          />
-        </IonItem>
-        <IonButton class='ion-margin' expand='block' onClick={handleSubmit(handleAddGuest)}>Add</IonButton>
-        <GuestList member={member} guests={guests} onRemove={handleRemoveGuest} />
+        <GuestList guests={guests} onRemove={handleRemoveGuest} />
       </IonContent>
     </IonPage>
   );

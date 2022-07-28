@@ -1,14 +1,14 @@
 import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
-import { close } from "ionicons/icons";
+import { personRemove } from "ionicons/icons";
 import {Text} from "../../shared/text/Text";
+import "./GuestList.css";
 
 type Props = {
     onRemove: (guest: string) => void;
     guests: string[],
-    member: string
 };
 
-export const GuestList = ({guests, onRemove, member}: Props) => {
+export const GuestList = ({guests, onRemove}: Props) => {
     return (
         <IonList>
             {
@@ -16,11 +16,10 @@ export const GuestList = ({guests, onRemove, member}: Props) => {
                     guests?.map(guest => 
                         <IonItem key={guest}>
                             <IonLabel>
-                                <h2>{guest}</h2>
-                                <p>Added by: {member}</p>
+                                {guest}
                             </IonLabel>
                             <IonButton color="danger" onClick={_ => onRemove(guest)} slot="end">
-                                <IonIcon slot="icon-only" icon={close} />
+                                <IonIcon slot="icon-only" icon={personRemove} />
                             </IonButton>
                         </IonItem>
                     )

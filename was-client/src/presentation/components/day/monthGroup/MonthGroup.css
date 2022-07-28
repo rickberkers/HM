@@ -1,7 +1,0 @@
-.spacer {
-    height: 15px;
-}
-
-.ios .spacer {
-    background-color: var(--ion-color-light);
-}

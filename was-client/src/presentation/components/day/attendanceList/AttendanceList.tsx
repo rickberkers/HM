@@ -1,30 +1,63 @@
-import { IonItem, IonLabel, IonList, IonToggle } from '@ionic/react';
+import { IonIcon, IonItem, IonLabel, IonList, IonToggle } from '@ionic/react';
+import { closeCircleOutline, thumbsUpOutline } from 'ionicons/icons';
+import React from 'react';
 import { useAuth } from '../../../../core/hooks/useAuth';
-import { Day } from '../../../../domains/models/Day';
-import { Household } from '../../../../domains/models/Household';
-import { useAttendance } from '../../../hooks/useAttendance';
+import { Attendance } from '../../../../domains/models/Attendance';
+import { User } from '../../../../domains/models/User';
 import "./AttendanceList.css";
 
 type Props = {
-    day: Day,
-    household: Household
+    attendance: Attendance,
+    onCommitmentChanged: (committed: boolean) => void;
 };
 
-export const AttendanceList = ({day, household}: Props) => {
+export const MemberList = ({attendance, onCommitmentChanged}: Props) => {
 
-    const { user } = useAuth();
-    // const attendance = useAttendance(day.commitments, household.members);
+  const { user } = useAuth();
+  
+  let currentMember = attendance.attendees.find(attendee => attendee.id === user?.id);
+  let isCurrentMemberAttending = true;
 
-    return (
-        <IonList>
-          {household?.members.map((member) => {
-            return (
-              <IonItem key={member.id}>
-                <IonLabel>{member.firstName}</IonLabel>
-                {member.id === user?.id && <IonToggle></IonToggle>}
-              </IonItem>
-            )
-          })}
-        </IonList>
-    );
+  if (!currentMember) {
+    currentMember = attendance.absentees.find(absentee => absentee.id === user?.id);
+    isCurrentMemberAttending = false;
+  }
+
+  return (
+      <IonList>
+        { currentMember &&
+          mapAttendanceMember(
+            currentMember!, 
+            isCurrentMemberAttending, 
+            <div slot='end' onClick={_ => {onCommitmentChanged(!isCurrentMemberAttending)}}>
+                <IonToggle color="success" checked={isCurrentMemberAttending}></IonToggle>
+            </div>
+          )
+        }
+        <div className='spacer'></div>
+        {
+          attendance.attendees
+            .filter(attendee => attendee.id !== currentMember?.id)
+            .map((member) => mapAttendanceMember(member, true))
+        }
+        {
+          attendance.absentees
+            .filter(absentee => absentee.id !== currentMember?.id)
+            .map((member) => mapAttendanceMember(member, false))
+        }
+      </IonList>
+  );
 };
+
+const mapAttendanceMember = (member: User, attending: boolean, endSlot?: JSX.Element) => {
+  return (
+    <IonItem key={member.id}>
+      {attending ? <AttendingIcon/> : <AbsentIcon/>}
+      <IonLabel>{member.firstName}</IonLabel>
+      {endSlot}
+    </IonItem>
+  )
+}
+
+const AttendingIcon = () => <IonIcon slot='start' icon={thumbsUpOutline} color={"success"}></IonIcon>;
+const AbsentIcon = () => <IonIcon slot='start' icon={closeCircleOutline} color={"danger"}></IonIcon>;

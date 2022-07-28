@@ -21,7 +21,11 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import '../presentation/theme/variables.css';
+import '../presentation/css/variables.css';
+
+/* General CSS */
+import '../presentation/css/general.css'
+
 import { AuthProvider } from './contexts/AuthContext';
 import { DependencyProvider } from './contexts/DependencyContext';
 import { QueryClient, QueryClientProvider, setLogger } from 'react-query';

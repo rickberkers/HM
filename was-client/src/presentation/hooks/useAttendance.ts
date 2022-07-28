@@ -1,16 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AssociativeObjectArray } from '../../core/utils/typeUtils';
+import { Attendance } from '../../domains/models/Attendance';
 import { Commitment } from '../../domains/models/Commitment';
 import { User } from '../../domains/models/User';
-
-class Attendance {
-    public attendees: User[] = [];
-    public absentees: User[] = [];
-    public guests: string[] = [];
-    public count() {
-        return this.attendees.length + this.guests.length;
-    };
-}
 
 /**
  * Generates attendance object based on day and household members

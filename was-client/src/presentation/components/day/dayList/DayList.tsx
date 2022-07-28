@@ -4,6 +4,7 @@ import { Household } from '../../../../domains/models/Household';
 import { getMonthName } from '../../../../core/utils/dateUtils';
 import MonthGroup from '../monthGroup/MonthGroup';
 import { capitalizeFirstLetter } from '../../../../core/utils/formattingUtils';
+import { IonList } from '@ionic/react';
 
 interface DayListProps {
     days: Day[];
@@ -21,7 +22,7 @@ const DayList = ({days, household}: DayListProps) => {
         )
     });
 
-    return (<>{groupedComponents}</>);
+    return (<IonList class='ion-no-padding'>{groupedComponents}</IonList>);
 };
 
 const groupDaysByMonth = (days: Day[]) => {

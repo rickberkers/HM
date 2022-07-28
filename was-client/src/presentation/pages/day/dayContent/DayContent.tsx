@@ -1,4 +1,4 @@
-import { IonFab, IonFabButton, IonIcon, IonText, useIonLoading, useIonModal, useIonToast } from '@ionic/react';
+import { IonFab, IonFabButton, IonIcon, IonItemDivider, IonLabel, IonText, useIonLoading, useIonModal, useIonToast } from '@ionic/react';
 import { useMutation, useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import { truncateString } from '../../../../core/utils/stringUtils';
@@ -6,12 +6,13 @@ import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
 import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
 import { useSettings } from '../../../../core/hooks/useSettings';
-import { AttendanceList } from '../../../components/day/attendanceList/AttendanceList';
+import { MemberList } from '../../../components/day/attendanceList/AttendanceList';
 import { personAdd } from 'ionicons/icons';
 import AddGuestModal, { GUEST_MODAL_ACTION } from '../../../components/day/addGuestModal/addGuestModal';
 import { OverlayEventDetail } from '@ionic/core';
 import { Commitment } from '../../../../domains/models/Commitment';
-import { useAuth } from '../../../../core/hooks/useAuth';
+import { useAttendance } from '../../../hooks/useAttendance';
+import { GuestList } from '../../../components/day/guestList/GuestList';
 
 type Props = {
   date: Date
@@ -20,7 +21,6 @@ type Props = {
 const DayContent = ({date}: Props) => {
 
   const { currentHouseholdId } = useSettings();
-  const { user } = useAuth();
   const { getDayUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
   const { updateCommitmentUseCase, addCommitmentGuestsUseCase, removeCommitmentGuestsUseCase } = useUseCases().dayUseCases.commitmentUseCases;
@@ -39,6 +39,7 @@ const DayContent = ({date}: Props) => {
   const isLoading = queryResults.some(query => query.isLoading);
   const isError = queryResults.some(query => query.isError);
   const [dayResult, householdResult] = queryResults;
+  const attendance = useAttendance(dayResult.data?.commitments!, householdResult.data?.members!);
 
   // Add commitment guests mutation
   const addGuestsMutation = useMutation((newGuests: string[]) => { 
@@ -94,7 +95,6 @@ const DayContent = ({date}: Props) => {
   const [presentAddModal, dismissAddModal] = useIonModal(AddGuestModal, {
     onDismiss: (data: string[], role: GUEST_MODAL_ACTION) => dismissAddModal(data, role),
     existingGuests: allGuests ?? [],
-    member: user?.name ?? ""
   });
 
   const openModal = () => {
@@ -122,8 +122,15 @@ const DayContent = ({date}: Props) => {
           </div>
         }
         
-        {/* Display attendance list  */}
-        <AttendanceList day={dayResult.data!} household={householdResult.data!} ></AttendanceList>
+        {/* Display attendance */}
+        <IonItemDivider>
+          <IonLabel>Members</IonLabel>
+        </IonItemDivider>
+        <MemberList attendance={attendance} onCommitmentChanged={committed => updateCommitment(committed)} />
+        <IonItemDivider>
+          <IonLabel>Guests</IonLabel>
+        </IonItemDivider>
+        <GuestList guests={attendance.guests} onRemove={(guest) => { removeGuests([guest])} } />
 
         {/* Display FAB for adding guest  */}
         <IonFab class={"fab-position"} vertical="bottom" horizontal="end" edge slot="fixed">
