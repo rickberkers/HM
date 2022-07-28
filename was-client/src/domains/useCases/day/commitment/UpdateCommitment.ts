@@ -5,7 +5,7 @@ export default class UpdateCommitmentUseCase {
         private commitmentRepository: ICommitmentRepository
     ) {}
 
-    async invoke(date: Date, committed: boolean): Promise<void> {
-        return await this.commitmentRepository.updateCommitment(date, committed);
+    async invoke(date: Date, householdId: string, committed: boolean): Promise<void> {
+        return await this.commitmentRepository.updateCommitment(date, householdId, committed);
     }
 }

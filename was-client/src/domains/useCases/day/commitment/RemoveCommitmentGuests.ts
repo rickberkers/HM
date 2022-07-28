@@ -5,7 +5,7 @@ export default class RemoveCommitmentGuestsUseCase {
         private commitmentRepository: ICommitmentRepository
     ) {}
 
-    async invoke(date: Date, guests: string[]): Promise<void> {
-        return await this.commitmentRepository.removeCommitmentGuests(date, guests);
+    async invoke(date: Date, householdId: string, guests: string[]): Promise<void> {
+        return await this.commitmentRepository.removeCommitmentGuests(date, householdId, guests);
     }
 }

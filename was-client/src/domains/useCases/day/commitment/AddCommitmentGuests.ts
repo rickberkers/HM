@@ -5,7 +5,7 @@ export default class AddCommitmentGuestsUseCase {
         private commitmentRepository: ICommitmentRepository
     ) {}
 
-    async invoke(date: Date, newGuests: string[]): Promise<void> {
-        return await this.commitmentRepository.addCommitmentGuests(date, newGuests);
+    async invoke(date: Date, householdId: string, newGuests: string[]): Promise<void> {
+        return await this.commitmentRepository.addCommitmentGuests(date, householdId, newGuests);
     }
 }

@@ -1,10 +1,11 @@
 import { ErrorMessage } from "@hookform/error-message";
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonNote, IonList, useIonViewDidEnter } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonNote } from "@ionic/react";
 import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Commitment } from "../../../../domains/models/Commitment";
 import { GuestList } from "../guestList/GuestList";
 
+const MAX_GUESTS = 25;
 export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
 
 type GuestModalProps = {
@@ -22,8 +23,8 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
   });
 
   const handleAddGuest = (data: {name: string}) => {
-    const newGuests = existingGuests.concat(guests);
-    newGuests.push(data.name.trim())
+    const newGuests = guests;
+    newGuests.push(data.name.trim());
     setGuests(newGuests);
     resetField("name");
   };
@@ -43,7 +44,14 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
 
     for (let index = 0; index < disallowedNames.length; index++) {
       if (disallowedNames[index].trim().toLowerCase() === value.trim().toLowerCase())
-        return "Specified name was already added"
+        return "Specified name was already added";
+    }
+    return true;
+  }, [existingGuests, guests]);
+
+  const isBelowLimitValidator = useCallback((value: string): string | true => {
+    if (existingGuests.length + guests.length >= MAX_GUESTS) {
+      return "Your guest limit has been reached";
     }
     return true;
   }, [existingGuests, guests]);
@@ -76,7 +84,8 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
                 message: 'Name exceeds maximum length of 25'
               },
               validate: {
-                isUnique: isUniqueValidator
+                isUnique: isUniqueValidator,
+                isBelowLimit: isBelowLimitValidator
               },
             }}
             render={({ field }) => 

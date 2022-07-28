@@ -8,28 +8,26 @@ export default class CommitmentAPIDataSource implements ICommitmentDataSource {
 
     constructor(private axios: Axios) {}
     
-    addCommitmentGuests(day: Date, newGuests: string[]): Promise<void> {
-
-        const url = generateBaseURL(day);
-
-        // const response = await this.axios.get<Day>(`${BASE_URL}/${ISODayDate}`, {
-        //     params: {
-        //       householdId  
-        //     },
-        //     transformResponse: (data: any) => {
-        //         let day = JSON.parse(data);
-        //         day.date = parseISODateNoTime(day.date);
-        //         day.commitments.map(this.transformCommitment);
-        //         return day;
-        //     },
-        // });
-        // return response.data;
-        return Promise.resolve();
+    public async addCommitmentGuests(day: Date,  householdId: string, newGuests: string[]): Promise<void> {
+        const baseUrl = generateBaseURL(day);
+        await this.axios.put<Day>(`${baseUrl}/guests`, {
+            guests: newGuests
+        }, {params: {householdId}});
+        return;
     }
-    removeCommitmentGuests(day: Date, guests: string[]): Promise<void> {
-        return Promise.resolve();
+    public async removeCommitmentGuests(day: Date, householdId: string, guests: string[]): Promise<void> {
+        const baseUrl = generateBaseURL(day);
+        await this.axios.delete<Day>(`${baseUrl}/guests`, {
+            params: {householdId},
+            data: {guests}
+        });
+        return;
     }
-    updateCommitment(day: Date, committed: boolean): Promise<void> {
-        return Promise.resolve();
+    public async updateCommitment(day: Date, householdId: string, committed: boolean): Promise<void> {
+        const baseUrl = generateBaseURL(day);
+        await this.axios.put<Day>(`${baseUrl}`, {
+            committed
+        }, {params: {householdId}});
+        return;
     }
 }

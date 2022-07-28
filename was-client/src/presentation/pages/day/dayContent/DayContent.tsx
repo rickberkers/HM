@@ -1,4 +1,4 @@
-import { IonFab, IonFabButton, IonIcon, IonText, useIonModal } from '@ionic/react';
+import { IonFab, IonFabButton, IonIcon, IonText, useIonLoading, useIonModal, useIonToast } from '@ionic/react';
 import { useMutation, useQueries } from 'react-query';
 import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import { truncateString } from '../../../../core/utils/stringUtils';
@@ -24,9 +24,11 @@ const DayContent = ({date}: Props) => {
   const { getDayUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
   const { updateCommitmentUseCase, addCommitmentGuestsUseCase, removeCommitmentGuestsUseCase } = useUseCases().dayUseCases.commitmentUseCases;
+  const [ presentMutationLoading, dismissMutationLoading ] = useIonLoading();
+  const [ presentToast ] = useIonToast();
+  const presentMutationError = (message: string) => {presentToast({message, color: "danger", duration: 2500});}
 
-  // Data loading
-
+  // Load Data
   const sharedQueryOptions = {enabled: currentHouseholdId != null};
   const queryResults = useQueries([
       // Cachetime 0 because re-renders anyway due to dates being parsed in the transformation function at datasource implementation
@@ -36,30 +38,71 @@ const DayContent = ({date}: Props) => {
 
   const isLoading = queryResults.some(query => query.isLoading);
   const isError = queryResults.some(query => query.isError);
-  const day = queryResults[0].data ?? null;
-  const household = queryResults[1].data ?? null;
+  const [dayResult, householdResult] = queryResults;
 
-  // Data mutation
-  const {mutate} = useMutation((newGuests: string[]) => {
-    return 
+  // Add commitment guests mutation
+  const addGuestsMutation = useMutation((newGuests: string[]) => { 
+    return addCommitmentGuestsUseCase.invoke(date, currentHouseholdId!, newGuests); 
   });
+  const addGuests = async (guests: string[]) => {
+    presentMutationLoading();
+    addGuestsMutation.mutateAsync(guests).catch(_ => {
+      presentMutationError("Guest(s) could not be added");
+    }).then(() => {
+      dayResult.refetch();
+    }).finally(() => {
+      dismissMutationLoading();
+    });
+  }
 
-  // Modal
-  const allGuests = day?.commitments.reduce((acc: string[], commitment: Commitment) => {
+  // Remove commitment guests mutation
+  const removeGuestsMutation = useMutation((newGuests: string[]) => { 
+    return removeCommitmentGuestsUseCase.invoke(date, currentHouseholdId!, newGuests);
+  });
+  const removeGuests = async (guests: string[]) => {
+    presentMutationLoading();
+    await removeGuestsMutation.mutateAsync(guests).catch(_ => {
+      presentMutationError("Guest(s) could not be removed");
+    }).then(() => {
+      dayResult.refetch();
+    }).finally(() => {
+      dismissMutationLoading();
+    });
+  }
+
+  //TODO find way to do local changes so no re-fetch every time
+  // Update mutation
+  const updateCommitmentMutation = useMutation((committed: boolean) => {
+    return updateCommitmentUseCase.invoke(date, currentHouseholdId!, committed); 
+  });
+  const updateCommitment = async (committed: boolean) => {
+    presentMutationLoading();
+    updateCommitmentMutation.mutateAsync(committed).catch(_ => {
+      presentMutationError("Attendance could not be updated");
+    }).then(() => {
+      dayResult.refetch();
+    }).finally(() => {
+      dismissMutationLoading();
+    })
+  }
+
+  // Add guests modal
+  const allGuests = dayResult.data?.commitments.reduce((acc: string[], commitment: Commitment) => {
     return acc.concat(commitment.guests ?? []);
   }, []);
 
-  const [present, dismiss] = useIonModal(AddGuestModal, {
-    onDismiss: (data: string, role: GUEST_MODAL_ACTION) => dismiss(data, role),
+  const [presentAddModal, dismissAddModal] = useIonModal(AddGuestModal, {
+    onDismiss: (data: string[], role: GUEST_MODAL_ACTION) => dismissAddModal(data, role),
     existingGuests: allGuests ?? [],
     member: user?.name ?? ""
   });
 
   const openModal = () => {
-    present({
-      onWillDismiss: (ev: CustomEvent<OverlayEventDetail<string | null>>) => {
-        if (ev.detail.role === 'confirm') {
-          
+    presentAddModal({
+      onWillDismiss: (dismissEvent: CustomEvent<OverlayEventDetail<string[]>>) => {
+        const {role, data} = dismissEvent.detail;
+        if (role === 'confirm' && data && data.length > 0) {
+          addGuests(data);
         }
       },
     });
@@ -73,14 +116,14 @@ const DayContent = ({date}: Props) => {
     isLoading ? <Spinner/> : 
     <>
         {/* Display note of day  */}
-        {  day?.dayInfo?.note && 
+        {  dayResult.data?.dayInfo?.note && 
           <div className="ion-margin">
-            <IonText>{truncateString(day.dayInfo.note, 350)}</IonText>
+            <IonText>{truncateString(dayResult.data.dayInfo.note, 350)}</IonText>
           </div>
         }
         
         {/* Display attendance list  */}
-        <AttendanceList day={day!} household={household!} ></AttendanceList>
+        <AttendanceList day={dayResult.data!} household={householdResult.data!} ></AttendanceList>
 
         {/* Display FAB for adding guest  */}
         <IonFab class={"fab-position"} vertical="bottom" horizontal="end" edge slot="fixed">
