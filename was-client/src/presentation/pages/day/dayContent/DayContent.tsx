@@ -8,10 +8,12 @@ import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text
 import { useSettings } from '../../../../core/hooks/useSettings';
 import { MemberList } from '../../../components/day/attendanceList/AttendanceList';
 import { personAdd } from 'ionicons/icons';
-import AddGuestModal, { GuestModalProps, GUEST_MODAL_ACTION } from '../../../components/day/addGuestModal/addGuestModal';
+import AddGuestModal, { GUEST_MODAL_ACTION } from '../../../components/day/addGuestModal/addGuestModal';
 import { OverlayEventDetail } from '@ionic/core';
 import { useAttendance } from '../../../hooks/useAttendance';
 import { GuestList } from '../../../components/day/guestList/GuestList';
+import { useAuth } from '../../../../core/hooks/useAuth';
+import { useMemo } from 'react';
 
 type Props = {
   date: Date
@@ -19,6 +21,7 @@ type Props = {
 
 const DayContent = ({date}: Props) => {
 
+  const { user } = useAuth();
   const { currentHouseholdId } = useSettings();
   const { getDayUseCase } = useUseCases().dayUseCases;
   const { getHouseholdUseCase } = useUseCases().houseHoldUseCases;
@@ -87,10 +90,15 @@ const DayContent = ({date}: Props) => {
   }
 
   // Add guests modal
-  const [presentAddModal, dismissAddModal] = useIonModal(AddGuestModal, {
+  const modalProps = useMemo(() => ({
     onDismiss: (data: string[], role: GUEST_MODAL_ACTION) => dismissAddModal(data, role),
     existingGuests: attendance.guests ?? [],
-  } as GuestModalProps);
+    member: householdResult.data?.members.find(member => member.id === user!.id)!
+  // Wants to add dismissAddModal as dep but its not declared yet
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [attendance.guests, householdResult.data, user]);
+
+  const [presentAddModal, dismissAddModal] = useIonModal(AddGuestModal, modalProps);
 
   const openModal = () => {
     presentAddModal({
@@ -125,7 +133,7 @@ const DayContent = ({date}: Props) => {
         <IonItemDivider>
           <IonLabel>Guests</IonLabel>
         </IonItemDivider>
-        <GuestList guests={attendance.guests} onRemove={(guest) => { removeGuests([guest])} } />
+        <GuestList guests={attendance.guests} onRemove={guest => { removeGuests([guest])} } />
 
         {/* Display FAB for adding guest  */}
         <IonFab class={"fab-position"} vertical="bottom" horizontal="end" edge slot="fixed">

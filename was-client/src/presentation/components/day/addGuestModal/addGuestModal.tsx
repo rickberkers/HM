@@ -11,7 +11,7 @@ const MAX_GUESTS = 25;
 export type GUEST_MODAL_ACTION = 'cancel' | 'confirm';
 
 export type GuestModalProps = {
-  onDismiss: (data: string[] | null, action: GUEST_MODAL_ACTION) => void,
+  onDismiss: (data: string[], action: GUEST_MODAL_ACTION) => void,
   existingGuests: Guest[],
   member: User
 }
@@ -59,13 +59,13 @@ const AddGuestModal = ({onDismiss, existingGuests, member}: GuestModalProps) => 
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton color="medium" onClick={() => onDismiss(null, 'cancel')}>
+            <IonButton color="medium" onClick={() => onDismiss([], 'cancel')}>
               Cancel
             </IonButton>
           </IonButtons>
           <IonTitle >Add guest</IonTitle>
           <IonButtons slot="end">
-            <IonButton disabled={guests.length < 1} onClick={() => onDismiss(guests && guests.length > 0 ? guests : null, 'confirm')}>Confirm</IonButton>
+            <IonButton disabled={guests.length < 1} onClick={() => onDismiss(guests ?? [], 'confirm')}>Confirm</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
