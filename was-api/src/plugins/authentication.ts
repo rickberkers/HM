@@ -31,10 +31,9 @@ export default fp(async (fastify, opts) => {
 
         // Verify token
         try {
-            const payload = fastify.jwt.verifyJWT<AccessTokenPayload>(token, { 
+            request.authenticatedUser = fastify.jwt.verifyJWT<AccessTokenPayload>(token, { 
                 maxAge: fastify.config.ACCESS_TOKEN_MAX_AGE || 900000, // 15 min
             });
-            request.authenticatedUser = await fastify.services.userService.getById(payload.id);;
         } catch (error) {
             throw fastify.httpErrors.unauthorized("invalid token");
         }
@@ -126,10 +125,10 @@ export default fp(async (fastify, opts) => {
         });
     });
 
-    fastify.decorate("generateTokenPair", function(user: PublicUser): TokenPair {
+    fastify.decorate("generateTokenPair", function(previousPayload: AccessTokenPayload): TokenPair {
         return {
-            refreshToken: fastify.jwt.signJWT({ id: user.id } as AccessTokenPayload),
-            accessToken: fastify.jwt.signJWT({ id: user.id, name: user.name } as RefreshTokenPayload)
+            refreshToken: fastify.jwt.signJWT({ id: previousPayload.id } as AccessTokenPayload),
+            accessToken: fastify.jwt.signJWT({ id: previousPayload.id, name: previousPayload.name } as RefreshTokenPayload)
         };
     });
 });
@@ -139,10 +138,10 @@ declare module 'fastify' {
         verifyAccessToken(request: FastifyRequest): Promise<void>;
         verifyRefreshTokenRequired(request: FastifyRequest): Promise<void>;
         verifyRefreshTokenOptional(request: FastifyRequest): Promise<void>;
-        generateTokenPair(user: PublicUser): TokenPair;
+        generateTokenPair(previousPayload: AccessTokenPayload): TokenPair;
     }
     export interface FastifyRequest {
-        authenticatedUser: PublicUser | null;
+        authenticatedUser: AccessTokenPayload | null;
     }
     export interface FastifyReply {
         setRefreshTokenCookie(value: string): FastifyReply;

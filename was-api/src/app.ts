@@ -7,7 +7,6 @@ import services from '@plugins/services';
 import sensible from '@plugins/sensible';
 import jwt from '@plugins/jwt';
 import hashing from '@plugins/hashing';
-import auth from '@plugins/auth';
 import cookie from '@plugins/cookie';
 import cors from '@plugins/cors';
 import ajvErrors from 'ajv-errors';
