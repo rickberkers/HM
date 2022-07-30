@@ -7,6 +7,7 @@ import { Household } from "../../../../domains/models/Household";
 import { useAttendance } from "../../../hooks/useAttendance";
 import { getWeekDayName, getMonthName } from "../../../../core/utils/dateUtils";
 import { capitalizeFirstLetter, nounShouldBePlural } from "../../../../core/utils/formattingUtils";
+import { useMemo } from "react";
 
 interface Props {
     day: Day,
@@ -17,6 +18,8 @@ const TodayCard = ({day, household}: Props) => {
 
     const { user } = useAuth();
     const attendance = useAttendance(day.commitments, household.members);
+
+    const currentMember = useMemo(() => household.members.find(member => member.id === user?.id), [household.members, user]);
 
     return (
         <IonCard routerLink={ROUTE_NAMES.TODAY}>
@@ -35,7 +38,7 @@ const TodayCard = ({day, household}: Props) => {
               </IonRow>
             </IonGrid>
             <IonText>
-              <span>Hoi <strong>{user?.name}! </strong></span>
+              <span>Hoi <strong>{capitalizeFirstLetter(currentMember?.firstName!)}! </strong></span>
               { 
                 nounShouldBePlural(attendance.count()) ?
                 <span>Vandaag eten er <strong>{attendance.count()} personen</strong> mee</span>
