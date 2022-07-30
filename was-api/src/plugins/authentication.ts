@@ -14,6 +14,8 @@ const REFRESH_TOKEN_COOKIE_PATH = "/me/token";
  */
 export default fp(async (fastify, opts) => {
 
+    fastify.register(fastifyAuth);
+
     const verifyAccessToken = async (request: FastifyRequest) => {
 
         // Get token from authorization header
@@ -108,10 +110,7 @@ export default fp(async (fastify, opts) => {
 
     fastify.decorate("verifyRefreshTokenOptional", verifyRefreshTokenOptional);
     fastify.decorate("verifyRefreshTokenRequired", verifyRefreshTokenRequired);
-    
     fastify.decorate("verifyAccessToken", verifyAccessToken);
-
-    fastify.register(fastifyAuth);
 
     fastify.decorateRequest("authenticatedUser", undefined);
 

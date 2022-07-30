@@ -2,7 +2,9 @@ import { FastifyPluginAsync } from "fastify"
 import { getHouseholdParams, getHouseholdSchema } from "./schemas";
 
 const households: FastifyPluginAsync = async (fastify): Promise<void> => {
-  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
+
+  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken, fastify.authorizeHouseholdMember], {relation: "and"}));
+
   fastify.get<{ Params: getHouseholdParams}>('/:id', {
     schema: getHouseholdSchema
   }, async (request, reply) => {
@@ -12,6 +14,7 @@ const households: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
       return result;
   });
+  
 };
 
 export default households;

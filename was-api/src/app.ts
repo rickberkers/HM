@@ -11,6 +11,8 @@ import auth from '@plugins/auth';
 import cookie from '@plugins/cookie';
 import cors from '@plugins/cors';
 import ajvErrors from 'ajv-errors';
+import authentication from '@plugins/authentication';
+import authorization from '@plugins/authorization';
 
 /**
  * Custom options for instantiating the fastify-cli `--options`
@@ -33,7 +35,8 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(env);
   fastify.register(cors);
   fastify.register(cookie);
-  fastify.register(auth);
+  fastify.register(authentication);
+  fastify.register(authorization);
   fastify.register(hashing);
   fastify.register(jwt);
   fastify.register(typeorm);

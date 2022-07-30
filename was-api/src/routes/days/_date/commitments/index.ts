@@ -5,7 +5,7 @@ import { AddCommitmentGuestsBody, AddCommitmentGuestsParams, AddCommitmentGuests
 
 const commitments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
-  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
+  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken, fastify.authorizeHouseholdMember], {relation: "and"}));
 
   // Create/update commitment
   fastify.put<{ Body: UpdateCommitmentBody, Params: UpdateCommitmentParams, Querystring: UpdateCommitmentQueryString }>('', {
