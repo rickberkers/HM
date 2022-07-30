@@ -23,7 +23,7 @@ export const MemberList = ({attendance, onCommitmentChanged}: Props) => {
   }
 
   return (
-      <IonList>
+      <IonList lines='full'>
         { currentMember &&
           mapAttendanceMember(
             currentMember!, 
@@ -52,7 +52,7 @@ const mapAttendanceMember = (member: User, attending: boolean, endSlot?: JSX.Ele
   return (
     <IonItem key={member.id}>
       {attending ? <AttendingIcon/> : <AbsentIcon/>}
-      <IonLabel>{member.firstName}</IonLabel>
+      <IonLabel>{member.firstName}{member.lastName ? ` ${member.lastName}` : undefined}</IonLabel>
       {endSlot}
     </IonItem>
   )

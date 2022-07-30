@@ -15,7 +15,7 @@ export const GuestList = ({guests, onRemove}: Props) => {
     const { user } = useAuth();
 
     return (
-        <IonList>
+        <IonList lines="full">
             {
                 guests.length > 0 ?
                     guests?.map(guest => 
