@@ -20,18 +20,28 @@ export const GuestList = ({guests, onRemove}: Props) => {
                 guests.length > 0 ?
                     guests?.map(guest => 
                         <IonItem key={guest.name}>
-                            <IonLabel slot="start">
-                                {guest.name}
-                            </IonLabel>
-                            { user!.id === guest.addedBy.id ?
-                                    <IonButton color="danger" onClick={_ => onRemove(guest.name)} slot="end">
-                                        <IonIcon slot="icon-only" icon={personRemove} />
-                                    </IonButton>
-                                :
-                                    <IonLabel slot="end">
-                                        <p>{`Invited by ${guest.addedBy.firstName} ${guest.addedBy.lastName ?? ""}`}</p>
+                            <div style={{ width:"100%", display: 'flex'}}>
+                                <div>
+                                    <IonLabel slot="start">
+                                        {guest.name}
                                     </IonLabel>
-                            }
+                                </div>
+                                <div style={{flexGrow: 1}} className="ion-text-end">
+                                    { user!.id === guest.addedBy.id ?
+                                        <IonButton color="danger" onClick={_ => onRemove(guest.name)} slot="end">
+                                            <IonIcon slot="icon-only" icon={personRemove} />
+                                        </IonButton>
+                                    :
+                                        <IonLabel slot="end">
+                                            <p>{`Invited by ${guest.addedBy.firstName} ${guest.addedBy.lastName ?? ""}`}</p>
+                                        </IonLabel>
+                                    }
+                                </div>
+                            </div>
+                            {/* {/* <IonLabel slot="start">
+                                {guest.name}
+                            </IonLabel> */}
+
                         </IonItem>
                     )
                 :
