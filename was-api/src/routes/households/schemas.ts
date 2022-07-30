@@ -4,10 +4,10 @@ import { FromSchema } from "json-schema-to-ts";
 export const getHouseholdSchema = {
     params: {
         type: 'object',
-        required: ["id"],
+        required: ["householdId"],
         additionalProperties: false,
         properties: {
-          id: uuid
+          householdId: uuid
         },
     }
 } as const;

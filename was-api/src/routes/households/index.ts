@@ -5,10 +5,10 @@ const households: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken, fastify.authorizeHouseholdMember], {relation: "and"}));
 
-  fastify.get<{ Params: getHouseholdParams}>('/:id', {
+  fastify.get<{ Params: getHouseholdParams}>('/:householdId', {
     schema: getHouseholdSchema
   }, async (request, reply) => {
-      const result = await fastify.services.householdService.getHousehold(request.params.id);
+      const result = await fastify.services.householdService.getHousehold(request.params.householdId);
       if (!result) {
         throw fastify.httpErrors.notFound();
       }
