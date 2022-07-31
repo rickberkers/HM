@@ -1,12 +1,16 @@
-export type User = {
+export type PublicUser = {
     id: string,
     name: string,
     firstName: string,
     lastName?: string | null,
     createdAt: Date,
-    hash: string,
-    refreshToken: string | null,
 }
 
-export type PublicUser = Omit<User, "hash" | "refreshToken">;
+export type User = PublicUser & {
+    lowerCaseName: string,
+    hash: string,
+    refreshToken: string | null,
+};
+
+
 export type CreateUserData = Omit<User, "id" | "createdAt" | "refreshToken">;

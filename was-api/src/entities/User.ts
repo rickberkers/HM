@@ -11,6 +11,9 @@ export class User implements UserType {
     @Column({ unique: true })
     name: string;
 
+    @Column({ unique: true })
+    lowerCaseName: string;
+
     @Column()
     firstName: string;
 
