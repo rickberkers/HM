@@ -16,6 +16,7 @@ const me: FastifyPluginAsync = async (fastify): Promise<void> => {
 
     const newUserData: CreateUserData = {
       ...request.body,
+      lowerCaseName: request.body.name.toLowerCase(),
       hash: await fastify.hasher.hash(request.body.password)
     };
 

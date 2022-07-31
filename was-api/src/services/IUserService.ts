@@ -6,6 +6,7 @@ export interface IUserService {
     getRefreshTokenByUserId(id: string): Promise<string | null>
     setRefreshToken(id: string, refreshToken: string | null): Promise<void>
     getByName(name: string): Promise<PublicUser | null>
+    getByLowerCaseName(lowerCaseName: string): Promise<PublicUser | null>
     getById(id: string): Promise<PublicUser | null>
     userExists(name: string): Promise<boolean>
 }

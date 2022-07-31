@@ -11,7 +11,9 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
       schema: LoginSchema
     }, async (request, reply) => {
 
-      const attemptedAccount = await fastify.services.userService.getByName(request.body.name);
+      const lowerCaseName = request.body.name.toLowerCase();
+
+      const attemptedAccount = await fastify.services.userService.getByLowerCaseName(lowerCaseName);
       if (attemptedAccount == undefined) {
         throw fastify.httpErrors.unauthorized("password is incorrect");
       }

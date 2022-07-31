@@ -11,6 +11,10 @@ export default class UserService implements IUserService {
        this.userRepo = this.connection.getRepository<UserEntity>(UserEntity);
     }
 
+    public async getByLowerCaseName(lowerCaseName: string): Promise<PublicUser | null> {
+        return this.userRepo.findOne({where: {lowerCaseName}});
+    }
+
     public async getByName(name: string): Promise<PublicUser | null> {
         return this.userRepo.findOne({where: {name}});
     }
@@ -26,6 +30,7 @@ export default class UserService implements IUserService {
     public async create(userData: CreateUserData): Promise<PublicUser> {
         const user = this.userRepo.create({
             name: userData.name,
+            lowerCaseName: userData.lowerCaseName,
             firstName: userData.firstName,
             hash: userData.hash,
             lastName: userData.lastName,
