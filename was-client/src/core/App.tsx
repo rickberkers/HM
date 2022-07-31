@@ -47,7 +47,6 @@ setLogger({
   error: () => {},
 });
 
-// TODO use error boundaries
 // TODO use virtual scroll for better performance
 
 const App = () => {

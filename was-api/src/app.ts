@@ -12,7 +12,7 @@ import cors from '@plugins/cors';
 import ajvErrors from 'ajv-errors';
 import authentication from '@plugins/authentication';
 import authorization from '@plugins/authorization';
-import { FastifyError } from 'fastify';
+import error from '@plugins/error';
 
 /**
  * Custom options for instantiating the fastify-cli `--options`
@@ -30,20 +30,9 @@ export const options: FastifyServerOptions = {
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
-  // Custom error handler to hide sensitive specific messages
-  fastify.setErrorHandler(function (error, request, reply) {
-    // TODO do logging
-
-    if (!error.statusCode || !error.validation) {
-      return reply.send(this.httpErrors.internalServerError());
-    }
-    reply.send(error);
-  });
-
-  fastify.setErrorHandler(fastify.errorHandler);
-
   // This loads all plugins
   fastify.register(sensible);
+  fastify.register(error);
   fastify.register(env);
   fastify.register(cors);
   fastify.register(cookie);
