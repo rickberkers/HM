@@ -55,6 +55,5 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
 export default app;
 export { app }
 
-// TODO revise hashing options
 // TODO setup tests complex pieces of code
 // TODO Logging
