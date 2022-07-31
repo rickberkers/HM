@@ -12,6 +12,7 @@ import cors from '@plugins/cors';
 import ajvErrors from 'ajv-errors';
 import authentication from '@plugins/authentication';
 import authorization from '@plugins/authorization';
+import { FastifyError } from 'fastify';
 
 /**
  * Custom options for instantiating the fastify-cli `--options`
@@ -29,6 +30,18 @@ export const options: FastifyServerOptions = {
 
 const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
+  // Custom error handler to hide sensitive specific messages
+  fastify.setErrorHandler(function (error, request, reply) {
+    // TODO do logging
+
+    if (!error.statusCode || !error.validation) {
+      return reply.send(this.httpErrors.internalServerError());
+    }
+    reply.send(error);
+  });
+
+  fastify.setErrorHandler(fastify.errorHandler);
+
   // This loads all plugins
   fastify.register(sensible);
   fastify.register(env);
@@ -57,5 +70,3 @@ export { app }
 // TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO setup tests complex pieces of code
 // TODO Logging sort out
-// TODO shared schemas
-// TODO Look into AVJ errors for hiding specific validation failures

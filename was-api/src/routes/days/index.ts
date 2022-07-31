@@ -4,8 +4,9 @@ import { getDaysSchema, getDaysQueryString, getDayQueryString, getDayParams, get
 
 const days: FastifyPluginAsync = async (fastify): Promise<void> => {
 
-  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken, fastify.authorizeHouseholdMember], {relation: "and"}));
-
+  fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
+  fastify.addHook('preHandler', fastify.auth([fastify.authorizeHouseholdMember]));
+  
   fastify.get<{ Querystring: getDayQueryString, Params: getDayParams }>('/:date', {
     schema: getDaySchema,
   }, async (request, reply) => {

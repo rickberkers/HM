@@ -3,7 +3,7 @@ import { FastifyPluginAsync } from "fastify";
 const households: FastifyPluginAsync = async (fastify): Promise<void> => {
   
     fastify.addHook('preValidation', fastify.auth([fastify.verifyAccessToken]));
-
+    
     /**
      * Households that belong to authenticated user
      */

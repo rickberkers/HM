@@ -2,7 +2,6 @@ import { IonContent, IonPage } from "@ionic/react";
 import { ReactNode, useState, useEffect, createContext } from "react"
 import { AccessToken, AccessTokenPayload } from "../../domains/models/Token";
 import Spinner from "../../presentation/components/shared/spinner/Spinner";
-import { UnauthenticatedError } from "../errors";
 import { useInterval } from "../hooks/useInterval";
 import { useDependencies, useUseCases } from "./DependencyContext";
 

@@ -12,7 +12,7 @@ export default fp(async (fastify, opts) => {
     const authorizeHouseholdMember = async (request: FastifyRequest) => {
         const notAuthorizedError = fastify.httpErrors.forbidden("not authorized");
         type householdIdType = {householdId: string};
-
+        
         if (!request || !request.authenticatedUser) {
             throw notAuthorizedError;
         }
@@ -24,7 +24,7 @@ export default fp(async (fastify, opts) => {
         if (!requestHouseholdId) {
             throw notAuthorizedError;
         }
-
+        
         const userIsHouseholdMember = await fastify.services.householdService.householdMemberRelationExists(requestHouseholdId, request.authenticatedUser.id);
         if (!userIsHouseholdMember){
             throw notAuthorizedError;
