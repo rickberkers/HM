@@ -1,4 +1,4 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast, IonList, IonItem, IonLabel, IonText, IonFooter, IonRadioGroup, IonRadio, RadioGroupChangeEventDetail } from '@ionic/react';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, useIonToast, IonList, IonItem, IonLabel, IonText, IonFooter, IonRadioGroup, IonRadio, RadioGroupChangeEventDetail, useIonLoading } from '@ionic/react';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { useUseCases } from '../../../core/contexts/DependencyContext';
@@ -16,12 +16,16 @@ const HouseholdView = () => {
 
   const { getMemberHouseholdsUseCase } = useUseCases().meUseCases;
   const [present] = useIonToast();
+  const [presentLoading, dismissLoading] = useIonLoading();
 
   const {isError, data: households, isLoading} = useQuery('my-households', () => getMemberHouseholdsUseCase.invoke(user!.id))
 
   const logoutClick = async () => {
+    presentLoading();
     await logout().catch(() => {
       present({message: "Logout failed", color: "danger", duration: 2000});
+    }).finally(() => {
+      dismissLoading();
     });
   }
 

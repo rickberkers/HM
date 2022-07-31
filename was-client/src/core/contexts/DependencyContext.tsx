@@ -25,7 +25,7 @@ import RemoveCommitmentGuestsUseCase from "../../domains/useCases/day/commitment
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
   baseURL: config.REACT_APP_API_BASE_URL,
-  withCredentials: true
+  withCredentials: true,
 });
 
 const dataSources = {

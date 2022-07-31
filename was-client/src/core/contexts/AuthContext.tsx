@@ -1,5 +1,8 @@
+import { IonContent, IonPage } from "@ionic/react";
 import { ReactNode, useState, useEffect, createContext } from "react"
 import { AccessToken, AccessTokenPayload } from "../../domains/models/Token";
+import Spinner from "../../presentation/components/shared/spinner/Spinner";
+import { UnauthenticatedError } from "../errors";
 import { useInterval } from "../hooks/useInterval";
 import { useDependencies, useUseCases } from "./DependencyContext";
 
@@ -48,7 +51,9 @@ export function AuthProvider(props: {children: ReactNode}) {
         setUser(newToken.payload);
         setIsAuthenticated(true);
       })
-      .catch(() => {/* protected routes will redirect to sign-in */})
+      .catch((error) => {
+        /* protected routes will redirect to sign-in */
+      })
       .finally(() => setAuthLoading(false));;
     }, [authRefreshUseCase, tokenSetter]);
 
@@ -73,7 +78,15 @@ export function AuthProvider(props: {children: ReactNode}) {
 
     return (
       <AuthContext.Provider value={values}>
-        {!authLoading && props.children}
+        {authLoading ?
+          <IonPage>
+              <IonContent>
+                <Spinner text="Authenticating..."/>
+              </IonContent>
+          </IonPage>
+          :
+            props.children
+        }
       </AuthContext.Provider>
     );
   }

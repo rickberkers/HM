@@ -4,7 +4,7 @@ import { useUseCases } from '../../../../core/contexts/DependencyContext';
 import { truncateString } from '../../../../core/utils/stringUtils';
 import Spinner from '../../../components/shared/spinner/Spinner';
 import './DayContent.css';
-import { ErrorText, NoHouseholdText } from '../../../components/shared/text/Text';
+import { NoHouseholdText, Text } from '../../../components/shared/text/Text';
 import { useSettings } from '../../../../core/hooks/useSettings';
 import { MemberList } from '../../../components/day/attendanceList/AttendanceList';
 import { personAdd } from 'ionicons/icons';
@@ -39,7 +39,6 @@ const DayContent = ({date}: Props) => {
   ]);
 
   const isLoading = queryResults.some(query => query.isLoading);
-  const isError = queryResults.some(query => query.isError);
   const [dayResult, householdResult] = queryResults;
   const attendance = useAttendance(dayResult.data?.commitments!, householdResult.data?.members!);
 
@@ -113,7 +112,8 @@ const DayContent = ({date}: Props) => {
 
   // Rendering
   if (!currentHouseholdId) return <NoHouseholdText/>;
-  if (isError) return <ErrorText/>;
+  if (householdResult.isError) return <Text text={(householdResult.error as Error).message}/>;
+  if (dayResult.isError) return <Text text={(dayResult.error as Error).message}/>;
 
   return (
     isLoading ? <Spinner/> : 

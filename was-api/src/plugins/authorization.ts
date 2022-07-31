@@ -10,7 +10,7 @@ export default fp(async (fastify, opts) => {
      *  Ensures authenticated user is member of accessed household
      */
     const authorizeHouseholdMember = async (request: FastifyRequest) => {
-        const notAuthorizedError = fastify.httpErrors.unauthorized("not authorized");
+        const notAuthorizedError = fastify.httpErrors.forbidden("not authorized");
         type householdIdType = {householdId: string};
 
         if (!request || !request.authenticatedUser) {
