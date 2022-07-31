@@ -1,5 +1,6 @@
 import fp from 'fastify-plugin'
 import * as argon2 from "argon2";
+import { Options } from 'argon2';
 
 interface HashingFunctions {
   hash(data: string): Promise<string>;
@@ -17,14 +18,15 @@ declare module 'fastify' {
  */
 export default fp(async (fastify, opts) => {
 
-  const hashingOptions = {
+  const hashingOptions: Options = {
     memoryCost: fastify.config.HASH_MEMCOST,
-    timeCost: fastify.config.HASH_TIMECOST
+    timeCost: fastify.config.HASH_TIMECOST,
+    parallelism: fastify.config.HASH_PARALELL,
   }
 
   fastify.decorate<HashingFunctions>('hasher', {
     hash: async (data: string) => {
-      return await argon2.hash(data, hashingOptions);
+      return await argon2.hash(data, {...hashingOptions, raw: false});
     },
     compare: async (originalHash: string, data: string) => {
       return argon2.verify(originalHash, data, hashingOptions);

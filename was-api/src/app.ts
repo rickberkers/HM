@@ -32,8 +32,8 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   
   // This loads all plugins
   fastify.register(sensible);
-  fastify.register(error);
   fastify.register(env);
+  fastify.register(error);
   fastify.register(cors);
   fastify.register(cookie);
   fastify.register(authentication);
@@ -56,6 +56,5 @@ export default app;
 export { app }
 
 // TODO revise hashing options
-// TODO add helmet and rate-limiter, possibly implement more security measures on production
 // TODO setup tests complex pieces of code
-// TODO Logging sort out
+// TODO Logging
