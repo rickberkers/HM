@@ -1,7 +1,5 @@
 import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonNote, IonPage, IonTitle, IonToolbar, useIonLoading, useIonToast } from '@ionic/react';
 import { useAuth } from '../../../core/hooks/useAuth';
-import { Redirect } from "react-router-dom";
-import { ROUTE_NAMES } from '../../../core/Routes';
 import { SignInUser } from '../../../domains/models/User';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -9,7 +7,7 @@ import { UnauthenticatedError } from '../../../core/errors';
 
 const SignIn = () => {
 
-    const {login, isAuthenticated} = useAuth();
+    const {login} = useAuth();
     const [present] = useIonToast();
     const [ presentSignInLoading, dismissSignInLoading ] = useIonLoading();
     const {formState: { errors }, control, handleSubmit, resetField } = useForm<SignInUser>({
@@ -50,11 +48,8 @@ const SignIn = () => {
         );
     }
 
-    const redirect = <Redirect to={ROUTE_NAMES.OVERVIEW} />;
-
     return (
         <>{
-            isAuthenticated ?  redirect:
             <IonPage>
                 <IonContent>
                 <IonHeader className='ion-no-border'>

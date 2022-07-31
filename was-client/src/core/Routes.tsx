@@ -5,6 +5,7 @@ import HouseholdView from '../presentation/pages/householdView/HouseholdView';
 import Overview from '../presentation/pages/overview/Overview';
 import SignIn from '../presentation/pages/signIn/SignIn';
 import PrivateRoute from './components/customRoutes/PrivateRoute';
+import PublicRoute from './components/customRoutes/PublicRoute';
 
 export enum ROUTE_NAMES {
     TODAY = "/today",
@@ -24,7 +25,7 @@ const Routes = () => {
 
     return (
         <>
-            <Route exact path={ROUTE_NAMES.SIGN_IN}><SignIn/></Route>
+            <PublicRoute exact path={ROUTE_NAMES.SIGN_IN} redirectPath={ROUTE_NAMES.OVERVIEW}><SignIn/></PublicRoute>
             <PrivateRoute exact path={ROUTE_NAMES.OVERVIEW} authenticationPath={authPath}><Overview/></PrivateRoute>
             <PrivateRoute exact path={ROUTE_NAMES.TODAY} authenticationPath={authPath} ><TodayView/></PrivateRoute>
             <PrivateRoute exact path={`${ROUTE_NAMES.DAY}/:date`} authenticationPath={authPath} ><DayView/></PrivateRoute>

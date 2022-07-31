@@ -1,16 +1,17 @@
+import React from "react";
 import { Redirect, Route } from "react-router";
 import { RouteProps } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
-type PrivateRouteProps = {
-    authenticationPath: string;
+type PublicRouteProps = {
+    redirectPath: string;
 } & RouteProps;
 
-const PrivateRoute = ({authenticationPath, ...rest}: PrivateRouteProps) => {
+const PublicRoute = ({redirectPath, ...rest}: PublicRouteProps) => {
     const { isAuthenticated } = useAuth();
 
-    if(!isAuthenticated) {
-      return <Redirect to={authenticationPath} />
+    if(isAuthenticated) {
+      return <Redirect to={redirectPath} />
     }
 
     return (
@@ -20,4 +21,4 @@ const PrivateRoute = ({authenticationPath, ...rest}: PrivateRouteProps) => {
     );
 }
 
-export default PrivateRoute;
+export default PublicRoute;
