@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@routes/*": ["./src/routes/*","./dist/routes/*"],
+            "@utils/*": ["./src/utils/*","./dist/utils/*"],
+            "@models/*": ["./src/models/*","./dist/models/*"],
+            "@plugins/*": ["./src/plugins/*","./dist/plugins/*"],
+            "@services/*": ["./src/services/*","./dist/services/*"],
+            "@entities/*": ["./src/entities/*","./dist/entities/*"],
+            "@config/*": ["./src/config/*","./dist/config/*"],
+            "@schemas/*": ["./src/schemas/*","./dist/schemas/*"],
+        },
+        "strict": true,
+        "lib": [
+            "esnext"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "pretty": true,
+        "noEmitOnError": true,
+        "target": "es2020",
+        "outDir": "./dist",
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "incremental": true,
+        "newLine": "lf",
+        // "noUnusedLocals": true,
+        "noFallthroughCasesInSwitch": true,
+        "useDefineForClassFields": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "emitDecoratorMetadata": true, // Added for TypeORM
+        "experimentalDecorators": true, // Added for TypeORM
+        "strictPropertyInitialization": false // Avoid initializing Model properties
+    },
+    // "exclude": ["dist"],
+    "include": ["src/**/*.ts"],
+}

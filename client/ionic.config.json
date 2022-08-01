@@ -1,0 +1,7 @@
+{
+  "name": "Household management",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

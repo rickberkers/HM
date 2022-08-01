@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Household management",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

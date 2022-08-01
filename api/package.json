@@ -1,0 +1,52 @@
+{
+  "name": "hm-api",
+  "main": "app.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "NOT WORKING npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
+    "start": "npm run build:ts && fastify start -r tsconfig-paths/register -l info dist/app.js",
+    "build:ts": "tsc",
+    "watch:ts": "tsc -w",
+    "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
+    "dev:start": "cross-env NODE_ENV=development fastify start --options --ignore-watch=.ts$ -w -l info -P -r tsconfig-paths/register dist/app.js",
+    "typeorm": "typeorm-ts-node-esm -d ./src/config/typeORMDataSource.ts",
+    "typeorm:migrate": "npm run typeorm migration:run",
+    "typeorm:migrate:revert": "npm run typeorm migration:revert",
+    "typeorm:migrate:generate": "npm run typeorm migration:generate",
+    "typeorm:show": "npm run typeorm migration:show"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/auth": "^3.0.2",
+    "@fastify/autoload": "^5.1.0",
+    "@fastify/cookie": "^7.2.0",
+    "@fastify/cors": "^8.0.0",
+    "@fastify/env": "^4.0.0",
+    "@fastify/sensible": "^5.1.0",
+    "ajv-errors": "^3.0.0",
+    "argon2": "^0.28.3",
+    "date-fns": "^2.28.0",
+    "dotenv": "^16.0.1",
+    "fast-jwt": "^1.5.1",
+    "fastify": "^4.0.0",
+    "fastify-plugin": "^4.0.0",
+    "json-schema-to-ts": "^2.5.4",
+    "pg": "^8.7.3",
+    "typeorm": "^0.3.7",
+    "typeorm-fastify-plugin": "1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^15.14.9",
+    "@types/tap": "^15.0.0",
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "fastify-cli": "^4.3.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.2.4"
+  }
+}

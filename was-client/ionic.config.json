@@ -1,7 +1,0 @@
-{
-  "name": "Who joins dinner?",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
