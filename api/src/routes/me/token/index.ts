@@ -30,7 +30,7 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(attemptedAccount.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.setRefreshTokenCookie(tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.setRefreshTokenCookie(tokenPair.refreshToken, fastify.prefix).send(tokenPair.accessToken);
     });
 
     // Refresh the access token with the refresh token
@@ -41,7 +41,7 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
       await fastify.services.userService.setRefreshToken(request.authenticatedUser!.id, tokenPair.refreshToken);
 
       // Set refreshtoken as cookie in response along with the accesstoken
-      return reply.setRefreshTokenCookie(tokenPair.refreshToken).send(tokenPair.accessToken);
+      return reply.setRefreshTokenCookie(tokenPair.refreshToken, fastify.prefix).send(tokenPair.accessToken);
     });
 
     // Logout
@@ -49,7 +49,7 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
       if (request.authenticatedUser) {
         await fastify.services.userService.setRefreshToken(request.authenticatedUser.id, null);
       }
-      return reply.clearRefreshTokenCookie().status(204).send();
+      return reply.clearCookie(fastify.prefix).status(204).send();
     });
 }
 

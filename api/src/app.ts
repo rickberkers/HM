@@ -47,7 +47,7 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'routes'),
     ignorePattern: /.*schemas(\.ts|\.js|\.cjs|\.mjs)$/,
-    routeParams: true
+    routeParams: true,
     // Above line ignores schema files
   });
 };
