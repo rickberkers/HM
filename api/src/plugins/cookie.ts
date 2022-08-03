@@ -11,8 +11,7 @@ export default fp<FastifyCookieOptions>(async (fastify, opts) => {
    * Options were configured for the refresh token, if cookies need
    * to be used for other usecases move these options to where the
    * refreshtoken are created
-  */ 
- console.log(process.env.NODE_ENV)
+  */
   fastify.register(fastifyCookie, {
       secret: fastify.config.COOKIE_SECRET,
       parseOptions: { 

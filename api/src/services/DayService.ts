@@ -56,7 +56,7 @@ export default class DayService implements IDayService {
                 householdId
             }
         };
-        console.log(sharedWhereClause);
+        
         const dayInfoQuery = this.dayInfoRepo.findOne(sharedWhereClause);
         const commitmentsQuery = this.commitmentRepo.find({
             order: { day: 'ASC' }, ...sharedWhereClause, 
