@@ -49,7 +49,7 @@ const token: FastifyPluginAsync = async (fastify): Promise<void> => {
       if (request.authenticatedUser) {
         await fastify.services.userService.setRefreshToken(request.authenticatedUser.id, null);
       }
-      return reply.clearCookie(fastify.prefix).status(204).send();
+      return reply.clearRefreshTokenCookie(fastify.prefix).status(204).send();
     });
 }
 

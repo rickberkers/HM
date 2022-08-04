@@ -1,0 +1,65 @@
+version: '3.8'
+
+volumes:
+  database-data:
+    driver: local
+
+services:
+
+  postgres-db:
+    container_name: hm-db
+    image: 'postgres:14.4-alpine3.16'
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hm
+    ports:
+      - '5432:5433'
+    volumes: 
+      - database-data:/var/lib/postgresql/data/
+
+  nginx:
+    container_name: hm-nginx
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+    depends_on:
+      - client
+      - server
+  
+  api:
+    container_name: hm-api
+    build:
+      dockerfile: Dockerfile.dev
+      context: './api'
+    depends_on:
+      - postgres-db
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres-db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: hm
+      JWT_SECRET: n929i7t5SGjECaZYZjFlAT+Zkwc34jHXEhvo21PRy1KpwmSF61C37fJSaD98WVMipMyJABoEzRXOAyh6qk5HQz15WiFi/pnJRSPhnIQSGhyG6pDCE3/W+W/CF+p6X3xFUbtFKeRTL3VLfM1QiuG1Ql/M/zi7MraJNXJqwfpIArMZ+Drjqy0K5ijpmWOjFEn44Un6q9IbnGUyxYRcqPKNoiZ+gxQW5VRJp97kBk9sBGytRc7waFsq+JcTbcFTz14m21v1LfmvZr2dW7DCZrBHPy9WaSdCPsaNOCKEzeezFJiGDlkHmEU1y5g0kTnrlWnn1ZuKpOKWbbUsJsBuHVaGOQ==
+      HASH_MEMCOST: 4096
+      HASH_PARALELL: 1
+      HASH_TIMECOST: 6
+      COOKIE_SECRET: io6hRFAY0ecD7N5YUPavIK7rjLQ5sb5Q+LlzjhyMQY+9frRzOzBXDJipt1G2u6gneqYFu7i0pWdSSpxrwCbilBCcLoMy9Uuy62l43bW1hDlU4EfBy0i7PwEugBe4LRTX+EmpGL7V3Sy3piSzJ8LjXaXUiJs7+guQ1aQPd3O5bERXBSkpKeyNQiNkODd+AGhPZShj7eEwC6kYd6ZusL9SPTVagoi7WE1b32UUQ5CP9+EatO+1lY3uMUK93glybZth/C1tLFOAhi/aljE4V4sJWqnACiooTzL66U5BibXMmlZfOz8uT9nGG6qreRDEVWHPhXDvysk/0a9CsILu2vs/yQ==
+      COOKIE_DOMAIN: .localhost
+      ACCESS_TOKEN_MAX_AGE: 900000
+      APP_URL: http://localhost:3050
+
+  client:
+    container_name: hm-client
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_BASE_URL: http://localhost:3050/api
