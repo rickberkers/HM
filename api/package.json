@@ -5,8 +5,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "NOT WORKING npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
-    "start": "npm run build:ts && fastify start -r tsconfig-paths/register -l info -p 5000 dist/app.js",
+    "test": "NOT WORKING!!!! npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
+    "start": "cross-env NODE_ENV=production npm run build:ts && fastify start -r tsconfig-paths/register -l info -p 5000 dist/app.js",
     "build:ts": "tsc",
     "watch:ts": "tsc -w",
     "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
@@ -24,7 +24,6 @@
     "@fastify/auth": "^3.0.2",
     "@fastify/autoload": "^5.1.0",
     "@fastify/cookie": "^7.2.0",
-    "@fastify/cors": "^8.0.0",
     "@fastify/env": "^4.0.0",
     "@fastify/sensible": "^5.1.0",
     "ajv-errors": "^3.0.0",

@@ -38,6 +38,9 @@ services:
       context: './api'
     depends_on:
       - postgres-db
+    volumes:
+      - /app/node_modules
+      - ./api:/app
     environment:
       NODE_ENV: development
       DB_HOST: postgres-db
@@ -56,10 +59,14 @@ services:
 
   client:
     container_name: hm-client
+    stdin_open: true
     build:
       dockerfile: Dockerfile.dev
       context: ./client
     ports:
-      - "3000:3000"
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - ./client:/app
     environment:
       REACT_APP_API_BASE_URL: http://localhost:3050/api

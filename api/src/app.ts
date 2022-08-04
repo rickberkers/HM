@@ -8,7 +8,6 @@ import sensible from '@plugins/sensible';
 import jwt from '@plugins/jwt';
 import hashing from '@plugins/hashing';
 import cookie from '@plugins/cookie';
-import cors from '@plugins/cors';
 import ajvErrors from 'ajv-errors';
 import authentication from '@plugins/authentication';
 import authorization from '@plugins/authorization';
@@ -34,7 +33,6 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(sensible);
   fastify.register(env);
   fastify.register(error);
-  fastify.register(cors);
   fastify.register(cookie);
   fastify.register(authentication);
   fastify.register(authorization);

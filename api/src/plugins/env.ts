@@ -56,7 +56,7 @@ export default fp(async (fastify) => {
     fastify.register(fastifyEnv, {
         confKey: 'config', // optional, default: 'config'
         data: process.env, // optional, default: process.env
-        dotenv: true, // supports .env files
+        dotenv: process.env.NODE_ENV === 'development', // supports .env files when developing
         schema
     });
 });
