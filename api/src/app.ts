@@ -12,6 +12,7 @@ import ajvErrors from 'ajv-errors';
 import authentication from '@plugins/authentication';
 import authorization from '@plugins/authorization';
 import error from '@plugins/error';
+import cors from '@plugins/cors';
 
 /**
  * Custom options for instantiating the fastify-cli `--options`
@@ -33,6 +34,7 @@ const app: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.register(sensible);
   fastify.register(env);
   fastify.register(error);
+  fastify.register(cors);
   fastify.register(cookie);
   fastify.register(authentication);
   fastify.register(authorization);

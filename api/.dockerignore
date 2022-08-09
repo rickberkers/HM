@@ -7,6 +7,7 @@ Dockerfile.dev
 README.md
 test
 .env
+.env.example
 npm-debug.log
 
 # Artifacts that will be built during image creation.
