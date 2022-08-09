@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+environment.prod.ts
+
 # production
 /build
 

@@ -23,7 +23,6 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
-    "dotenv": "^16.0.0",
     "ionicons": "^5.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -47,10 +46,11 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-scripts eject"
+    "start": "cross-env NODE_ENV=development react-scripts start",
+    "build": "cross-env NODE_ENV=development react-scripts build",
+    "build:prod": "cross-env NODE_ENV=production react-scripts build",
+    "test": "cross-env NODE_ENV=development react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "eject": "cross-env NODE_ENV=development react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

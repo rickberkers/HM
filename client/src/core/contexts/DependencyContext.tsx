@@ -21,10 +21,11 @@ import CommitmentRepository from "../../data/repositories/CommitmentRepository";
 import UpdateCommitmentUseCase from "../../domains/useCases/day/commitment/UpdateCommitment";
 import AddCommitmentGuestsUseCase from "../../domains/useCases/day/commitment/AddCommitmentGuests";
 import RemoveCommitmentGuestsUseCase from "../../domains/useCases/day/commitment/RemoveCommitmentGuests";
+import { getBaseUrl } from "../utils/httpUtils";
 
 /* --- Dependencies --- */
 const axiosWrapper = new AxiosWrapper({
-  baseURL: config.REACT_APP_API_BASE_URL,
+  baseURL: getBaseUrl(process.env.NODE_ENV),
   withCredentials: true,
 });
 
