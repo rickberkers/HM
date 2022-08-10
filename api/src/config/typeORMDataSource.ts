@@ -27,9 +27,7 @@ const typeORMDataSource = new DataSource({
   migrationsTableName: "migrations_table",
   migrations: [join(__dirname, '..', `migrations/*.{ts,js}`)],
   synchronize: false,
-  ssl:{
-    rejectUnauthorized: false, // WARNING opens possibility for MITM, fix proper certificate and set to true
-  }
+  ...(isProductionNodeEnv && {ssl: { rejectUnauthorized: false }})
 });
 
 export default typeORMDataSource;
