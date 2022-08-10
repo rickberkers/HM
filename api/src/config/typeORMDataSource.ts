@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { join } from "path";
 import { DataSource } from "typeorm";
 import { envConfig } from "@plugins/env";
+import isProductionNodeEnv from '@utils/env';
 
 export const typeORMConfigDataSource = (cf: envConfig) => {
   return {
@@ -25,7 +26,8 @@ const typeORMDataSource = new DataSource({
   entities: [join(__dirname, '..', `entities/*.{ts,js}`)],
   migrationsTableName: "migrations_table",
   migrations: [join(__dirname, '..', `migrations/*.{ts,js}`)],
-  synchronize: false
+  synchronize: false,
+  ssl: isProductionNodeEnv
 });
 
 export default typeORMDataSource;

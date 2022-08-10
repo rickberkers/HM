@@ -1,4 +1,5 @@
 import fastifyCookie, { FastifyCookieOptions } from '@fastify/cookie';
+import isProductionNodeEnv from '@utils/env';
 import fp from 'fastify-plugin'
 
 /**
@@ -15,7 +16,7 @@ export default fp<FastifyCookieOptions>(async (fastify, opts) => {
   fastify.register(fastifyCookie, {
       secret: fastify.config.COOKIE_SECRET,
       parseOptions: { 
-          secure: process.env.NODE_ENV !== 'development',
+          secure: isProductionNodeEnv,
           sameSite: "lax",
           maxAge: 5184000, // 60 days
           signed: true,

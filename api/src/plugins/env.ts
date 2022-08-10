@@ -1,4 +1,5 @@
 import fastifyEnv from '@fastify/env';
+import isProductionNodeEnv from '@utils/env';
 import fp from 'fastify-plugin'
 
 export interface envConfig {
@@ -56,7 +57,7 @@ export default fp(async (fastify) => {
     fastify.register(fastifyEnv, {
         confKey: 'config', // optional, default: 'config'
         data: process.env, // optional, default: process.env
-        dotenv: process.env.NODE_ENV === 'development', // supports .env files when developing
+        dotenv: isProductionNodeEnv, // supports .env files when developing
         schema
     });
 });
