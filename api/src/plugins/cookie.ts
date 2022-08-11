@@ -17,11 +17,11 @@ export default fp<FastifyCookieOptions>(async (fastify, opts) => {
       secret: fastify.config.COOKIE_SECRET,
       parseOptions: { 
           secure: isProductionNodeEnv,
-          sameSite: "lax",
+          sameSite: "none",
           maxAge: 5184000, // 60 days
           signed: true,
           httpOnly: true,
-          domain: fastify.config.COOKIE_DOMAIN,
+          // domain: fastify.config.COOKIE_DOMAIN,
       }
   });
 });
