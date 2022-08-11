@@ -1,6 +1,5 @@
 import { ReactNode, useContext, createContext } from "react"
 import { AxiosWrapper } from "../../data/datasource/API/AxiosWrapper";
-import config from "../config";
 import AuthAPIDataSource from "../../data/datasource/API/AuthAPIDataSource";
 import AuthRepository from "../../data/repositories/AuthRepository";
 import AuthLogoutUseCase from "../../domains/useCases/me/auth/Logout";
