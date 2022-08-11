@@ -5,7 +5,4 @@ RUN npm ci
 COPY ./ ./
 RUN npm run build:ts
 
-RUN adduser -D myuser
-USER myuser
-
 CMD ["npm", "run", "start"]
