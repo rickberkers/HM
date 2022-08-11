@@ -1,19 +1,8 @@
 import 'dotenv/config'
 import { join } from "path";
 import { DataSource } from "typeorm";
-import { envConfig } from "@plugins/env";
-import isProductionNodeEnv from '@utils/env';
 
-export const typeORMConfigDataSource = (cf: envConfig) => {
-  return {
-    ...typeORMDataSource,
-    host: cf.DB_HOST,
-    port: cf.DB_PORT,
-    username: cf.DB_USERNAME,
-    password: cf.DB_PASSWORD,
-    database: cf.DB_NAME
-  }
-}
+// Do not use tsconfig @ path imports here. Typeorm commands can't resolve
 
 const typeORMDataSource = new DataSource({
   name: 'default',
@@ -27,7 +16,7 @@ const typeORMDataSource = new DataSource({
   migrationsTableName: "migrations_table",
   migrations: [join(__dirname, '..', `migrations/*.{ts,js}`)],
   synchronize: false,
-  ...(isProductionNodeEnv && {ssl: { rejectUnauthorized: false }})
+  ...(process.env.NODE_ENV === 'production' && {ssl: { rejectUnauthorized: false }}) // 
 });
 
 export default typeORMDataSource;

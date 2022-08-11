@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin'
 import fastifyTypeormPlugin from 'typeorm-fastify-plugin';
-import { typeORMConfigDataSource } from '@config/typeORMDataSource';
+import { typeORMConfigDataSource } from '@config/typeORMConfigDataSource';
 
 /**
  * Fastify plugin for TypeORM for sharing the same TypeORM 
