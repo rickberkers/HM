@@ -1,1 +1,2 @@
-`npm run typeorm:migrate`
+#!/bin/sh
+npm run typeorm:migrate
