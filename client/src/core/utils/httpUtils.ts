@@ -1,5 +1,5 @@
-import prodEnvironment from '../../../environment';
-import devEnvironment from '../../../environment';
+import devEnvironment from "../../environment";
+import prodEnvironment from "../../environment.prod";
 
 export const getBaseUrl = (node_env: string) => {
     switch(node_env) {
