@@ -4,4 +4,4 @@ build:
 release:
   image: web
   command:
-    - ./api/deployment-tasks.sh
+    - ./deployment-tasks.sh
