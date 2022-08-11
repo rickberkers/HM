@@ -1,0 +1,7 @@
+build:
+  docker:
+    web: api/Dockerfile
+release:
+  image: web
+  command:
+    - ./api/deployment-tasks.sh
